@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Birdie</string>
+    <string name="menu_start">Начать</string>
+    <string name="menu_language">Сменить язык</string>
+    <string name="menu_exit">Выход</string>
+    <string name="press_to_start">Нажми, чтобы начать</string>
+    <string name="press_to_continue">Нажми, чтобы продолжить</string>
+    <string name="pause">Пауза</string>
+    <string name="continue_game">Продолжить</string>
+    <string name="back">Назад</string>
+    <string name="to_menu">Выйти в меню</string>
+    <string name="company">Codemitry</string>
+    <string name="lose">Вы проиграли. Начать заново?</string>
+    <string name="best_lose">Вы побили рекорд! \n Начать заново?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="best_score">Рекорд: </string>
+    <string name="your_score">Ваш счет: </string>
+    <string name="sure_to_reset">Вы уверены, что хотите сбросить рекорд?</string>
+    <string name="settings">Настройки</string>
+    <string name="reset">Сбросить рекорд</string>
+</resources>

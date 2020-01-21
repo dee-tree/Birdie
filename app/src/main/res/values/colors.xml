@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="menu_back">#373770</color>
+    <color name="menu_button_not_pressed">#8695E2</color>
+    <color name="score">#FFF176</color>
+</resources>
