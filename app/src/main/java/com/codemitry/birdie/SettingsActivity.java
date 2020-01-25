@@ -16,6 +16,7 @@ import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
     Locale myLocale;
+    Button changeHandButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +24,30 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         TextView optionsText = findViewById(R.id.settingsText);
-        Animation anim = AnimationUtils.loadAnimation(this, R.anim.settings_scale);
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.settings_title_scale);
 
         optionsText.startAnimation(anim);
+        changeHandButton = findViewById(R.id.hand_mode_button);
+        updateHandModeText(Config.loadHandMode(this));
+    }
+
+    public void onChangeHandModeClick(View v) {
+        int mode = Config.loadHandMode(this);
+        System.out.println("Mode before change: " + mode);
+        if (mode == Config.LEFT_HANDED_MODE) {
+            mode = Config.RIGHT_HANDED_MODE;
+        } else {
+            mode = Config.LEFT_HANDED_MODE;
+        }
+        updateHandModeText(mode);
+        Config.saveHandMode(this, mode);
+    }
+
+    private void updateHandModeText(int mode) {
+        if (mode == Config.LEFT_HANDED_MODE)
+            changeHandButton.setText(getResources().getString(R.string.enable_right_handed_mode));
+        else
+            changeHandButton.setText(getResources().getString(R.string.enable_left_handed_mode));
     }
 
     public void onBackClick(View v) {
@@ -72,6 +94,8 @@ public class SettingsActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.reset_score_button)).setText(R.string.reset);
         ((Button) findViewById(R.id.language_button)).setText(R.string.menu_language);
         ((Button) findViewById(R.id.back)).setText(R.string.back);
+        String text = changeHandButton.getText().toString();
+        updateHandModeText(Config.loadHandMode(this));
     }
 
     public void saveLocale(String lang) {

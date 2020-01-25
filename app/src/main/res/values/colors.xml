@@ -3,7 +3,13 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="menu_back">#373770</color>
+    <color name="menu_background">#373770</color>
+    <color name="menu_near_background">#4C4C9E</color>
+
+    <!--    <color name="text_color">#FFFFFF</color>-->
+    <color name="text_color">#FF9800</color>
+    <color name="text_color_pressed">#A3A2A2</color>
     <color name="menu_button_not_pressed">#8695E2</color>
     <color name="score">#FFF176</color>
+    <color name="green">#22AD2A</color>
 </resources>

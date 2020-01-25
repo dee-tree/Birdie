@@ -37,10 +37,10 @@
 
     <Button
         android:id="@+id/loseNo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
+        android:layout_width="120dp"
+        android:layout_height="55dp"
         android:background="@drawable/buttons_lose_dialog"
+        android:gravity="center"
         android:onClick="onNoClick"
         android:text="@string/no"
         android:textColor="@drawable/menu_text_color"
@@ -48,6 +48,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/loseYes"
         app:layout_constraintTop_toBottomOf="@+id/loseText" />
 
     <TextView
@@ -57,7 +58,7 @@
         android:gravity="center"
         android:text="@string/lose"
         android:textAlignment="center"
-        android:textColor="@color/menu_button_not_pressed"
+        android:textColor="@color/text_color"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -65,10 +66,10 @@
 
     <Button
         android:id="@+id/loseYes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
+        android:layout_width="120dp"
+        android:layout_height="55dp"
         android:background="@drawable/buttons_lose_dialog"
+        android:gravity="center"
         android:onClick="onYesClick"
         android:text="@string/yes"
         android:textAlignment="center"
@@ -76,6 +77,7 @@
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/loseNo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loseText" />
 

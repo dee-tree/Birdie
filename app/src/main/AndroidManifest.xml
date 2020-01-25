@@ -16,17 +16,17 @@
 
         <activity
             android:name="com.codemitry.birdie.LoseActivity"
-            android:theme="@style/Theme.AppCompat.Translucent"></activity>
+            android:theme="@style/Translucent"></activity>
         <activity
             android:name="com.codemitry.birdie.Pause"
-            android:theme="@style/Theme.AppCompat.Translucent"></activity>
+            android:theme="@style/Translucent"></activity>
         <activity
             android:name="com.codemitry.birdie.Game"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"></activity>
         <activity
             android:name="com.codemitry.birdie.ResetScoreActivity"
-            android:theme="@style/Theme.AppCompat.Translucent"></activity>
+            android:theme="@style/Translucent"></activity>
         <activity
             android:name="com.codemitry.birdie.SettingsActivity"
             android:screenOrientation="portrait"
@@ -40,6 +40,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
     <!--<application

@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Locale;
 // <color name="menu_button_not_pressed">#009688</color>
 // Ctrl + Alt + L
+// app name's color: #81C784
 
 
 public class MainActivity extends AppCompatActivity {

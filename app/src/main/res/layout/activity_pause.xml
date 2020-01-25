@@ -9,21 +9,6 @@
     android:background="#99000000"
     tools:context="com.codemitry.birdie.Pause">
 
-    <Button
-        android:id="@+id/exit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/buttons_lose_dialog"
-        android:onClick="onExitClick"
-        android:text="@string/to_menu"
-        android:textColor="@drawable/menu_text_color"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pause" />
-
     <TextView
         android:id="@+id/pause"
         android:layout_width="match_parent"
@@ -31,8 +16,12 @@
         android:gravity="center"
         android:text="@string/pause"
         android:textAlignment="center"
-        android:textColor="@color/menu_button_not_pressed"
+        android:textColor="@color/text_color"
         android:textSize="36sp"
+        android:shadowRadius="5"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowColor="@android:color/holo_orange_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.3"
@@ -41,18 +30,43 @@
         app:layout_constraintVertical_bias="0.26" />
 
     <Button
-        android:id="@+id/cont"
+        android:id="@+id/exit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginEnd="5dp"
         android:background="@drawable/buttons_lose_dialog"
+        android:gravity="center"
+        android:onClick="onExitClick"
+        android:text="@string/to_menu"
+        android:textColor="@drawable/menu_text_color"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cont"
+        app:layout_constraintTop_toBottomOf="@+id/pause"
+        app:layout_constraintVertical_bias="0.501" />
+
+
+    <Button
+        android:id="@+id/cont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/buttons_lose_dialog"
+        android:gravity="center"
         android:onClick="onContinueClick"
         android:text="@string/continue_game"
         android:textAlignment="center"
         android:textColor="@drawable/menu_text_color"
-        android:textSize="20sp"
+        android:textSize="26sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/exit"
+        app:layout_constraintHorizontal_bias="0.219"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pause" />
+        app:layout_constraintTop_toBottomOf="@+id/pause"
+        app:layout_constraintVertical_bias="0.501" />
 </androidx.constraintlayout.widget.ConstraintLayout>

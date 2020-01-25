@@ -19,4 +19,6 @@
     <string name="sure_to_reset">Вы уверены, что хотите сбросить рекорд?</string>
     <string name="settings">Настройки</string>
     <string name="reset">Сбросить рекорд</string>
+    <string name="enable_left_handed_mode">Включить режим левши</string>
+    <string name="enable_right_handed_mode">Включить режим правши</string>
 </resources>

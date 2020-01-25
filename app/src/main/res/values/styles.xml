@@ -10,7 +10,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="Theme.AppCompat.Translucent">
+    <style name="Translucent">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <!---<item name="android:windowBackground">#D5000000</item> !-->
