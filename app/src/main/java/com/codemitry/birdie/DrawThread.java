@@ -9,6 +9,8 @@ public class DrawThread extends Thread {
     private boolean runned = false;
     private SurfaceHolder surfaceHolder;
     private GameSurfaceView gameSurfaceView;
+    //final private int FPS = 40;
+    //final private int FRAME_PERIOD = (1000 / FPS);
 
     DrawThread(SurfaceHolder surfaceHolder, GameSurfaceView gameSurfaceView) {
         super("DrawThread");
@@ -47,8 +49,8 @@ public class DrawThread extends Thread {
 //                    ++fps;
 //                    frames++;
 //                    if (time >= 1000) {
-////                        Log.d("FPS", String.valueOf(fps));  // FPS log
-////                        Log.d("Thread", "Draw Frames summary: " + frames + " ; skipped: " + skipped);
+//                        Log.d("FPS", String.valueOf(fps));  // FPS log
+//                        Log.d("Thread", "Draw Frames summary: " + frames + " ; skipped: " + skipped);
 //                        time = 0;
 //                        fps = 0;
 //                    }
@@ -68,9 +70,9 @@ public class DrawThread extends Thread {
                         //gameSurfaceView.draw(canvas);
                         sleepTime += Config.FRAME_PERIOD;
                         ++framesSkipped;
-                        //++skipped;
+//                        ++skipped;
                     }
-                    //time += System.currentTimeMillis() - beginTime;
+//                    time += System.currentTimeMillis() - beginTime;
                 }
             } finally {
                 if (canvas != null) {

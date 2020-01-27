@@ -5,15 +5,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.RectF;
+import android.graphics.Rect;
 
 class Bird {
     private Bitmap[] pictures;
     private int x, y;
-    private int width = (int) (Config.BIRD_WIDTH * Config.scale);
-    private int height = (int) (Config.BIRD_HEIGHT * Config.scale);
-    private RectF mask;
-    private int groundY = (int) (Config.screen_height - Config.GROUND_HEIGHT * Config.scale);
+    private int width;
+    private int height;
+    private Rect mask;
+    private int groundY;
     private Matrix matrixDown;
     private int wingsDown;
     private int speed = 4;
@@ -22,15 +22,19 @@ class Bird {
     Bird(Resources resources, int[] id, GameSurfaceView surface) {
         this.surface = surface;
         pictures = new Bitmap[id.length];
+        groundY = (int) (Config.screen_height - Config.GROUND_HEIGHT * Config.screen_height);
+        width = (int) (Config.BIRD_WIDTH * Config.screen_width);
+        height = (int) (Config.BIRD_HEIGHT * Config.screen_height);
         for (int i = 0; i < id.length; i++) {
             pictures[i] = BitmapFactory.decodeResource(resources, id[i]);
             pictures[i] = Bitmap.createScaledBitmap(pictures[i], width, height, true);
         }
+        x = (int) (Config.screen_width * Config.SPAWN_X) - width;
+        y = (int) (Config.screen_height * Config.SPAWN_Y) - height;
+//        x = (int) (Config.SPAWN_X * Config.scale);
+//        y = (int) (Config.SPAWN_Y * Config.scale);
 
-        x = (int) (Config.SPAWN_X * Config.scale);
-        y = (int) (Config.SPAWN_Y * Config.scale);
-
-        mask = new RectF();
+        mask = new Rect();
 
         matrixDown = new Matrix();
         matrixDown.postRotate(30);
@@ -40,10 +44,9 @@ class Bird {
     boolean collised(Columns.Column[] column) {
         boolean collised = false;
         for (int i = 0; i < column.length && !collised; i++) {
-            if (column[i].isCollised(mask))
-                // uncollised mode:
-                //;
+            if (column[i].isCollised(mask)) {
                 collised = true;
+            }
         }
         return collised;
     }
@@ -57,12 +60,21 @@ class Bird {
                 pictures[0] = Bitmap.createBitmap(pictures[0], 0, 0, pictures[0].getWidth(), pictures[0].getHeight(), matrixDown, true);
                 surface.game.setDeath(true);
                 y = groundY - height;
+                surface.onLose();
             }
             if (speed < 80) {
                 speed += 3;
             }
-            mask.set(x + 7, y + 20, x + (int) (Config.BIRD_WIDTH * Config.scale) - 10,
-                    y + (int) (Config.BIRD_HEIGHT * Config.scale) - 15);
+
+//            y += speed;
+
+            mask.left = x + 20;
+            mask.top = y + 40;
+            mask.right = x + width - 12;
+            mask.bottom = y + height - 30;
+
+//            mask.set(x + 7, y + 20, x + width - 10,
+//                    y + height- 15);
         }
     }
 

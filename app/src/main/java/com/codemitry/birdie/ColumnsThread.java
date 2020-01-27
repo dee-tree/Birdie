@@ -25,25 +25,25 @@ public class ColumnsThread extends Thread {
     @Override
     public void run() {
         Log.d("Thread", "ColumnsThread started");
-        //int fps = 0;
-        long time = 0;
-        //int frames = 0, skipped = 0;
+//        int fps = 0;
+//        long time = 0;
+//        int frames = 0, skipped = 0;
         while (runned) {
             long beginTime = System.currentTimeMillis();
             int framesSkipped = 0;
             // тут обновление колонн
             columns.updateColumns();
             // ---
-            //frames++;
-            //++fps;
-            if (time >= 1000) {
-                //Log.d("ColumnFPS", String.valueOf(fps));  // FPS log
-                //Log.d("ColumnThread", "Frames summary: " + frames + " ; skipped: " + skipped);
-                time = 0;
-                //fps = 0;
-                if (ups < 250 && game.isRun())
-                    incUPS();
-            }
+//            frames++;
+//            ++fps;
+//            if (time >= 1000) {
+//                Log.d("ColumnFPS", String.valueOf(fps));  // FPS log
+//                Log.d("ColumnThread", "Frames summary: " + frames + " ; skipped: " + skipped);
+//                time = 0;
+//                //fps = 0;
+//                if (ups < 250 && game.isRun())
+//                    incUPS();
+//            }
 
             long elapsedTime = System.currentTimeMillis() - beginTime;
             int sleepTime = (int) (framePeriod - elapsedTime);
@@ -59,9 +59,9 @@ public class ColumnsThread extends Thread {
                 columns.updateColumns();
                 sleepTime += framePeriod;
                 ++framesSkipped;
-                //++skipped;
+//                ++skipped;
             }
-            time += System.currentTimeMillis() - beginTime;
+//            time += System.currentTimeMillis() - beginTime;
         }
     }
 

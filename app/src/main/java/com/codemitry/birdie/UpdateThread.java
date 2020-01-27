@@ -20,9 +20,9 @@ public class UpdateThread extends Thread {
     @Override
     public void run() {
         Log.d("Thread", "UpdateThread started");
-        //int fps = 0;
-        //long time = 0;
-        //int frames = 0, skipped = 0;
+//        int fps = 0;
+//        long time = 0;
+//        int frames = 0, skipped = 0;
         while (runned) {
             long beginTime = System.currentTimeMillis();
             int framesSkipped = 0;
@@ -52,9 +52,9 @@ public class UpdateThread extends Thread {
                 surface.update();
                 sleepTime += Config.FRAME_PERIOD;
                 ++framesSkipped;
-                //++skipped;
+//                ++skipped;
             }
-            //time += System.currentTimeMillis() - beginTime;
+//            time += System.currentTimeMillis() - beginTime;
         }
         Log.d("Thread", "UpdateThread finished");
     }

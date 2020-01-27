@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.RectF;
+import android.graphics.Rect;
 
 class Columns {
     private Context context;
@@ -21,7 +21,7 @@ class Columns {
         this.surface = surface;
         this.imgs = imgs;
 
-        columnCount = (int) (Config.screen_width / (Config.COLUMN_WIDTH * Config.scale) / 2);
+        columnCount = (int) (Config.screen_width / (Config.COLUMN_WIDTH * Config.screen_width) / 2);
     }
 
 
@@ -65,7 +65,7 @@ class Columns {
         private int columnX, columnTopHeight, columnDownY, columnDownHeight, columnWidth;
         private int pikaX, pikaTopY, pikaDownY, pikaHeight, pikaWidth;
         private int hole;
-        private int birdX, birdWidth = (int) (Config.BIRD_WIDTH * Config.scale);
+        private int birdX, birdWidth = (int) (Config.BIRD_WIDTH * Config.screen_width);
         private int speed = Config.COLUMN_SPEED;
         private int bottom;
         private boolean isScored;
@@ -80,20 +80,21 @@ class Columns {
             this.birdX = birdX;
             this.surface = surface;
 
-            bottom = (int) (Config.screen_height - Config.scale * (Config.GROUND_HEIGHT));
+            bottom = (int) (Config.screen_height - Config.screen_height * (Config.GROUND_HEIGHT));
 
             //screenWidth = Config.screen_width;
-            hole = (int) (Config.COLUMN_HOLE * Config.scale);
+            hole = (int) (Config.COLUMN_HOLE * Config.screen_height);
 
-            pikaWidth = (int) (Config.PIKA_WIDTH * Config.scale);
-            pikaHeight = (int) (Config.PIKA_HEIGHT * Config.scale);
+            pikaWidth = (int) (Config.PIKA_WIDTH * Config.screen_width);
+            pikaHeight = (int) (Config.PIKA_HEIGHT * Config.screen_height);
 
-            columnWidth = (int) (Config.COLUMN_WIDTH * Config.scale);
+            columnWidth = (int) (Config.COLUMN_WIDTH * Config.screen_width);
             columnDownHeight = columnTopHeight = columnHeightDefault = (bottom - hole) / 2 - pikaHeight;
             columnDownY = bottom - columnDownHeight;
 
             pikaTopY = columnTopHeight;
-            pikaDownY = bottom - columnDownHeight - pikaHeight;
+//            pikaDownY = bottom - columnDownHeight - pikaHeight;
+            pikaDownY = pikaTopY + pikaHeight + hole;
 
             defaultColumn = BitmapFactory.decodeResource(context.getResources(), resource[0]);
             defaultColumn = Bitmap.createScaledBitmap(defaultColumn, columnWidth, columnTopHeight, false);
@@ -125,7 +126,7 @@ class Columns {
         }
 
         private void generateAltitude() {
-            int scatter = (int) (Config.COLUMN_HEIGHT_SCATTER * Config.scale);
+            int scatter = (int) (Config.COLUMN_HEIGHT_SCATTER * Config.screen_height);
             int newColumnTopHeight;
             int currentRnd = (int) ((Math.random() * (1 + scatter)) - scatter / 2);
             if (columnTopHeight + currentRnd < pikaHeight || pikaDownY + 2 * pikaHeight + currentRnd > Config.GROUND_Y)
@@ -164,9 +165,25 @@ class Columns {
             canvas.drawBitmap(pikaTop, pikaX, pikaTopY, null);
             canvas.drawBitmap(pikaDown, pikaX, pikaDownY, null);
             canvas.drawBitmap(columnDown, columnX, columnDownY, null);
+//            System.out.println("canvas: " + canvas.getHeight());
+
+//            Rect rec = new Rect();
+//            Paint paint = new Paint();
+//            paint.setColor(Color.RED);
+//            rec.set(columnX-50, pikaTopY+pikaHeight, columnX + columnWidth + 50, pikaTopY+pikaHeight+3);
+//            canvas.drawRect(rec, paint);
+//            rec.set(columnX-50, pikaDownY-3, columnX + columnWidth + 50, pikaDownY+3);
+////            canvas.drawRect(rec, paint);
+//
+//            Rect rect = new Rect();
+//            rect.set(columnX - 20, pikaDownY -2, columnX + columnWidth + 20, pikaDownY);
+//            Paint paintt = new Paint();
+//            paintt.setColor(Color.YELLOW);
+//            canvas.drawRect(rect, paintt);
         }
 
         void update() {
+//            System.out.println(columnTopHeight + pikaHeight + columnDownHeight + pikaHeight);
 
             if (!isScored && (birdX + birdWidth > columnX + columnWidth / 2)) {
                 isScored = true;
@@ -182,21 +199,22 @@ class Columns {
                 isScored = false;
                 this.generateAltitude();
             }
+//            System.out.println(pikaDownY);
         }
 
         int getX() {
             return pikaX;
         }
 
-        boolean isCollised(RectF birdMask) {
-            return ((columnX <= birdMask.right) && (columnX + columnWidth >= birdMask.left) &&
-                    ((birdMask.top <= pikaTopY + pikaHeight) || (birdMask.bottom >= pikaDownY)));
+        boolean isCollised(Rect birdMask) {
+//            Log.d("top: ", birdMask.top + " " + (pikaTopY + pikaHeight));
+            return ((columnX < birdMask.right) && (columnX + columnWidth > birdMask.left) &&
+                    ((birdMask.top < pikaTopY + pikaHeight) || (birdMask.bottom > pikaDownY)));
         }
 
         private Bitmap mergeColumns(int height) {
             Bitmap result = Bitmap.createBitmap(columnWidth, height, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(result);
-            //Paint paint = new Paint();
             for (int i = 0; height > 0; height -= defaultColumn.getHeight(), i++)
                 canvas.drawBitmap(defaultColumn, 0, i * defaultColumn.getHeight(), null);
             return result;

@@ -51,10 +51,10 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         background = Bitmap.createScaledBitmap(background, Config.screen_width, Config.screen_height, false);
 
         ground = BitmapFactory.decodeResource(getResources(), R.drawable.ground1);
-        ground = Bitmap.createScaledBitmap(ground, Config.screen_width, (int) (Config.GROUND_HEIGHT * Config.scale), true);
+        ground = Bitmap.createScaledBitmap(ground, Config.screen_width, (int) (Config.GROUND_HEIGHT * Config.screen_height), true);
 
         grass = BitmapFactory.decodeResource(getResources(), R.drawable.grass1);
-        grass = Bitmap.createScaledBitmap(grass, Config.screen_width, (int) (Config.GRASS_HEIGHT * Config.scale), true);
+        grass = Bitmap.createScaledBitmap(grass, Config.screen_width, (int) (Config.GRASS_HEIGHT * Config.screen_height), true);
 
         gameTextPaint = new Paint();
         gameTextPaint.setColor(getResources().getColor(R.color.menu_button_not_pressed));
@@ -129,7 +129,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
 
     @Override
-    public void draw(Canvas canvas) {
+    public synchronized void draw(Canvas canvas) {
         if (canvas != null) {
             super.draw(canvas);
 
@@ -162,7 +162,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     public void update() {
         if (!game.isDeath() && game.isRun()) {
-            bird.update();
+//            bird.update();
             if (game.isDeath()) {
                 onLose();
 
@@ -170,7 +170,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                 onLose();
             }
 
-
+            bird.update();
         }
     }
 
@@ -178,6 +178,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         game.setDeath(true);
         game.setRun(false);
         vibrate();
+        update();
         game.onLose();
         this.surfaceDestroyed(getHolder());
     }

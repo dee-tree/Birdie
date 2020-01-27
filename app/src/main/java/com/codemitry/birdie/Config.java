@@ -10,15 +10,28 @@ final class Config {
             screen_height = 1920;
     static double scale = 1;
 
+    static final float SPAWN_X = 0.5f;
+    static final float SPAWN_Y = 0.5f;
+    static final float BIRD_WIDTH = 0.185f;
+    static final float BIRD_HEIGHT = 0.07f;
+    static final float COLUMN_WIDTH = 0.138f;
+    static final float COLUMN_HOLE = 0.198f;
+    static final float PIKA_WIDTH = 0.24f;
+    static final float PIKA_HEIGHT = 0.052f;
+    static final float COLUMN_HEIGHT_SCATTER = 0.365f;
+    static final float GROUND_HEIGHT = 0.1045f;
+    static final float GRASS_HEIGHT = 0.055f;
+
+
     static final int GROUND_Y = 1600,          // Distance from top to ground in px
-            GROUND_HEIGHT = 200, //200,
-            GRASS_HEIGHT = 106,
-            SPAWN_X = 400,
-            SPAWN_Y = 700,            // in px
+//            GROUND_HEIGHT = 200,
+//            GRASS_HEIGHT = 106,
+//            SPAWN_X = 400,
+//            SPAWN_Y = 700,            // in px
     //TIMER_INTERVAL = 20,   // in milliseconds
 
-    BIRD_WIDTH = 200,
-            BIRD_HEIGHT = 110,
+    //    BIRD_WIDTH = 200,
+//            BIRD_HEIGHT = 110,
             BIRD_UP = 34,
             SCORE_INCREMENT = 1,
 
@@ -26,18 +39,18 @@ final class Config {
             LEFT_HANDED_MODE = 1,
 
 
-    COLUMN_WIDTH = 150,
-            COLUMN_HOLE = 375,  // Hole between upper and lower columns
-            COLUMN_HEIGHT_SCATTER = 700,
+    //    COLUMN_WIDTH = 150,
+//            COLUMN_HOLE = 380,  // Hole between upper and lower columns
+//            COLUMN_HEIGHT_SCATTER = 700,
             COLUMN_SPEED = 2,
-            PIKA_WIDTH = 260,
-            PIKA_HEIGHT = 100,
+    //            PIKA_WIDTH = 260,
+//            PIKA_HEIGHT = 100,
             COLUMN_DIST = 4,  // Distance in column_width between two the nearest columns
 
     CONTINUE_PLAY = 1,     // Code of command to resume the game
             FINISH_PLAY = 2,      // Code of command to finish the game
             RESTART = 3,         // Code of command to restart the game
-            TIMES_WINGS_DOWN = 4,
+            TIMES_WINGS_DOWN = 6,
 
     MAX_FPS = 40,
             MAX_FRAME_SKIPS = 5,

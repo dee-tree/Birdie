@@ -10,7 +10,7 @@
     <string name="back">Back</string>
     <string name="to_menu">Exit to menu</string>
     <string name="company">Codemitry</string>
-    <string name="lose">You lost. Start again?</string>
+    <string name="lose">You lost. Try again?</string>
     <string name="best_lose">You set the best score! \n Start again?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
