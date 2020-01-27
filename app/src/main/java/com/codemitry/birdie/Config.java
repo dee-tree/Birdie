@@ -13,7 +13,7 @@ final class Config {
     static final float SPAWN_X = 0.5f;
     static final float SPAWN_Y = 0.5f;
     static final float BIRD_WIDTH = 0.185f;
-    static final float BIRD_HEIGHT = 0.07f;
+    static final float BIRD_HEIGHT = 0.06f;
     static final float COLUMN_WIDTH = 0.138f;
     static final float COLUMN_HOLE = 0.198f;
     static final float PIKA_WIDTH = 0.24f;

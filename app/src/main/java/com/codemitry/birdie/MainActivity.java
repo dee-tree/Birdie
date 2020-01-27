@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     Animation anim;
     TextView head;
     MediaPlayer logoSound;
+    TextView bestScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,13 @@ public class MainActivity extends AppCompatActivity {
         Config.scale = (double) Config.screen_width / Config.BASIC_SCREEN_WIDTH;
         setContentView(R.layout.activity_main);
 
+        bestScore = findViewById(R.id.main_best_score);
+        int best = Config.loadBestScore(this);
+        if (best > 0) {
+            bestScore.setText(getResources().getString(R.string.best_score));
+            bestScore.append("  " + best);
+        } else
+            bestScore.setText("");
         start = findViewById(R.id.start);
         settings = findViewById(R.id.settings);
         exit = findViewById(R.id.exit);
