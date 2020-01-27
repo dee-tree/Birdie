@@ -56,12 +56,20 @@ final class Config {
             MAX_FRAME_SKIPS = 5,
             FRAME_PERIOD = 1000 / MAX_FPS,
 
+    VIBRATION_ON = 1,
+            VIBRATION_OFF = 0,
+
     BASIC_SCREEN_WIDTH = 1080,
             BASIC_SCREEN_HEIGHT = 1920;
     static String language = "en";
     static final String BEST_SCORE_PREF = "BestScore",
             LANG_PREF = "Language",
             HAND_MODE_PREF = "Hand-Mode",
+            DEATHS_PREF = "Deaths",
+            COLUMN_DEATHS_PREF = "Column Deaths",
+            GROUND_DEATHS_PREF = "Ground Deaths",
+            VIBRATION_PREF = "Vibration",
+            TOTAL_SCORE_PREF = "Total score",
             MONEY_PREF = "Money";
 
 
@@ -79,19 +87,19 @@ final class Config {
 
     static int loadMoney(Context context) {
         SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
-        return Integer.parseInt(prefs.getString(MONEY_PREF, "0"));
+        return prefs.getInt(MONEY_PREF, 0);
     }
 
-    static void saveMoney(Context context, String score) {
+    static void saveMoney(Context context, int score) {
         SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(MONEY_PREF, score);
+        editor.putInt(MONEY_PREF, score);
         editor.apply();
     }
 
     static int loadHandMode(Context context) {
         SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
-        return prefs.getInt(HAND_MODE_PREF, 0);
+        return prefs.getInt(HAND_MODE_PREF, RIGHT_HANDED_MODE);
     }
 
     static void saveHandMode(Context context, int mode) {
@@ -101,6 +109,65 @@ final class Config {
         editor.apply();
     }
 
+    static int loadDeaths(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        return prefs.getInt(DEATHS_PREF, 0);
+    }
+
+    static void saveDeath(Context context, int deaths) {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(DEATHS_PREF, deaths);
+        editor.apply();
+    }
+
+    static int loadGroundDeaths(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        return prefs.getInt(GROUND_DEATHS_PREF, 0);
+    }
+
+    static void saveGroundDeath(Context context, int deaths) {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(GROUND_DEATHS_PREF, deaths);
+        editor.apply();
+    }
+
+    static int loadColumnDeaths(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        return prefs.getInt(COLUMN_DEATHS_PREF, 0);
+    }
+
+    static void saveColumnDeath(Context context, int deaths) {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(COLUMN_DEATHS_PREF, deaths);
+        editor.apply();
+    }
+
+    static int loadVibration(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        return prefs.getInt(VIBRATION_PREF, VIBRATION_ON);
+    }
+
+    static void saveVibration(Context context, int mode) {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(VIBRATION_PREF, mode);
+        editor.apply();
+    }
+
+    static int loadTotalScore(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        return prefs.getInt(TOTAL_SCORE_PREF, 0);
+    }
+
+    static void saveTotalScore(Context context, int score) {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(TOTAL_SCORE_PREF, score);
+        editor.apply();
+    }
 
 
 }

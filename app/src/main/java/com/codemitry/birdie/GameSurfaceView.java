@@ -167,6 +167,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                 onLose();
 
             } else if (bird.collised(columns.getColumns())) {
+                Config.saveColumnDeath(getContext(), Config.loadColumnDeaths(getContext()) + 1);
                 onLose();
             }
 
@@ -177,7 +178,10 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     public void onLose() {
         game.setDeath(true);
         game.setRun(false);
-        vibrate();
+        Config.saveTotalScore(getContext(), Config.loadTotalScore(getContext()) + score);
+        Config.saveDeath(getContext(), (Config.loadDeaths(getContext()) + 1));
+        if (Config.loadVibration(getContext()) == 1)
+            vibrate();
         update();
         game.onLose();
         this.surfaceDestroyed(getHolder());

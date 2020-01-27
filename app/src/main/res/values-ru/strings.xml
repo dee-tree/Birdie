@@ -16,9 +16,16 @@
     <string name="no">Нет</string>
     <string name="best_score">Рекорд: </string>
     <string name="your_score">Ваш счет: </string>
-    <string name="sure_to_reset">Вы уверены, что хотите сбросить рекорд?</string>
+    <string name="sure_to_reset">Вы уверены, что хотите сбросить рекорд? \n Статистика будет стерта</string>
     <string name="settings">Настройки</string>
     <string name="reset">Сбросить рекорд</string>
     <string name="enable_left_handed_mode">Включить режим левши</string>
     <string name="enable_right_handed_mode">Включить режим правши</string>
+    <string name="enable_vibration">Включить вибрацию</string>
+    <string name="disable_vibration">Отключить вибрацию</string>
+    <string name="statistics">Статистика</string>
+    <string name="deaths">Количество смертей: </string>
+    <string name="ground_deaths">Об землю: </string>
+    <string name="column_deaths">Об колонну: </string>
+    <string name="total_score">Общий счет: </string>
 </resources>

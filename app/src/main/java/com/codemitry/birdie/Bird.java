@@ -60,6 +60,7 @@ class Bird {
                 pictures[0] = Bitmap.createBitmap(pictures[0], 0, 0, pictures[0].getWidth(), pictures[0].getHeight(), matrixDown, true);
                 surface.game.setDeath(true);
                 y = groundY - height;
+                Config.saveGroundDeath(surface.getContext(), Config.loadGroundDeaths(surface.getContext()) + 1);
                 surface.onLose();
             }
             if (speed < 80) {

@@ -68,6 +68,27 @@
         android:text="@string/settings"
         android:textColor="@drawable/menu_text_color"
         android:textSize="22sp"
+        app:layout_constraintBottom_toTopOf="@+id/statistics"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/statistics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/menu_buttons_color"
+        android:onClick="onStatisticsClick"
+        android:shadowColor="@android:color/holo_orange_dark"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="3"
+        android:text="@string/statistics"
+        android:textColor="@drawable/menu_text_color"
+        android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@+id/exit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -97,15 +118,13 @@
         android:id="@+id/imageView"
         android:layout_width="140dp"
         android:layout_height="85dp"
-        android:layout_marginTop="220dp"
-        android:layout_marginBottom="65dp"
         android:contentDescription="@string/app_name"
         android:src="@drawable/app_img"
         app:layout_constraintBottom_toTopOf="@+id/start"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.19"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/head"
+        app:layout_constraintVertical_bias="0.4" />
 
     <TextView
         android:id="@+id/textView"
@@ -134,21 +153,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/logo" />
 
-    <TextView
-        android:id="@+id/main_best_score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:rotation="-45"
-        android:shadowColor="@android:color/black"
-        android:shadowDx="2"
-        android:shadowDy="2"
-        android:shadowRadius="3"
-        android:textColor="@color/text_color"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/start"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.893"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/head"
-        tools:text="@string/best_score" />
 </androidx.constraintlayout.widget.ConstraintLayout>

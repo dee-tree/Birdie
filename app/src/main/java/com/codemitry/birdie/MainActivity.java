@@ -25,11 +25,10 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
     Locale myLocale;
     //String lang = "en";
-    private Button start, settings, exit;
+    private Button start, settings, statistics, exit;
     Animation anim;
     TextView head;
     MediaPlayer logoSound;
-    TextView bestScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +40,9 @@ public class MainActivity extends AppCompatActivity {
         Config.scale = (double) Config.screen_width / Config.BASIC_SCREEN_WIDTH;
         setContentView(R.layout.activity_main);
 
-        bestScore = findViewById(R.id.main_best_score);
-        int best = Config.loadBestScore(this);
-        if (best > 0) {
-            bestScore.setText(getResources().getString(R.string.best_score));
-            bestScore.append("  " + best);
-        } else
-            bestScore.setText("");
         start = findViewById(R.id.start);
         settings = findViewById(R.id.settings);
+        statistics = findViewById(R.id.statistics);
         exit = findViewById(R.id.exit);
 
         loadLocale();
@@ -64,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadLocale();
+    }
+
+    public void onStatisticsClick(View v) {
+        Intent statIntent = new Intent(this, StatisticsActivity.class);
+        startActivity(statIntent);
     }
 
     public void onSettingsClick(View v) {
@@ -101,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateTexts() {
         start.setText(R.string.menu_start);
         settings.setText(R.string.settings);
+        statistics.setText(R.string.statistics);
         exit.setText(R.string.menu_exit);
     }
 

@@ -22,6 +22,7 @@ public class ResetScoreActivity extends AppCompatActivity {
         TextView text = findViewById(R.id.bestScoreReset_text);
         text.append("  " + Config.loadBestScore(this));
 
+
         yes = findViewById(R.id.yesReset_button);
         no = findViewById(R.id.noReset_button);
 
@@ -69,6 +70,12 @@ public class ResetScoreActivity extends AppCompatActivity {
 
     public void onYesClick(View v) {
         Config.saveBestScore(this, String.valueOf(0));
+        Config.saveDeath(this, 0);
+        Config.saveGroundDeath(this, 0);
+        Config.saveColumnDeath(this, 0);
+        Config.saveMoney(this, 0);
+        Config.saveTotalScore(this, 0);
+
         finish();
     }
 
