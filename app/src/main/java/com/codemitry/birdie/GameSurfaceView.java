@@ -28,7 +28,8 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     Columns columns;
     int[] columnImgs = {R.drawable.column1, R.drawable.pika1};
 
-    Bitmap background, ground, grass;
+    Bitmap background, ground, grass, grassDefault;
+    private int grassX = 0;
 
     private int score;
     MediaPlayer scoreSound;
@@ -53,8 +54,18 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         ground = BitmapFactory.decodeResource(getResources(), R.drawable.ground1);
         ground = Bitmap.createScaledBitmap(ground, Config.screen_width, (int) (Config.GROUND_HEIGHT * Config.screen_height), true);
 
-        grass = BitmapFactory.decodeResource(getResources(), R.drawable.grass1);
-        grass = Bitmap.createScaledBitmap(grass, Config.screen_width, (int) (Config.GRASS_HEIGHT * Config.screen_height), true);
+//        grass = BitmapFactory.decodeResource(getResources(), R.drawable.grass1);
+//        grass = Bitmap.createScaledBitmap(grass, Config.screen_width, (int) (Config.GRASS_HEIGHT * Config.screen_height), true);
+
+        grassDefault = BitmapFactory.decodeResource(getResources(), R.drawable.grass1);
+        grassDefault = Bitmap.createScaledBitmap(grassDefault, Config.screen_width, (int) (Config.GRASS_HEIGHT * Config.screen_height), true);
+
+        grass = Bitmap.createBitmap(Config.screen_width * 2, (int) (Config.GRASS_HEIGHT * Config.screen_height), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(grass);
+        canvas.drawBitmap(grassDefault, 0, 0, null);
+        canvas.drawBitmap(grassDefault, Config.screen_width, 0, null);
+        grass = Bitmap.createBitmap(grass);
+
 
         gameTextPaint = new Paint();
         gameTextPaint.setColor(getResources().getColor(R.color.menu_button_not_pressed));
@@ -131,6 +142,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     @Override
     public synchronized void draw(Canvas canvas) {
         if (canvas != null) {
+            canvas.drawColor(Color.BLACK);
             super.draw(canvas);
 
             canvas.drawBitmap(background, 0, 0, null);
@@ -138,7 +150,7 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             columns.drawColumns(canvas);
 
             canvas.drawBitmap(ground, 0, getHeight() - ground.getHeight(), null);
-            canvas.drawBitmap(grass, 0, getHeight() - ground.getHeight() - grass.getHeight(), null);
+            canvas.drawBitmap(grass, grassX, getHeight() - ground.getHeight() - grass.getHeight(), null);
 
             bird.draw(canvas);
 
@@ -170,7 +182,6 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                 Config.saveColumnDeath(getContext(), Config.loadColumnDeaths(getContext()) + 1);
                 onLose();
             }
-
             bird.update();
         }
     }
@@ -182,9 +193,10 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         Config.saveDeath(getContext(), (Config.loadDeaths(getContext()) + 1));
         if (Config.loadVibration(getContext()) == 1)
             vibrate();
-        update();
+//        update();
         game.onLose();
         this.surfaceDestroyed(getHolder());
+
     }
 
     private void vibrate() {
@@ -222,6 +234,14 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         columnsThread.setRunned(run);
         updateThread.setRunned(run);
     }
+
+    public void moveGrass() {
+        if (!game.isDeath() && game.isRun())
+            grassX -= Config.COLUMN_SPEED;
+        if (grassX <= -Config.screen_width)
+            grassX = 0;
+    }
+
 
 
 }

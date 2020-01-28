@@ -26,24 +26,29 @@ public class ColumnsThread extends Thread {
     public void run() {
         Log.d("Thread", "ColumnsThread started");
 //        int fps = 0;
-//        long time = 0;
-//        int frames = 0, skipped = 0;
+//        int frames = 0;
+        long time = 0;
+        int skipped = 0;
         while (runned) {
             long beginTime = System.currentTimeMillis();
             int framesSkipped = 0;
             // тут обновление колонн
             columns.updateColumns();
+            game.gameSurfaceView.moveGrass();
             // ---
 //            frames++;
 //            ++fps;
-//            if (time >= 1000) {
+            if (time >= 1000) {
 //                Log.d("ColumnFPS", String.valueOf(fps));  // FPS log
 //                Log.d("ColumnThread", "Frames summary: " + frames + " ; skipped: " + skipped);
-//                time = 0;
-//                //fps = 0;
-//                if (ups < 250 && game.isRun())
-//                    incUPS();
-//            }
+                //fps = 0;
+
+//                Log.d("ColumnThread", "Frames skipped: " + skipped);
+                time = 0;
+                skipped = 0;
+                if (ups < 250 && game.isRun())
+                    incUPS();
+            }
 
             long elapsedTime = System.currentTimeMillis() - beginTime;
             int sleepTime = (int) (framePeriod - elapsedTime);
@@ -57,19 +62,20 @@ public class ColumnsThread extends Thread {
             while (sleepTime < 0 && framesSkipped < Config.MAX_FRAME_SKIPS) {
                 // Columns update
                 columns.updateColumns();
+                game.gameSurfaceView.moveGrass();
                 sleepTime += framePeriod;
                 ++framesSkipped;
-//                ++skipped;
+                ++skipped;
             }
-//            time += System.currentTimeMillis() - beginTime;
+            time += System.currentTimeMillis() - beginTime;
         }
     }
 
-    void updateFramePeriod() {
+    private void updateFramePeriod() {
         framePeriod = 1000 / ups;
     }
 
-    void incUPS() {
+    private void incUPS() {
         this.ups += inc;
         updateFramePeriod();
     }

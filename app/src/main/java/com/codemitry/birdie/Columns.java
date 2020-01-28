@@ -21,7 +21,7 @@ class Columns {
         this.surface = surface;
         this.imgs = imgs;
 
-        columnCount = (int) (Config.screen_width / (Config.COLUMN_WIDTH * Config.screen_width) / 2);
+        columnCount = (int) (Config.screen_width / (Config.COLUMN_WIDTH * Config.screen_width) / 2) + 1;
     }
 
 

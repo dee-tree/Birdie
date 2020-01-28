@@ -21,8 +21,10 @@ public class UpdateThread extends Thread {
     public void run() {
         Log.d("Thread", "UpdateThread started");
 //        int fps = 0;
-//        long time = 0;
 //        int frames = 0, skipped = 0;
+//        int skipped = 0;
+//        long time = 0;
+
         while (runned) {
             long beginTime = System.currentTimeMillis();
             int framesSkipped = 0;
@@ -34,8 +36,11 @@ public class UpdateThread extends Thread {
 //            if (time >= 1000) {
 //              Log.d("UpdateFPS", String.valueOf(fps));  // FPS log
 //              Log.d("UpdateThread", "Frames summary: " + frames + " ; skipped: " + skipped);
-//              time = 0;
 //              fps = 0;
+
+//              Log.d("UpdateThread", "Frames skipped: " + skipped);
+//              time = 0;
+//              skipped = 0;
 //            }
 
             long elapsedTime = System.currentTimeMillis() - beginTime;

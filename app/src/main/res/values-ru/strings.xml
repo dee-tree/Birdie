@@ -25,7 +25,7 @@
     <string name="disable_vibration">Отключить вибрацию</string>
     <string name="statistics">Статистика</string>
     <string name="deaths">Количество смертей: </string>
-    <string name="ground_deaths">Об землю: </string>
-    <string name="column_deaths">Об колонну: </string>
+    <string name="ground_deaths">От земли: </string>
+    <string name="column_deaths">От колонны: </string>
     <string name="total_score">Общий счет: </string>
 </resources>

@@ -9,8 +9,8 @@ public class DrawThread extends Thread {
     private boolean runned = false;
     private SurfaceHolder surfaceHolder;
     private GameSurfaceView gameSurfaceView;
-    //final private int FPS = 40;
-    //final private int FRAME_PERIOD = (1000 / FPS);
+    private int FPS = 60;
+    private int FRAME_PERIOD = 1000 / FPS;
 
     DrawThread(SurfaceHolder surfaceHolder, GameSurfaceView gameSurfaceView) {
         super("DrawThread");
@@ -30,8 +30,10 @@ public class DrawThread extends Thread {
         Log.d("Thread", "DrawThread started");
         Canvas canvas;
 //        int fps = 0;
+//        int frames = 0;
+//
 //        long time = 0;
-//        int frames = 0, skipped = 0;
+//        int skipped = 0;
         while (runned) {
             canvas = null;
             try {
@@ -42,7 +44,6 @@ public class DrawThread extends Thread {
                     long beginTime = System.currentTimeMillis();
                     int framesSkipped = 0;
                     // тут отрисовка окна
-                    //gameSurfaceView.update();
                     gameSurfaceView.draw(canvas);
                     // ---
                     // FPS visible
@@ -51,12 +52,14 @@ public class DrawThread extends Thread {
 //                    if (time >= 1000) {
 //                        Log.d("FPS", String.valueOf(fps));  // FPS log
 //                        Log.d("Thread", "Draw Frames summary: " + frames + " ; skipped: " + skipped);
+                    //                        fps = 0;
+//                        Log.d("DrawThread", "Frames skipped: " + skipped);
 //                        time = 0;
-//                        fps = 0;
+//                        skipped = 0;
 //                    }
 
                     long elapsedTime = System.currentTimeMillis() - beginTime;
-                    int sleepTime = (int) (Config.FRAME_PERIOD - elapsedTime);
+                    int sleepTime = (int) (FRAME_PERIOD - elapsedTime);
                     if (sleepTime > 0) {
                         try {
                             //Log.d("Thread", "Sleep time: " + sleepTime);
@@ -65,10 +68,8 @@ public class DrawThread extends Thread {
                         }
                     }
                     while (sleepTime < 0 && framesSkipped < Config.MAX_FRAME_SKIPS) {
-                        //canvas.drawColor(Color.RED);
-                        //this.gameSurfaceView.update();
                         //gameSurfaceView.draw(canvas);
-                        sleepTime += Config.FRAME_PERIOD;
+                        sleepTime += FRAME_PERIOD;
                         ++framesSkipped;
 //                        ++skipped;
                     }

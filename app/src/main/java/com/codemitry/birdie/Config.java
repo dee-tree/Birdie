@@ -21,6 +21,8 @@ final class Config {
     static final float COLUMN_HEIGHT_SCATTER = 0.365f;
     static final float GROUND_HEIGHT = 0.1045f;
     static final float GRASS_HEIGHT = 0.055f;
+    static final float BIRD_UP = 0.017f;
+    static final float BIRD_DOWN = 0.0048f;
 
 
     static final int GROUND_Y = 1600,          // Distance from top to ground in px
@@ -32,7 +34,7 @@ final class Config {
 
     //    BIRD_WIDTH = 200,
 //            BIRD_HEIGHT = 110,
-            BIRD_UP = 34,
+    //  BIRD_UP = 34,
             SCORE_INCREMENT = 1,
 
     RIGHT_HANDED_MODE = 0,

@@ -18,6 +18,7 @@ class Bird {
     private int wingsDown;
     private int speed = 4;
     private GameSurfaceView surface;
+    private int up_coeff, down_coeff;
 
     Bird(Resources resources, int[] id, GameSurfaceView surface) {
         this.surface = surface;
@@ -31,6 +32,8 @@ class Bird {
         }
         x = (int) (Config.screen_width * Config.SPAWN_X) - width;
         y = (int) (Config.screen_height * Config.SPAWN_Y) - height;
+        up_coeff = Math.round(Config.screen_height * Config.BIRD_UP);
+        down_coeff = Math.round(Config.screen_height * Config.BIRD_DOWN);
 //        x = (int) (Config.SPAWN_X * Config.scale);
 //        y = (int) (Config.SPAWN_Y * Config.scale);
 
@@ -51,7 +54,7 @@ class Bird {
         return collised;
     }
 
-    void update() {
+    synchronized void update() {
         if (!surface.game.isDeath()) {
             y += speed;
             if (y < 0) {
@@ -64,13 +67,15 @@ class Bird {
                 surface.onLose();
             }
             if (speed < 80) {
-                speed += 3;
+//                speed += 3;
+//                speed += down_coeff;
+                speed += Math.sqrt(down_coeff);
             }
 
 //            y += speed;
 
-            mask.left = x + 20;
-            mask.top = y + 40;
+            mask.left = x + 25;
+            mask.top = y + 35;
             mask.right = x + width - 12;
             mask.bottom = y + height - 30;
 
@@ -84,6 +89,8 @@ class Bird {
             canvas.drawBitmap(pictures[1], x, y, null);
         else
             canvas.drawBitmap(pictures[0], x, y, null);
+
+//        canvas.drawRect(mask, new Paint());
     }
 
     void resetWings() {
@@ -91,7 +98,8 @@ class Bird {
     }
 
     void up() {
-        speed = -Config.BIRD_UP;
+//        speed = -Config.BIRD_UP;
+        speed = -up_coeff;
     }
 
     int getX() {
