@@ -2,11 +2,8 @@ package com.codemitry.birdie;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -22,9 +19,9 @@ public class Pause extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        setFinishOnTouchOutside(false);
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        //this.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        //setFinishOnTouchOutside(false);
+        //supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.activity_pause);
         TextView pause = findViewById(R.id.pause);
@@ -93,6 +90,8 @@ public class Pause extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+//        super.onBackPressed();
+        onContinueClick(null);
     }
 
 

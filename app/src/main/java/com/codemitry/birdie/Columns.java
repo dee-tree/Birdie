@@ -185,9 +185,10 @@ class Columns {
         void update() {
 //            System.out.println(columnTopHeight + pikaHeight + columnDownHeight + pikaHeight);
 
-            if (!isScored && (birdX + birdWidth > columnX + columnWidth / 2)) {
+            if (!isScored && (birdX + birdWidth / 2 >= columnX + columnWidth)) {
                 isScored = true;
                 surface.addScore();
+
 
                 if (surface.scoreSound.isPlaying())
                     surface.scoreSound.seekTo(0);

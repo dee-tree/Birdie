@@ -13,7 +13,7 @@ public class UpdateThread extends Thread {
     }
 
     void setRunned(boolean run) {
-        runned = run;
+        this.runned = run;
     }
 
 
@@ -50,15 +50,16 @@ public class UpdateThread extends Thread {
                     //Log.d("Thread", "Sleep time: " + sleepTime);
                     Thread.sleep(sleepTime);
                 } catch (InterruptedException e) {
+                    System.err.println(e.getMessage());
                 }
             }
-            while (sleepTime < 0 && framesSkipped < Config.MAX_FRAME_SKIPS) {
-                //canvas.drawColor(Color.RED);
-                surface.update();
-                sleepTime += Config.FRAME_PERIOD;
-                ++framesSkipped;
-//                ++skipped;
-            }
+//            while (sleepTime < 0 && framesSkipped < Config.MAX_FRAME_SKIPS) {
+//                //canvas.drawColor(Color.RED);
+//                surface.update();
+//                sleepTime += Config.FRAME_PERIOD;
+//                ++framesSkipped;
+////                ++skipped;
+//            }
 //            time += System.currentTimeMillis() - beginTime;
         }
         Log.d("Thread", "UpdateThread finished");

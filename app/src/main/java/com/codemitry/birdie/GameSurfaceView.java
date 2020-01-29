@@ -86,7 +86,6 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
     }
 
     @Override
@@ -112,9 +111,34 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         // завершаем работу потока
-        drawThread.setRunned(false);
-        columnsThread.setRunned(false);
-        updateThread.setRunned(false);
+
+        boolean retry = true;
+
+//        System.out.println("Draw: " + drawThread.isAlive());
+//        System.out.println("Column: " + columnsThread.isAlive());
+//        System.out.println("Update: " + updateThread.isAlive());
+
+        setThreadRun(false);
+
+//        drawThread.setRunned(false);
+//        columnsThread.setRunned(false);
+//        updateThread.setRunned(false);
+        while (retry) {
+            try {
+                //Thread.sleep(10);
+                if (columnsThread.isAlive())
+                    columnsThread.join(1);
+                if (updateThread.isAlive())
+                    updateThread.join(1);
+                if (drawThread.isAlive())
+                    drawThread.join(3);
+
+                retry = false;
+//                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                System.err.println(e.getMessage());
+            }
+        }
 
         Log.d("Surface", "Surface Destroyed");
     }
@@ -174,15 +198,19 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     public void update() {
         if (!game.isDeath() && game.isRun()) {
-//            bird.update();
+            bird.update();
             if (game.isDeath()) {
-                onLose();
-
-            } else if (bird.collised(columns.getColumns())) {
-                Config.saveColumnDeath(getContext(), Config.loadColumnDeaths(getContext()) + 1);
+                Config.saveGroundDeath(getContext(), Config.loadGroundDeaths(getContext()) + 1);
                 onLose();
             }
-            bird.update();
+
+            if (bird.collised(columns.getColumns())) {
+                Config.saveColumnDeath(getContext(), Config.loadColumnDeaths(getContext()) + 1);
+                onLose();
+                // return;
+            }
+            //if (!game.isDeath() && game.isRun()) {
+            //}
         }
     }
 
@@ -194,8 +222,9 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         if (Config.loadVibration(getContext()) == 1)
             vibrate();
 //        update();
+        //this.surfaceDestroyed(getHolder());
         game.onLose();
-        this.surfaceDestroyed(getHolder());
+
 
     }
 

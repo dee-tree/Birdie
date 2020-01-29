@@ -25,10 +25,15 @@ public class Game extends AppCompatActivity {
         }
     }
 
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        setContentView(gameSurfaceView);
+//    }
+
     @Override
     protected void onPause() {
         super.onPause();
-
         if (isRun()) {
             setPaused(true);
             setRun(false);

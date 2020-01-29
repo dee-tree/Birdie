@@ -18,7 +18,7 @@ public class ColumnsThread extends Thread {
     }
 
     void setRunned(boolean run) {
-        runned = run;
+        this.runned = run;
     }
 
 
@@ -59,16 +59,17 @@ public class ColumnsThread extends Thread {
                 } catch (InterruptedException e) {
                 }
             }
-            while (sleepTime < 0 && framesSkipped < Config.MAX_FRAME_SKIPS) {
-                // Columns update
-                columns.updateColumns();
-                game.gameSurfaceView.moveGrass();
-                sleepTime += framePeriod;
-                ++framesSkipped;
-                ++skipped;
-            }
+//            while (sleepTime < 0 && framesSkipped < Config.MAX_FRAME_SKIPS) {
+//                // Columns update
+//                columns.updateColumns();
+//                game.gameSurfaceView.moveGrass();
+//                sleepTime += framePeriod;
+//                ++framesSkipped;
+//                ++skipped;
+//            }
             time += System.currentTimeMillis() - beginTime;
         }
+        Log.d("Thread", "ColumnsThread finished");
     }
 
     private void updateFramePeriod() {

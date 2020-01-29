@@ -11,7 +11,7 @@
     </style>
 
     <style name="Translucent" parent="Theme.AppCompat">
-        <item name="android:windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <!---<item name="android:windowBackground">#D5000000</item> !-->
         <item name="android:windowBackground">@android:color/transparent</item>

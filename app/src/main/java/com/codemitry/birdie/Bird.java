@@ -54,17 +54,19 @@ class Bird {
         return collised;
     }
 
-    synchronized void update() {
+    void update() {
         if (!surface.game.isDeath()) {
             y += speed;
             if (y < 0) {
                 y = 0;
             } else if (y + height >= groundY) {
                 pictures[0] = Bitmap.createBitmap(pictures[0], 0, 0, pictures[0].getWidth(), pictures[0].getHeight(), matrixDown, true);
-                surface.game.setDeath(true);
                 y = groundY - height;
-                Config.saveGroundDeath(surface.getContext(), Config.loadGroundDeaths(surface.getContext()) + 1);
-                surface.onLose();
+                surface.game.setDeath(true);
+//                Config.saveGroundDeath(surface.getContext(), Config.loadGroundDeaths(surface.getContext()) + 1);
+//                surface.game.setDeath(true);
+//                surface.onLose();
+                return;
             }
             if (speed < 80) {
 //                speed += 3;

@@ -2,7 +2,6 @@ package com.codemitry.birdie;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -14,8 +13,8 @@ public class ResetScoreActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setFinishOnTouchOutside(false);
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        //setFinishOnTouchOutside(false);
+        //supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.activity_reset_score);
 

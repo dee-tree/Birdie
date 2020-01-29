@@ -40,6 +40,7 @@ public class DrawThread extends Thread {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     canvas = surfaceHolder.lockHardwareCanvas();
                 } else canvas = surfaceHolder.lockCanvas();
+//                } else canvas = surfaceHolder.lockHardwareCanvas();
                 synchronized (surfaceHolder) {
                     long beginTime = System.currentTimeMillis();
                     int framesSkipped = 0;
