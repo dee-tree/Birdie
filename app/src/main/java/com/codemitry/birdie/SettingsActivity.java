@@ -107,6 +107,7 @@ public class SettingsActivity extends AppCompatActivity {
     public void onChangeLanguageClick(View v) {
         // en -> ru -> en
         String lang = getLocale();
+        //System.out.println("Был: " + lang);
         switch (lang) {
             case "en":
                 changeLang("ru");
@@ -115,6 +116,9 @@ public class SettingsActivity extends AppCompatActivity {
                 changeLang("en");
                 break;
         }
+        //System.out.println("Стал: " + lang);
+
+        System.out.println(getLocale());
     }
 
     public String getLocale() {
