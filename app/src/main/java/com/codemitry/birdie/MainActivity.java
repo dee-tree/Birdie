@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Locale;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     Animation anim;
     TextView head;
     MediaPlayer logoSound;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +53,21 @@ public class MainActivity extends AppCompatActivity {
         head.startAnimation(anim);
         logoSound = MediaPlayer.create(this, R.raw.logosound);
 
+
     }
+
 
     @Override
     protected void onResume() {
         super.onResume();
         loadLocale();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
     }
 
     public void onStatisticsClick(View v) {

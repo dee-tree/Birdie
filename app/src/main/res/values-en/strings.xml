@@ -28,4 +28,7 @@
     <string name="ground_deaths">by ground: </string>
     <string name="column_deaths">by column: </string>
     <string name="total_score">Total score: </string>
+    <string name="connected">Connected</string>
+    <string name="connect">Connect</string>
+    <string name="google_play_sign">Google Play Sign-In</string>
 </resources>

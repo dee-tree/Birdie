@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -21,7 +22,7 @@ public class LoseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setFinishOnTouchOutside(false);
-        //supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_lose);
 
         this.score = getIntent().getIntExtra("score", 0);

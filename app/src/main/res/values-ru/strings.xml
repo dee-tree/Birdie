@@ -28,4 +28,7 @@
     <string name="ground_deaths">От земли: </string>
     <string name="column_deaths">От колонны: </string>
     <string name="total_score">Общий счет: </string>
+    <string name="connected">Подключено</string>
+    <string name="connect">Войти</string>
+    <string name="google_play_sign">Войти в Google Play</string>
 </resources>
