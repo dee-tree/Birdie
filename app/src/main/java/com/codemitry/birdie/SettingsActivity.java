@@ -140,7 +140,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void updateTexts() {
         ((TextView) findViewById(R.id.settingsText)).setText(R.string.settings);
-        ((TextView) findViewById(R.id.reset_score_button)).setText(R.string.reset);
+        ((TextView) findViewById(R.id.reset_stat_button)).setText(R.string.reset);
         ((Button) findViewById(R.id.language_button)).setText(R.string.menu_language);
         ((Button) findViewById(R.id.back)).setText(R.string.back);
         String text = changeHandButton.getText().toString();
