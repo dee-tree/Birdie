@@ -23,9 +23,10 @@ final class Config {
     static final float GRASS_HEIGHT = 0.055f;
     static final float BIRD_UP = 0.017f;
     static final float BIRD_DOWN = 0.0048f;
+    static final float GROUND_Y = 0.83f;
 
 
-    static final int GROUND_Y = 1600,          // Distance from top to ground in px
+    static final int //GROUND_Y = 1600,          // Distance from top to ground in px
 //            GROUND_HEIGHT = 200,
 //            GRASS_HEIGHT = 106,
 //            SPAWN_X = 400,

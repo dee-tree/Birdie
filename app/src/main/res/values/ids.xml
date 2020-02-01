@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <!-- app_id -->
+    <string name="app_id" translatable="false">716570647073</string>
+    <!-- package_name -->
+    <string name="package_name" translatable="false">com.codemitry.birdie</string>
+    <!-- achievement The first time -->
+    <string name="achievement_the_first_time" translatable="false">CgkIobTBt-0UEAIQAg</string>
+    <!-- achievement Fifteen steps! -->
+    <string name="achievement_fifteen_steps" translatable="false">CgkIobTBt-0UEAIQAw</string>
+    <!-- achievement Twenty five! -->
+    <string name="achievement_twenty_five" translatable="false">CgkIobTBt-0UEAIQBA</string>
+    <!-- achievement Try again and again! -->
+    <string name="achievement_try_again_and_again" translatable="false">CgkIobTBt-0UEAIQBQ</string>
+    <!-- achievement You're birdie king! -->
+    <string name="achievement_youre_birdie_king" translatable="false">CgkIobTBt-0UEAIQBg</string>
+    <!-- leaderboard Birdie rating by score -->
+    <string name="leaderboard_birdie_rating_by_score" translatable="false">CgkIobTBt-0UEAIQAA</string>
+    <!-- event Score -->
+    <string name="event_score" translatable="false">CgkIobTBt-0UEAIQBw</string>
+</resources>

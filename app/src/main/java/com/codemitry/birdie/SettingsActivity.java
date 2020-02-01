@@ -3,15 +3,27 @@ package com.codemitry.birdie;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.Locale;
 
@@ -20,7 +32,12 @@ public class SettingsActivity extends AppCompatActivity {
     Button changeHandButton;
     Button vibrationButton;
     Button back;
+    Button signInButton;
     LayoutParams params;
+    GoogleSignInClient googleSignInClient;
+
+    private static final int RC_SIGN_IN = 4005;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +56,17 @@ public class SettingsActivity extends AppCompatActivity {
         updateVibrationText(Config.loadVibration(this));
         updateHandModeText(Config.loadHandMode(this));
         updateBackPosition(Config.loadHandMode(this));
+
+        GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN)
+                .requestEmail()
+                .requestProfile()
+                //    .requestIdToken("716570647073-2aontgi14bqm7vkklr1k3ni1s21sgsfp.apps.googleusercontent.com")
+                .build();
+        googleSignInClient = GoogleSignIn.getClient(this, options);
+
+        signInButton = findViewById(R.id.sign_in);
+
+        updateUI();
     }
 
     public void onChangeHandModeClick(View v) {
@@ -107,7 +135,6 @@ public class SettingsActivity extends AppCompatActivity {
     public void onChangeLanguageClick(View v) {
         // en -> ru -> en
         String lang = getLocale();
-        //System.out.println("Был: " + lang);
         switch (lang) {
             case "en":
                 changeLang("ru");
@@ -116,9 +143,7 @@ public class SettingsActivity extends AppCompatActivity {
                 changeLang("en");
                 break;
         }
-        //System.out.println("Стал: " + lang);
 
-        System.out.println(getLocale());
     }
 
     public String getLocale() {
@@ -143,7 +168,8 @@ public class SettingsActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.reset_stat_button)).setText(R.string.reset);
         ((Button) findViewById(R.id.language_button)).setText(R.string.menu_language);
         ((Button) findViewById(R.id.back)).setText(R.string.back);
-        String text = changeHandButton.getText().toString();
+        updateUI();
+//        String text = changeHandButton.getText().toString();
         updateHandModeText(Config.loadHandMode(this));
         updateVibrationText(Config.loadVibration(this));
     }
@@ -159,5 +185,129 @@ public class SettingsActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    public void onSignInClick(View v) {
+        if (isSignedIn()) {
+            signOut();
+        } else {
+            signIn();
+        }
+
+    }
+
+    private boolean isSignedIn() {
+        return GoogleSignIn.getLastSignedInAccount(this) != null;
+    }
+
+    private void signIn() {
+        startSignInIntent();
+    }
+
+    private void startSignInIntent() {
+        startActivityForResult(googleSignInClient.getSignInIntent(), RC_SIGN_IN);
+
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            Toast.makeText(SettingsActivity.this, account.getDisplayName() + " " + account.getEmail() + " " + account.toString(), Toast.LENGTH_SHORT).show();
+            updateUI();
+            // Signed in successfully, show authenticated UI.
+            //updateUI(account);
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            updateUI();
+            Toast.makeText(this, "signInResult:failed code=" + e.getStatusCode(), Toast.LENGTH_SHORT).show();
+            Log.w("Sign-in", "signInResult:failed code=" + e.getStatusCode());
+            //updateUI(null);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+
+            //GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+//            if (result.isSuccess()) {
+//                // The signed in account is stored in the result.
+//                GoogleSignInAccount signedInAccount = result.getSignInAccount();
+//            } else {
+//                String message = result.getStatus().getStatusMessage();
+//                if (message == null || message.isEmpty()) {
+//                    message = "Error auth";
+//                }
+//                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+//            }
+        }
+    }
+
+    private void signInSilently() {
+        GoogleSignInOptions signInOptions = GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN;
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if (GoogleSignIn.hasPermissions(account, signInOptions.getScopeArray())) {
+            // Already signed in.
+            // The signed in account is stored in the 'account' variable.
+            GoogleSignInAccount signedInAccount = account;
+        } else {
+            // Haven't been signed-in before. Try the silent sign-in first.
+            final GoogleSignInClient signInClient = GoogleSignIn.getClient(this, signInOptions);
+            signInClient
+                    .silentSignIn()
+                    .addOnCompleteListener(
+                            this,
+                            new OnCompleteListener<GoogleSignInAccount>() {
+                                @Override
+                                public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
+                                    if (task.isSuccessful()) {
+
+                                        Log.d("Sign-in", "Successfull sign-in");
+                                        // The signed in account is stored in the task's result.
+                                        GoogleSignInAccount signedInAccount = task.getResult();
+                                    } else {
+                                        Log.d("Sign-in", "Error sign-in");
+                                        // Player will need to sign-in explicitly using via UI.
+                                        // See [sign-in best practices](http://developers.google.com/games/services/checklist) for guidance on how and when to implement Interactive Sign-in,
+                                        // and [Performing Interactive Sign-in](http://developers.google.com/games/services/android/signin#performing_interactive_sign-in) for details on how to implement
+                                        // Interactive Sign-in.
+                                    }
+                                }
+                            });
+        }
+    }
+
+    private void signOut() {
+        final GoogleSignInClient signInClient = GoogleSignIn.getClient(this,
+                GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN);
+        signInClient.signOut().addOnCompleteListener(this,
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        signInClient.revokeAccess();
+                        signInClient.signOut();
+                        updateUI();
+                        Toast.makeText(SettingsActivity.this, "You are signed-out", Toast.LENGTH_SHORT).show();
+                        // at this point, the user is signed out.
+                    }
+                });
+    }
+
+    private void updateUI() {
+        if (isSignedIn()) {
+            signInButton.setText(getString(R.string.connected));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                signInButton.setBackground(getDrawable(R.drawable.google_button_signed));
+            }
+        } else {
+            signInButton.setText(getString(R.string.connect));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                signInButton.setBackground(getDrawable(R.drawable.google_button));
+            }
+        }
     }
 }

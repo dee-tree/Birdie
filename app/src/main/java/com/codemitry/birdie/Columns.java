@@ -129,13 +129,13 @@ class Columns {
             int scatter = (int) (Config.COLUMN_HEIGHT_SCATTER * Config.screen_height);
             int newColumnTopHeight;
             int currentRnd = (int) ((Math.random() * (1 + scatter)) - scatter / 2);
-            if (columnTopHeight + currentRnd < pikaHeight || pikaDownY + 2 * pikaHeight + currentRnd > Config.GROUND_Y)
+            if (columnTopHeight + currentRnd < pikaHeight || pikaDownY + 2 * pikaHeight + currentRnd > Config.GROUND_Y * Config.screen_height)
                 newColumnTopHeight = columnTopHeight - currentRnd;
             else newColumnTopHeight = columnTopHeight + currentRnd;
 
             pikaTopY = columnTopHeight = newColumnTopHeight;
             columnDownHeight = bottom - columnTopHeight - hole - pikaHeight * 2;
-            pikaDownY = bottom - columnDownHeight - pikaHeight;
+            pikaDownY = pikaTopY + pikaHeight + hole; //bottom - columnDownHeight - pikaHeight; was error
             columnDownY = pikaDownY + pikaHeight;
 
 //            new  AsyncTask<Object, Void, Void>() {
@@ -151,7 +151,7 @@ class Columns {
 
             if (columnDownHeight < columnHeightDefault) {
                 columnDown = Bitmap.createScaledBitmap(defaultColumn, columnWidth, columnHeightDefault, false);
-                columnDown = Bitmap.createBitmap(columnDown, 0, 0, columnWidth, columnDownHeight, matrix, false);
+                columnDown = Bitmap.createBitmap(columnDown, 0, 0, columnWidth, columnDownHeight, matrix, false); // this error
             } else if (columnDownHeight > columnHeightDefault) {
                 columnDown = Bitmap.createBitmap(mergeColumns(columnDownHeight));
             }
