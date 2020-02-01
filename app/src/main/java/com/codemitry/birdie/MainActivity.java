@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         Locale.setDefault(myLocale);
         android.content.res.Configuration config = new android.content.res.Configuration();
         config.locale = myLocale;
+//        getApplicationContext().createConfigurationContext(config);
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         updateTexts();
     }
