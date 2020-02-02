@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_play_games_badge_leaderboards_green" android:state_pressed="false" />
+
+    <item android:drawable="@drawable/ic_play_games_badge_leaderboards_white" android:state_pressed="true" />
+</selector>

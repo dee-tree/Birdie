@@ -54,6 +54,8 @@ final class Config {
             FINISH_PLAY = 2,      // Code of command to finish the game
             RESTART = 3,         // Code of command to restart the game
             TIMES_WINGS_DOWN = 6,
+            FIRST_OPEN = 0,
+            NOT_FIRST_OPEN = 1,
 
     MAX_FPS = 40,
             MAX_FRAME_SKIPS = 5,
@@ -73,6 +75,7 @@ final class Config {
             GROUND_DEATHS_PREF = "Ground Deaths",
             VIBRATION_PREF = "Vibration",
             TOTAL_SCORE_PREF = "Total score",
+            IS_FIRST_OPEN = "FIRST_OPEN",
             MONEY_PREF = "Money";
 
 
@@ -169,6 +172,18 @@ final class Config {
         SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(TOTAL_SCORE_PREF, score);
+        editor.apply();
+    }
+
+    static int isFirstOpen(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        return prefs.getInt(IS_FIRST_OPEN, FIRST_OPEN);
+    }
+
+    static void saveFirstOpen(Context context, int score) {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(IS_FIRST_OPEN, score);
         editor.apply();
     }
 

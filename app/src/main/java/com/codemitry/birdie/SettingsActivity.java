@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -22,6 +23,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.games.Games;
+import com.google.android.gms.games.GamesClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -35,6 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
     Button signInButton;
     LayoutParams params;
     GoogleSignInClient googleSignInClient;
+    GamesClient gamesClient;
 
     private static final int RC_SIGN_IN = 4005;
 
@@ -52,6 +56,7 @@ public class SettingsActivity extends AppCompatActivity {
         vibrationButton = findViewById(R.id.vibration_switch_button);
         back = findViewById(R.id.back);
         params = (LayoutParams) back.getLayoutParams();
+
 
         updateVibrationText(Config.loadVibration(this));
         updateHandModeText(Config.loadHandMode(this));
@@ -213,7 +218,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            Toast.makeText(SettingsActivity.this, account.getDisplayName() + " " + account.getEmail() + " " + account.toString(), Toast.LENGTH_SHORT).show();
+            showSignIn();
             updateUI();
             // Signed in successfully, show authenticated UI.
             //updateUI(account);
@@ -233,18 +238,6 @@ public class SettingsActivity extends AppCompatActivity {
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
-
-            //GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-//            if (result.isSuccess()) {
-//                // The signed in account is stored in the result.
-//                GoogleSignInAccount signedInAccount = result.getSignInAccount();
-//            } else {
-//                String message = result.getStatus().getStatusMessage();
-//                if (message == null || message.isEmpty()) {
-//                    message = "Error auth";
-//                }
-//                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-//            }
         }
     }
 
@@ -292,7 +285,7 @@ public class SettingsActivity extends AppCompatActivity {
                         signInClient.revokeAccess();
                         signInClient.signOut();
                         updateUI();
-                        Toast.makeText(SettingsActivity.this, "You are signed-out", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(SettingsActivity.this, "You are signed-out", Toast.LENGTH_SHORT).show();
                         // at this point, the user is signed out.
                     }
                 });
@@ -310,5 +303,11 @@ public class SettingsActivity extends AppCompatActivity {
                 signInButton.setBackground(getDrawable(R.drawable.google_button));
             }
         }
+    }
+
+    private void showSignIn() {
+        GamesClient gamesClient = Games.getGamesClient(this, GoogleSignIn.getLastSignedInAccount(this));
+        gamesClient.setViewForPopups(findViewById(android.R.id.content));
+        gamesClient.setGravityForPopups(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
     }
 }

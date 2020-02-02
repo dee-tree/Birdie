@@ -7,14 +7,29 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.games.Games;
+import com.google.android.gms.games.GamesClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.Locale;
 // <color name="menu_button_not_pressed">#009688</color>
@@ -23,12 +38,18 @@ import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
+    private static final int RC_SIGN_IN = 4005;
+    private static final int RC_SIGN_IN_SHOW_ACHIEVEMENTS = 4010;
+    private static final int RC_SIGN_IN_SHOW_LEADERBOARD = 4015;
+
     Locale myLocale;
     //String lang = "en";
     private Button start, settings, statistics, exit;
     Animation anim;
     TextView head;
     MediaPlayer logoSound;
+    GoogleSignInClient googleSignInClient;
+    //GamesClient gamesClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +71,23 @@ public class MainActivity extends AppCompatActivity {
         head = findViewById(R.id.head);
         head.startAnimation(anim);
         logoSound = MediaPlayer.create(this, R.raw.logosound);
+
+        if (isSignedIn())
+            showSignIn();
+
+        GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN)
+                .requestEmail()
+                .requestProfile()
+                .build();
+        googleSignInClient = GoogleSignIn.getClient(this, options);
+
+
+        // Is app opened first time then invite to sign in to goole
+        if (Config.isFirstOpen(this) == Config.FIRST_OPEN) {
+            Config.saveFirstOpen(this, Config.NOT_FIRST_OPEN);
+            signIn(RC_SIGN_IN);
+
+        }
 
     }
 
@@ -127,6 +165,146 @@ public class MainActivity extends AppCompatActivity {
             logoSound.seekTo(0);
         logoSound.start();
         logo.setAnimation(anim);
+    }
+
+    private static final int RC_ACHIEVEMENT_UI = 9003;
+
+    private void showAchievements() {
+        if (isSignedIn()) {
+            Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                    .getAchievementsIntent()
+                    .addOnSuccessListener(new OnSuccessListener<Intent>() {
+                        @Override
+                        public void onSuccess(Intent intent) {
+                            startActivityForResult(intent, RC_ACHIEVEMENT_UI);
+                        }
+                    });
+        }
+    }
+
+    private static final int RC_LEADERBOARD_UI = 9004;
+
+    private void showLeaderboard() {
+        if (isSignedIn()) {
+            Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                    .getLeaderboardIntent(getString(R.string.leaderboard_birdie_rating_by_score))
+                    .addOnSuccessListener(new OnSuccessListener<Intent>() {
+                        @Override
+                        public void onSuccess(Intent intent) {
+                            startActivityForResult(intent, RC_LEADERBOARD_UI);
+                        }
+                    });
+        }
+    }
+
+    public void onAchievementsClick(View v) {
+        if (isSignedIn()) {
+            showAchievements();
+        } else {
+            signIn(RC_SIGN_IN_SHOW_ACHIEVEMENTS);
+            //Toast.makeText(this, "You did not sign in to your google account", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void onLeaderBoardClick(View v) {
+        if (isSignedIn()) {
+            showLeaderboard();
+        } else {
+            signIn(RC_SIGN_IN_SHOW_LEADERBOARD);
+        }
+
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            showSignIn();
+            // signed
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Toast.makeText(this, "signInResult:failed code=" + e.getStatusCode(), Toast.LENGTH_SHORT).show();
+            Log.w("Sign-in", "signInResult:failed code=" + e.getStatusCode());
+            //updateUI(null);
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Task<GoogleSignInAccount> task;
+        switch (requestCode) {
+            case RC_SIGN_IN:
+                task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                handleSignInResult(task);
+                break;
+            case RC_SIGN_IN_SHOW_ACHIEVEMENTS:
+                task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                handleSignInResult(task);
+                showAchievements();
+                break;
+            case RC_SIGN_IN_SHOW_LEADERBOARD:
+                task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                handleSignInResult(task);
+                showLeaderboard();
+                break;
+        }
+    }
+
+
+    private boolean isSignedIn() {
+        return GoogleSignIn.getLastSignedInAccount(this) != null;
+    }
+
+    private void signInSilently() {
+        GoogleSignInOptions signInOptions = GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN;
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+
+        if (GoogleSignIn.hasPermissions(account, signInOptions.getScopeArray())) {
+            // Already signed in.
+            // The signed in account is stored in the 'account' variable.
+            GoogleSignInAccount signedInAccount = account;
+        } else {
+            // Haven't been signed-in before. Try the silent sign-in first.
+            final GoogleSignInClient signInClient = GoogleSignIn.getClient(this, signInOptions);
+            signInClient
+                    .silentSignIn()
+                    .addOnCompleteListener(
+                            this,
+                            new OnCompleteListener<GoogleSignInAccount>() {
+                                @Override
+                                public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
+                                    if (task.isSuccessful()) {
+                                        showSignIn();
+                                        Log.d("Google", "Successfull sign-in to google games account");
+                                        // The signed in account is stored in the task's result.
+                                        GoogleSignInAccount signedInAccount = task.getResult();
+                                    } else {
+                                        Log.d("Google", "Not successfull sign-in to google games account");
+                                        // Player will need to sign-in explicitly using via UI.
+                                        // See [sign-in best practices](http://developers.google.com/games/services/checklist) for guidance on how and when to implement Interactive Sign-in,
+                                        // and [Performing Interactive Sign-in](http://developers.google.com/games/services/android/signin#performing_interactive_sign-in) for details on how to implement
+                                        // Interactive Sign-in.
+                                    }
+                                }
+                            });
+        }
+    }
+
+    private void signIn(int code) {
+        startSignInIntent(code);
+    }
+
+    private void startSignInIntent(int code) {
+        startActivityForResult(googleSignInClient.getSignInIntent(), code);
+
+    }
+
+    private void showSignIn() {
+        GamesClient gamesClient = Games.getGamesClient(this, GoogleSignIn.getLastSignedInAccount(this));
+        gamesClient.setViewForPopups(findViewById(android.R.id.content));
+        gamesClient.setGravityForPopups(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
     }
 
 }

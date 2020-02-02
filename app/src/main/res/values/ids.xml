@@ -11,12 +11,20 @@
     <string name="achievement_fifteen_steps" translatable="false">CgkIobTBt-0UEAIQAw</string>
     <!-- achievement Twenty five! -->
     <string name="achievement_twenty_five" translatable="false">CgkIobTBt-0UEAIQBA</string>
-    <!-- achievement Try again and again! -->
-    <string name="achievement_try_again_and_again" translatable="false">CgkIobTBt-0UEAIQBQ</string>
+    <!-- achievement Fifty! -->
+    <string name="achievement_fifty" translatable="false">CgkIobTBt-0UEAIQBQ</string>
     <!-- achievement You're birdie king! -->
     <string name="achievement_youre_birdie_king" translatable="false">CgkIobTBt-0UEAIQBg</string>
+    <!-- achievement Try again and again! -->
+    <string name="achievement_try_again_and_again" translatable="false">CgkIobTBt-0UEAIQCg</string>
+    <!-- achievement Test -->
+    <string name="achievement_test" translatable="false">CgkIobTBt-0UEAIQCw</string>
+    <!-- achievement test3 -->
+    <string name="achievement_test3" translatable="false">CgkIobTBt-0UEAIQDQ</string>
+
+    <string name="achievement_test2" translatable="false">CgkIobTBt-0UEAIQDg</string>
     <!-- leaderboard Birdie rating by score -->
     <string name="leaderboard_birdie_rating_by_score" translatable="false">CgkIobTBt-0UEAIQAA</string>
-    <!-- event Score -->
-    <string name="event_score" translatable="false">CgkIobTBt-0UEAIQBw</string>
+    <!-- event New top score -->
+    <string name="event_new_top_score" translatable="false">CgkIobTBt-0UEAIQBw</string>
 </resources>

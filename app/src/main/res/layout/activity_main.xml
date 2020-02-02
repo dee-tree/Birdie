@@ -6,7 +6,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient"
+    android:clickable="true"
     tools:context="com.codemitry.birdie.MainActivity">
+
+    <ImageButton
+        android:id="@+id/leaderBoard_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/leaderboard_background"
+        android:onClick="onLeaderBoardClick"
+        android:scaleType="center"
+        android:scaleX="0.7"
+        android:scaleY="0.7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/head"
@@ -152,5 +167,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/logo" />
+
+    <ImageButton
+        android:id="@+id/achievements_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/achiements_background"
+        android:onClick="onAchievementsClick"
+        android:scaleType="center"
+        android:scaleX="0.7"
+        android:scaleY="0.7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
