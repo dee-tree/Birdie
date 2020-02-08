@@ -65,7 +65,6 @@ public class SettingsActivity extends AppCompatActivity {
         GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN)
                 .requestEmail()
                 .requestProfile()
-                //    .requestIdToken("716570647073-2aontgi14bqm7vkklr1k3ni1s21sgsfp.apps.googleusercontent.com")
                 .build();
         googleSignInClient = GoogleSignIn.getClient(this, options);
 
@@ -164,7 +163,6 @@ public class SettingsActivity extends AppCompatActivity {
         Locale.setDefault(myLocale);
         android.content.res.Configuration config = new android.content.res.Configuration();
         config.locale = myLocale;
-//        getApplicationContext().createConfigurationContext(config);
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         updateTexts();
     }
@@ -175,7 +173,6 @@ public class SettingsActivity extends AppCompatActivity {
         ((Button) findViewById(R.id.language_button)).setText(R.string.menu_language);
         ((Button) findViewById(R.id.back)).setText(R.string.back);
         updateUI();
-//        String text = changeHandButton.getText().toString();
         updateHandModeText(Config.loadHandMode(this));
         updateVibrationText(Config.loadVibration(this));
     }
@@ -221,7 +218,6 @@ public class SettingsActivity extends AppCompatActivity {
             showSignIn();
             updateUI();
             // Signed in successfully, show authenticated UI.
-            //updateUI(account);
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -241,39 +237,39 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    private void signInSilently() {
-        GoogleSignInOptions signInOptions = GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN;
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if (GoogleSignIn.hasPermissions(account, signInOptions.getScopeArray())) {
-            // Already signed in.
-            // The signed in account is stored in the 'account' variable.
-            GoogleSignInAccount signedInAccount = account;
-        } else {
-            // Haven't been signed-in before. Try the silent sign-in first.
-            final GoogleSignInClient signInClient = GoogleSignIn.getClient(this, signInOptions);
-            signInClient
-                    .silentSignIn()
-                    .addOnCompleteListener(
-                            this,
-                            new OnCompleteListener<GoogleSignInAccount>() {
-                                @Override
-                                public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
-                                    if (task.isSuccessful()) {
-
-                                        Log.d("Sign-in", "Successfull sign-in");
-                                        // The signed in account is stored in the task's result.
-                                        GoogleSignInAccount signedInAccount = task.getResult();
-                                    } else {
-                                        Log.d("Sign-in", "Error sign-in");
-                                        // Player will need to sign-in explicitly using via UI.
-                                        // See [sign-in best practices](http://developers.google.com/games/services/checklist) for guidance on how and when to implement Interactive Sign-in,
-                                        // and [Performing Interactive Sign-in](http://developers.google.com/games/services/android/signin#performing_interactive_sign-in) for details on how to implement
-                                        // Interactive Sign-in.
-                                    }
-                                }
-                            });
-        }
-    }
+//    private void signInSilently() {
+//        GoogleSignInOptions signInOptions = GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN;
+//        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+//        if (GoogleSignIn.hasPermissions(account, signInOptions.getScopeArray())) {
+//            // Already signed in.
+//            // The signed in account is stored in the 'account' variable.
+//            GoogleSignInAccount signedInAccount = account;
+//        } else {
+//            // Haven't been signed-in before. Try the silent sign-in first.
+//            final GoogleSignInClient signInClient = GoogleSignIn.getClient(this, signInOptions);
+//            signInClient
+//                    .silentSignIn()
+//                    .addOnCompleteListener(
+//                            this,
+//                            new OnCompleteListener<GoogleSignInAccount>() {
+//                                @Override
+//                                public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
+//                                    if (task.isSuccessful()) {
+//
+//                                        Log.d("Sign-in", "Successfull sign-in");
+//                                        // The signed in account is stored in the task's result.
+//                                        GoogleSignInAccount signedInAccount = task.getResult();
+//                                    } else {
+//                                        Log.d("Sign-in", "Error sign-in");
+//                                        // Player will need to sign-in explicitly using via UI.
+//                                        // See [sign-in best practices](http://developers.google.com/games/services/checklist) for guidance on how and when to implement Interactive Sign-in,
+//                                        // and [Performing Interactive Sign-in](http://developers.google.com/games/services/android/signin#performing_interactive_sign-in) for details on how to implement
+//                                        // Interactive Sign-in.
+//                                    }
+//                                }
+//                            });
+//        }
+//    }
 
     private void signOut() {
         final GoogleSignInClient signInClient = GoogleSignIn.getClient(this,

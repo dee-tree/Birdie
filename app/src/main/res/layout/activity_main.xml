@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient"
-    android:clickable="true"
     tools:context="com.codemitry.birdie.MainActivity">
 
     <ImageButton

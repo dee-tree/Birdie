@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -27,7 +26,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.GamesClient;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
@@ -49,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
     TextView head;
     MediaPlayer logoSound;
     GoogleSignInClient googleSignInClient;
-    //GamesClient gamesClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
         Locale.setDefault(myLocale);
         android.content.res.Configuration config = new android.content.res.Configuration();
         config.locale = myLocale;
-//        getApplicationContext().createConfigurationContext(config);
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         updateTexts();
     }
@@ -202,7 +198,6 @@ public class MainActivity extends AppCompatActivity {
             showAchievements();
         } else {
             signIn(RC_SIGN_IN_SHOW_ACHIEVEMENTS);
-            //Toast.makeText(this, "You did not sign in to your google account", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -218,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            showSignIn();
+            //showSignIn();
             // signed
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
@@ -257,40 +252,40 @@ public class MainActivity extends AppCompatActivity {
         return GoogleSignIn.getLastSignedInAccount(this) != null;
     }
 
-    private void signInSilently() {
-        GoogleSignInOptions signInOptions = GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN;
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-
-        if (GoogleSignIn.hasPermissions(account, signInOptions.getScopeArray())) {
-            // Already signed in.
-            // The signed in account is stored in the 'account' variable.
-            GoogleSignInAccount signedInAccount = account;
-        } else {
-            // Haven't been signed-in before. Try the silent sign-in first.
-            final GoogleSignInClient signInClient = GoogleSignIn.getClient(this, signInOptions);
-            signInClient
-                    .silentSignIn()
-                    .addOnCompleteListener(
-                            this,
-                            new OnCompleteListener<GoogleSignInAccount>() {
-                                @Override
-                                public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
-                                    if (task.isSuccessful()) {
-                                        showSignIn();
-                                        Log.d("Google", "Successfull sign-in to google games account");
-                                        // The signed in account is stored in the task's result.
-                                        GoogleSignInAccount signedInAccount = task.getResult();
-                                    } else {
-                                        Log.d("Google", "Not successfull sign-in to google games account");
-                                        // Player will need to sign-in explicitly using via UI.
-                                        // See [sign-in best practices](http://developers.google.com/games/services/checklist) for guidance on how and when to implement Interactive Sign-in,
-                                        // and [Performing Interactive Sign-in](http://developers.google.com/games/services/android/signin#performing_interactive_sign-in) for details on how to implement
-                                        // Interactive Sign-in.
-                                    }
-                                }
-                            });
-        }
-    }
+//    private void signInSilently() {
+//        GoogleSignInOptions signInOptions = GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN;
+//        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+//
+//        if (GoogleSignIn.hasPermissions(account, signInOptions.getScopeArray())) {
+//            // Already signed in.
+//            // The signed in account is stored in the 'account' variable.
+////            GoogleSignInAccount signedInAccount = account;
+//        } else {
+//            // Haven't been signed-in before. Try the silent sign-in first.
+//            final GoogleSignInClient signInClient = GoogleSignIn.getClient(this, signInOptions);
+//            signInClient
+//                    .silentSignIn()
+//                    .addOnCompleteListener(
+//                            this,
+//                            new OnCompleteListener<GoogleSignInAccount>() {
+//                                @Override
+//                                public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
+//                                    if (task.isSuccessful()) {
+//                                        showSignIn();
+//                                        Log.d("Google", "Successfull sign-in to google games account");
+//                                        // The signed in account is stored in the task's result.
+//                                        GoogleSignInAccount signedInAccount = task.getResult();
+//                                    } else {
+//                                        Log.d("Google", "Not successfull sign-in to google games account");
+//                                        // Player will need to sign-in explicitly using via UI.
+//                                        // See [sign-in best practices](http://developers.google.com/games/services/checklist) for guidance on how and when to implement Interactive Sign-in,
+//                                        // and [Performing Interactive Sign-in](http://developers.google.com/games/services/android/signin#performing_interactive_sign-in) for details on how to implement
+//                                        // Interactive Sign-in.
+//                                    }
+//                                }
+//                            });
+//        }
+//    }
 
     private void signIn(int code) {
         startSignInIntent(code);
@@ -306,5 +301,6 @@ public class MainActivity extends AppCompatActivity {
         gamesClient.setViewForPopups(findViewById(android.R.id.content));
         gamesClient.setGravityForPopups(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
     }
+
 
 }

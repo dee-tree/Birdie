@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="utf-8"?><!--
+Google Play game services IDs.
+Save this file as res/values/games-ids.xml in your project.
+-->
 <resources>
     <!-- app_id -->
     <string name="app_id" translatable="false">716570647073</string>
@@ -17,12 +19,8 @@
     <string name="achievement_youre_birdie_king" translatable="false">CgkIobTBt-0UEAIQBg</string>
     <!-- achievement Try again and again! -->
     <string name="achievement_try_again_and_again" translatable="false">CgkIobTBt-0UEAIQCg</string>
-    <!-- achievement Test -->
-    <string name="achievement_test" translatable="false">CgkIobTBt-0UEAIQCw</string>
-    <!-- achievement test3 -->
-    <string name="achievement_test3" translatable="false">CgkIobTBt-0UEAIQDQ</string>
-
-    <string name="achievement_test2" translatable="false">CgkIobTBt-0UEAIQDg</string>
+    <!-- achievement Test achievement -->
+    <string name="achievement_test_achievement" translatable="false">CgkIobTBt-0UEAIQEA</string>
     <!-- leaderboard Birdie rating by score -->
     <string name="leaderboard_birdie_rating_by_score" translatable="false">CgkIobTBt-0UEAIQAA</string>
     <!-- event New top score -->

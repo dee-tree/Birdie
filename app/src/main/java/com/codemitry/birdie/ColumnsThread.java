@@ -35,6 +35,7 @@ public class ColumnsThread extends Thread {
             // тут обновление колонн
             columns.updateColumns();
             game.gameSurfaceView.moveGrass();
+            game.gameSurfaceView.moveGround();
             // ---
 //            frames++;
 //            ++fps;

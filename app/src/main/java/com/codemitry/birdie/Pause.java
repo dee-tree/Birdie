@@ -19,10 +19,6 @@ public class Pause extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //this.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        //setFinishOnTouchOutside(false);
-        //supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-
         setContentView(R.layout.activity_pause);
         TextView pause = findViewById(R.id.pause);
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.scale);
