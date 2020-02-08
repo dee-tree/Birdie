@@ -16,9 +16,11 @@ class Bird {
     private int groundY;
     private Matrix matrixDown;
     private int wingsDown;
-    private int speed = 4;
     private GameSurfaceView surface;
-    private int up_coeff, down_coeff;
+    private int up_coeff;
+    private double acceleration = 0.004;
+    private double speed = 0;
+    private double dy;
 
     Bird(Resources resources, int[] id, GameSurfaceView surface) {
         this.surface = surface;
@@ -32,8 +34,8 @@ class Bird {
         }
         x = (int) (Config.screen_width * Config.SPAWN_X) - width;
         y = (int) (Config.screen_height * Config.SPAWN_Y) - height;
+        dy = speed;
         up_coeff = Math.round(Config.screen_height * Config.BIRD_UP);
-        down_coeff = Math.round(Config.screen_height * Config.BIRD_DOWN);
 //        x = (int) (Config.SPAWN_X * Config.scale);
 //        y = (int) (Config.SPAWN_Y * Config.scale);
 
@@ -54,9 +56,12 @@ class Bird {
         return collised;
     }
 
-    void update() {
+    void update(int dt) {
         if (!surface.game.isDeath()) {
-            y += speed;
+            speed += dt * acceleration;
+            dy = dt * speed;
+            y += dy;
+            System.out.println("dt: " + dt + "  speed: " + speed + "  dy:" + dy);
             if (y < 0) {
                 y = 0;
             } else if (y + height >= groundY) {
@@ -68,11 +73,11 @@ class Bird {
 //                surface.onLose();
                 return;
             }
-            if (speed < 80) {
-//                speed += 3;
-//                speed += down_coeff;
-                speed += Math.sqrt(down_coeff);
-            }
+//            if (speed < 80) {
+////                speed += 3;
+////                speed += down_coeff;
+//                speed += Math.sqrt(down_coeff);
+//            }
 
 //            y += speed;
 
@@ -101,7 +106,7 @@ class Bird {
 
     void up() {
 //        speed = -Config.BIRD_UP;
-        speed = -up_coeff;
+        speed = -1.1;//up_coeff;
     }
 
     int getX() {

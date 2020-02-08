@@ -21,8 +21,8 @@ final class Config {
     static final float COLUMN_HEIGHT_SCATTER = 0.365f;
     static final float GROUND_HEIGHT = 0.1045f;
     static final float GRASS_HEIGHT = 0.055f;
-    static final float BIRD_UP = 0.017f;
-    static final float BIRD_DOWN = 0.0048f;
+    static final float BIRD_UP = 0.00025f;
+    //    static final float BIRD_DOWN = 0.0048f;
     static final float GROUND_Y = 0.83f;
 
 
@@ -53,7 +53,7 @@ final class Config {
     CONTINUE_PLAY = 1,     // Code of command to resume the game
             FINISH_PLAY = 2,      // Code of command to finish the game
             RESTART = 3,         // Code of command to restart the game
-            TIMES_WINGS_DOWN = 6,
+            TIMES_WINGS_DOWN = 7,
             FIRST_OPEN = 0,
             NOT_FIRST_OPEN = 1,
 

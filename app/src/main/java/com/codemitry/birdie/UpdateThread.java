@@ -23,44 +23,31 @@ public class UpdateThread extends Thread {
 //        int fps = 0;
 //        int frames = 0, skipped = 0;
 //        int skipped = 0;
-//        long time = 0;
+        int delta;
+        long ctime, time = System.currentTimeMillis(), counter = 0;
 
         while (runned) {
-            long beginTime = System.currentTimeMillis();
-            int framesSkipped = 0;
+            ctime = System.currentTimeMillis();
+//            int framesSkipped = 0;
+
+            delta = (int) (ctime - time);
             // тут обновление окна
-            surface.update();
-            // ---
-//            frames++;
-//            ++fps;
-//            if (time >= 1000) {
-//              Log.d("UpdateFPS", String.valueOf(fps));  // FPS log
-//              Log.d("UpdateThread", "Frames summary: " + frames + " ; skipped: " + skipped);
-//              fps = 0;
-
-//              Log.d("UpdateThread", "Frames skipped: " + skipped);
-//              time = 0;
-//              skipped = 0;
+            surface.update(delta);
+//            try {
+//                Thread.sleep(100);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
 //            }
-
-            long elapsedTime = System.currentTimeMillis() - beginTime;
-            int sleepTime = (int) (Config.FRAME_PERIOD - elapsedTime);
-            if (sleepTime > 0) {
+            // ---
+            if (delta < 10) {
                 try {
-                    //Log.d("Thread", "Sleep time: " + sleepTime);
-                    Thread.sleep(sleepTime);
+                    Thread.sleep(10);
                 } catch (InterruptedException e) {
-                    System.err.println(e.getMessage());
+                    e.printStackTrace();
                 }
             }
-//            while (sleepTime < 0 && framesSkipped < Config.MAX_FRAME_SKIPS) {
-//                //canvas.drawColor(Color.RED);
-//                surface.update();
-//                sleepTime += Config.FRAME_PERIOD;
-//                ++framesSkipped;
-////                ++skipped;
-//            }
-//            time += System.currentTimeMillis() - beginTime;
+
+            time = ctime;
         }
         Log.d("Thread", "UpdateThread finished");
     }

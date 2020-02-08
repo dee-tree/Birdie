@@ -204,9 +204,9 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         }
     }
 
-    public void update() {
+    public void update(int dt) {
         if (!game.isDeath() && game.isRun()) {
-            bird.update();
+            bird.update(dt);
             if (game.isDeath()) {
                 Config.saveGroundDeath(getContext(), Config.loadGroundDeaths(getContext()) + 1);
                 onLose();
