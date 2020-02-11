@@ -34,7 +34,12 @@ public class DrawThread extends Thread {
 //
 //        long time = 0;
 //        int skipped = 0;
+        int delta;
+        long ctime, time = System.currentTimeMillis(), counter = 0;
+
         while (runned) {
+            ctime = System.currentTimeMillis();
+            delta = (int) (ctime - time);
             canvas = null;
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -42,8 +47,8 @@ public class DrawThread extends Thread {
                 } else canvas = surfaceHolder.lockCanvas();
 //                } else canvas = surfaceHolder.lockHardwareCanvas();
                 synchronized (surfaceHolder) {
-                    long beginTime = System.currentTimeMillis();
-                    int framesSkipped = 0;
+//                    long beginTime = System.currentTimeMillis();
+//                    int framesSkipped = 0;
                     // тут отрисовка окна
                     gameSurfaceView.draw(canvas);
                     // ---
@@ -59,21 +64,21 @@ public class DrawThread extends Thread {
 //                        skipped = 0;
 //                    }
 
-                    long elapsedTime = System.currentTimeMillis() - beginTime;
-                    int sleepTime = (int) (FRAME_PERIOD - elapsedTime);
-                    if (sleepTime > 0) {
-                        try {
-                            //Log.d("Thread", "Sleep time: " + sleepTime);
-                            Thread.sleep(sleepTime);
-                        } catch (InterruptedException e) {
-                        }
-                    }
-                    while (sleepTime < 0 && framesSkipped < Config.MAX_FRAME_SKIPS) {
-                        //gameSurfaceView.draw(canvas);
-                        sleepTime += FRAME_PERIOD;
-                        ++framesSkipped;
-//                        ++skipped;
-                    }
+//                    long elapsedTime = System.currentTimeMillis() - beginTime;
+//                    int sleepTime = (int) (FRAME_PERIOD - elapsedTime);
+//                    if (delta < 1000/50) {
+//                        try {
+//                            //Log.d("Thread", "Sleep time: " + sleepTime);
+//                            Thread.sleep(delta);
+//                        } catch (InterruptedException e) {
+//                        }
+//                    }
+//                    while (sleepTime < 0 && framesSkipped < Config.MAX_FRAME_SKIPS) {
+//                        //gameSurfaceView.draw(canvas);
+//                        sleepTime += FRAME_PERIOD;
+//                        ++framesSkipped;
+////                        ++skipped;
+//                    }
 //                    time += System.currentTimeMillis() - beginTime;
                 }
             } finally {

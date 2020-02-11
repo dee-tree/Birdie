@@ -61,7 +61,7 @@ class Bird {
             speed += dt * acceleration;
             dy = dt * speed;
             y += dy;
-            System.out.println("dt: " + dt + "  speed: " + speed + "  dy:" + dy);
+//            System.out.println("dt: " + dt + "  speed: " + speed + "  dy:" + dy);
             if (y < 0) {
                 y = 0;
             } else if (y + height >= groundY) {

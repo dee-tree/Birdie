@@ -5,6 +5,8 @@ import android.util.Log;
 public class UpdateThread extends Thread {
     private boolean runned = false;
     private GameSurfaceView surface;
+    private int FPS = 50;
+    private int FRAME_PERIOD = 1000 / 50;
 
     UpdateThread(GameSurfaceView gameSurfaceView) {
         super("UpdateThread");
@@ -39,9 +41,9 @@ public class UpdateThread extends Thread {
 //                e.printStackTrace();
 //            }
             // ---
-            if (delta < 10) {
+            if (delta < FRAME_PERIOD) {
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(delta);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

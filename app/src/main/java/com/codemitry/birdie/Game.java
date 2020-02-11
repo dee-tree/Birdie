@@ -18,11 +18,11 @@ public class Game extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState == null) {
-            setContentView(R.layout.activity_game);
+        //if (savedInstanceState == null) {
+        //setContentView(R.layout.activity_game);
             gameSurfaceView = new GameSurfaceView(this);
             setContentView(gameSurfaceView);
-        }
+        //}
     }
 
 

@@ -122,24 +122,17 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
         boolean retry = true;
 
-//        System.out.println("Draw: " + drawThread.isAlive());
-//        System.out.println("Column: " + columnsThread.isAlive());
-//        System.out.println("Update: " + updateThread.isAlive());
-
         setThreadRun(false);
 
-//        drawThread.setRunned(false);
-//        columnsThread.setRunned(false);
-//        updateThread.setRunned(false);
         while (retry) {
             try {
                 //Thread.sleep(10);
                 if (columnsThread.isAlive())
-                    columnsThread.join(1);
+                    columnsThread.join();
                 if (updateThread.isAlive())
-                    updateThread.join(1);
+                    updateThread.join();
                 if (drawThread.isAlive())
-                    drawThread.join(3);
+                    drawThread.join();
 
                 retry = false;
 //                Thread.sleep(10);
