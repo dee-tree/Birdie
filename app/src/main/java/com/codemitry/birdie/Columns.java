@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 
+@Deprecated
 class Columns {
     private Context context;
     private GameSurfaceView surface;
@@ -36,7 +37,7 @@ class Columns {
     }
 
     void updateColumns() {
-        if (!surface.game.isDeath() && surface.game.isRun()) {
+        if (!surface.game.isLosed() && surface.game.isRun()) {
             for (int i = 0; i < column.length; i++) {
                 column[i].update();
                 if (column[i].isOut())
@@ -56,7 +57,7 @@ class Columns {
         return column;
     }
 
-
+    @Deprecated
     class Column {
 
 
@@ -66,7 +67,7 @@ class Columns {
         private int pikaX, pikaTopY, pikaDownY, pikaHeight, pikaWidth;
         private int hole;
         private int birdX, birdWidth = (int) (Config.BIRD_WIDTH * Config.screen_width);
-        private int speed = Config.COLUMN_SPEED;
+        private double speed; //= Config.COLUMN_SPEED;
         private int bottom;
         private boolean isScored;
         private int columnHeightDefault;
@@ -187,12 +188,13 @@ class Columns {
 
             if (!isScored && (birdX + birdWidth / 2 >= columnX + columnWidth)) {
                 isScored = true;
-                surface.addScore();
+
+                //surface.addScore();
 
 
-                if (surface.scoreSound.isPlaying())
-                    surface.scoreSound.seekTo(0);
-                surface.scoreSound.start();
+//                if (surface.scoreSound.isPlaying())
+//                    surface.scoreSound.seekTo(0);
+//                surface.scoreSound.start();
             }
             columnX -= speed;
             pikaX -= speed;

@@ -1,55 +1,60 @@
 package com.codemitry.birdie;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 
+import java.util.ArrayList;
+
 class Bird {
-    private Bitmap[] pictures;
+    private Game game;
+    private Bitmap[] sprites;
+    private int[] id = {R.drawable.bird1_fly, R.drawable.bird1_fall};
     private int x, y;
     private int width;
     private int height;
-    private Rect mask;
-    private int groundY;
-    private Matrix matrixDown;
+    Rect mask;
+    private int ground;
+    private Matrix rotate, position;
     private int wingsDown;
-    private GameSurfaceView surface;
     private int up_coeff;
-    private double acceleration = 0.004;
+    private double acceleration;
     private double speed = 0;
     private double dy;
 
-    Bird(Resources resources, int[] id, GameSurfaceView surface) {
-        this.surface = surface;
-        pictures = new Bitmap[id.length];
-        groundY = (int) (Config.screen_height - Config.GROUND_HEIGHT * Config.screen_height);
+    Bird(Game game, int ground) {
+        this.game = game;
+        this.ground = ground;
+        sprites = new Bitmap[id.length];
         width = (int) (Config.BIRD_WIDTH * Config.screen_width);
         height = (int) (Config.BIRD_HEIGHT * Config.screen_height);
         for (int i = 0; i < id.length; i++) {
-            pictures[i] = BitmapFactory.decodeResource(resources, id[i]);
-            pictures[i] = Bitmap.createScaledBitmap(pictures[i], width, height, true);
+            sprites[i] = BitmapFactory.decodeResource(game.getResources(), id[i]);
+            sprites[i] = Bitmap.createScaledBitmap(sprites[i], width, height, true);
         }
         x = (int) (Config.screen_width * Config.SPAWN_X) - width;
         y = (int) (Config.screen_height * Config.SPAWN_Y) - height;
         dy = speed;
-        up_coeff = Math.round(Config.screen_height * Config.BIRD_UP);
-//        x = (int) (Config.SPAWN_X * Config.scale);
-//        y = (int) (Config.SPAWN_Y * Config.scale);
+//        acceleration = 0.0045;    SAVE
+        acceleration = 0.00000234375 * game.height;
+//        up_coeff = Math.round(Config.screen_height * Config.BIRD_UP);
 
         mask = new Rect();
 
-        matrixDown = new Matrix();
-        matrixDown.postRotate(30);
+        rotate = new Matrix();
+
+        position = new Matrix();
+        position.postTranslate(x, y);
     }
 
 
-    boolean collised(Columns.Column[] column) {
+    boolean collised(ArrayList<Column> columns) {
         boolean collised = false;
-        for (int i = 0; i < column.length && !collised; i++) {
-            if (column[i].isCollised(mask)) {
+        for (Column column : columns) {
+            // for (int i = 0; i < column.length && !collised; i++) {
+            if (column.isCollised(mask)) {
                 collised = true;
             }
         }
@@ -57,47 +62,40 @@ class Bird {
     }
 
     void update(int dt) {
-        if (!surface.game.isDeath()) {
-            speed += dt * acceleration;
-            dy = dt * speed;
-            y += dy;
-//            System.out.println("dt: " + dt + "  speed: " + speed + "  dy:" + dy);
-            if (y < 0) {
-                y = 0;
-            } else if (y + height >= groundY) {
-                pictures[0] = Bitmap.createBitmap(pictures[0], 0, 0, pictures[0].getWidth(), pictures[0].getHeight(), matrixDown, true);
-                y = groundY - height;
-                surface.game.setDeath(true);
-//                Config.saveGroundDeath(surface.getContext(), Config.loadGroundDeaths(surface.getContext()) + 1);
-//                surface.game.setDeath(true);
-//                surface.onLose();
-                return;
-            }
-//            if (speed < 80) {
-////                speed += 3;
-////                speed += down_coeff;
-//                speed += Math.sqrt(down_coeff);
-//            }
+        speed += dt * acceleration;
+        dy = Math.round(dt * speed);
+        y += dy;
+        rotate.setTranslate(x, y);
+        position.set(rotate);
 
-//            y += speed;
+        if (y < 0) {
+            y = 0;
+        } else if (y + height / 2 >= ground) {
+            y = ground - height / 2;
 
-            mask.left = x + 25;
-            mask.top = y + 35;
-            mask.right = x + width - 12;
-            mask.bottom = y + height - 30;
 
-//            mask.set(x + 7, y + 20, x + width - 10,
-//                    y + height- 15);
+            rotate.reset();
+            rotate.setRotate(30, width / 2f, height / 2f);
+            rotate.postTranslate(x, y);
+            position.set(rotate);
+            Config.saveGroundDeath(game, Config.loadGroundDeaths(game) + 1);
+            game.onLose();
+
+            return;
         }
+
+        mask.left = x + 25;
+        mask.top = y + 35;
+        mask.right = x + width - 12;
+        mask.bottom = y + height - 30;
+
     }
 
     void draw(Canvas canvas) {
         if (wingsDown-- > 0)
-            canvas.drawBitmap(pictures[1], x, y, null);
+            canvas.drawBitmap(sprites[1], position, null);
         else
-            canvas.drawBitmap(pictures[0], x, y, null);
-
-//        canvas.drawRect(mask, new Paint());
+            canvas.drawBitmap(sprites[0], position, null);
     }
 
     void resetWings() {
@@ -105,8 +103,8 @@ class Bird {
     }
 
     void up() {
-//        speed = -Config.BIRD_UP;
-        speed = -1.1;//up_coeff;
+//        speed = - 1.25;    SAVE
+        speed = -0.000651 * game.height;
     }
 
     int getX() {

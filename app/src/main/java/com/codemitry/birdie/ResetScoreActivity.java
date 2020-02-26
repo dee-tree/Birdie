@@ -66,7 +66,7 @@ public class ResetScoreActivity extends AppCompatActivity {
     }
 
     public void onYesClick(View v) {
-        Config.saveBestScore(this, String.valueOf(0));
+        Config.saveBestScore(this, 0);
         Config.saveDeath(this, 0);
         Config.saveGroundDeath(this, 0);
         Config.saveColumnDeath(this, 0);

@@ -2,15 +2,16 @@ package com.codemitry.birdie;
 
 import android.util.Log;
 
+@Deprecated
 public class UpdateThread extends Thread {
     private boolean runned = false;
-    private GameSurfaceView surface;
+    private Game game;
     private int FPS = 50;
-    private int FRAME_PERIOD = 1000 / 50;
+    private int FRAME_PERIOD = 1000 / FPS;
 
-    UpdateThread(GameSurfaceView gameSurfaceView) {
+    UpdateThread(Game game) {
         super("UpdateThread");
-        surface = gameSurfaceView;
+        this.game = game;
         Log.d("Thread", "UpdateThread created");
     }
 
@@ -22,34 +23,35 @@ public class UpdateThread extends Thread {
     @Override
     public void run() {
         Log.d("Thread", "UpdateThread started");
-//        int fps = 0;
-//        int frames = 0, skipped = 0;
-//        int skipped = 0;
+
+
         int delta;
         long ctime, time = System.currentTimeMillis(), counter = 0;
 
         while (runned) {
             ctime = System.currentTimeMillis();
-//            int framesSkipped = 0;
-
             delta = (int) (ctime - time);
             // тут обновление окна
-            surface.update(delta);
-//            try {
-//                Thread.sleep(100);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+//            game.update(delta);
+
+
             // ---
-            if (delta < FRAME_PERIOD) {
-                try {
-                    Thread.sleep(delta);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+//            if (delta < FRAME_PERIOD) {
+//                try {
+//                    Thread.sleep(FRAME_PERIOD - delta);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
 
             time = ctime;
+//            if (delta < FRAME_PERIOD) {
+//                try {
+//                    Thread.sleep(FRAME_PERIOD);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
         }
         Log.d("Thread", "UpdateThread finished");
     }

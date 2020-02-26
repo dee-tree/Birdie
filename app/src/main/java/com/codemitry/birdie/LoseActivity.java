@@ -37,7 +37,7 @@ LeaderboardsClient leaderboardsClient;
     protected void onResume() {
 
         if (score > bestScore) {
-            Config.saveBestScore(this, String.valueOf(score));
+            Config.saveBestScore(this, score);
             bestScore = score;
 
             TextView loseText = findViewById(R.id.loseText);
