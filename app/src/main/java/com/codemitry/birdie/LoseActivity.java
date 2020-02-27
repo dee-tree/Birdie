@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -24,6 +23,7 @@ import com.google.android.gms.games.LeaderboardsClient;
 import com.google.android.gms.games.PlayersClient;
 
 
+@Deprecated
 public class LoseActivity extends AppCompatActivity {
     int result, score, bestScore;
     AchievementsClient achievementsClient;
@@ -86,46 +86,6 @@ LeaderboardsClient leaderboardsClient;
         Button yes = findViewById(R.id.loseYes);
         Button no = findViewById(R.id.loseNo);
 
-        int handMode = Config.loadHandMode(this);
-        if (handMode == Config.LEFT_HANDED_MODE) {
-            LayoutParams params = (LayoutParams) yes.getLayoutParams();
-            params.leftMargin = 5;
-            params.startToStart = LayoutParams.PARENT_ID;
-            params.rightMargin = 10;
-            params.endToStart = no.getId();
-            params.startToEnd = LayoutParams.UNSET;
-            params.endToEnd = LayoutParams.UNSET;
-            yes.setLayoutParams(params);
-
-            params = (LayoutParams) no.getLayoutParams();
-            params.leftMargin = 10;
-            params.startToEnd = yes.getId();
-            params.startToStart = LayoutParams.UNSET;
-            params.endToStart = LayoutParams.UNSET;
-            params.rightMargin = 5;
-            params.endToEnd = LayoutParams.PARENT_ID;
-            no.setLayoutParams(params);
-        } else {
-            LayoutParams params = (LayoutParams) yes.getLayoutParams();
-            params.leftMargin = 10;
-            params.startToEnd = no.getId();
-            params.rightMargin = 5;
-            params.endToEnd = LayoutParams.PARENT_ID;
-            params.startToStart = LayoutParams.UNSET;
-            params.endToStart = LayoutParams.UNSET;
-
-            yes.setLayoutParams(params);
-
-            params = (LayoutParams) no.getLayoutParams();
-            params.leftMargin = 5;
-            params.startToStart = LayoutParams.PARENT_ID;
-            params.rightMargin = 10;
-            params.endToStart = yes.getId();
-            params.startToEnd = LayoutParams.UNSET;
-            params.endToEnd = LayoutParams.UNSET;
-            no.setLayoutParams(params);
-        }
-
         Animation animYes = AnimationUtils.loadAnimation(this, R.anim.button_lose_dialog_yes);
         Animation animNo = AnimationUtils.loadAnimation(this, R.anim.button_lose_dialog_no);
         yes.setAnimation(animYes);
@@ -153,8 +113,6 @@ LeaderboardsClient leaderboardsClient;
         this.score = getIntent().getIntExtra("score", 0);
         this.bestScore = Config.loadBestScore(this);
 
-
-        setContentView(R.layout.activity_lose);
 
         TextView yourScoreText = findViewById(R.id.yourScore),
                 bestScoreText = findViewById(R.id.bestScore);

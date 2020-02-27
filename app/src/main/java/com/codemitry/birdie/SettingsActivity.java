@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -19,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -34,7 +36,6 @@ import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
     Locale myLocale;
-    Button changeHandButton;
     Button vibrationButton;
     Button back;
     Button signInButton;
@@ -45,17 +46,18 @@ public class SettingsActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 4005;
 
+    int secretMode = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         setContentView(R.layout.activity_settings);
 
         TextView optionsText = findViewById(R.id.settingsText);
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.settings_title_scale);
 
         optionsText.startAnimation(anim);
-        changeHandButton = findViewById(R.id.hand_mode_button);
         vibrationButton = findViewById(R.id.vibration_switch_button);
         back = findViewById(R.id.back);
         params = (LayoutParams) back.getLayoutParams();
@@ -65,8 +67,6 @@ public class SettingsActivity extends AppCompatActivity {
         buttonsLayout = findViewById(R.id.settingsButtonLayout);
 
         updateVibrationText(Config.loadVibration(this));
-        updateHandModeText(Config.loadHandMode(this));
-        updateBackPosition(Config.loadHandMode(this));
 
         GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN)
                 .requestEmail()
@@ -77,42 +77,35 @@ public class SettingsActivity extends AppCompatActivity {
         signInButton = findViewById(R.id.sign_in);
 
         updateUI();
+
+
+        settingsLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (secretMode < 20)
+                    secretMode++;
+                else {
+                    Toast.makeText(SettingsActivity.this, "Enough!", Toast.LENGTH_SHORT).show();
+                    Config.saveSecretModeEnabled(SettingsActivity.this, true);
+                }
+                return false;
+            }
+        });
+
     }
 
-    public void onChangeHandModeClick(View v) {
-        int mode = Config.loadHandMode(this);
-        if (mode == Config.LEFT_HANDED_MODE) {
-            mode = Config.RIGHT_HANDED_MODE;
-        } else {
-            mode = Config.LEFT_HANDED_MODE;
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
-        updateHandModeText(mode);
-        updateBackPosition(mode);
-        Config.saveHandMode(this, mode);
-    }
-
-    private void updateBackPosition(int mode) {
-        if (mode == Config.RIGHT_HANDED_MODE) {
-            params.leftMargin = LayoutParams.UNSET;
-            params.rightMargin = 35;
-            params.endToEnd = LayoutParams.PARENT_ID;
-            params.startToStart = LayoutParams.UNSET;
-            back.setLayoutParams(params);
-        } else {
-            params.leftMargin = 35;
-            params.startToStart = LayoutParams.PARENT_ID;
-            params.rightMargin = LayoutParams.UNSET;
-            params.endToEnd = LayoutParams.UNSET;
-            back.setLayoutParams(params);
-        }
-
-    }
-
-    private void updateHandModeText(int mode) {
-        if (mode == Config.LEFT_HANDED_MODE)
-            changeHandButton.setText(getResources().getString(R.string.enable_right_handed_mode));
-        else
-            changeHandButton.setText(getResources().getString(R.string.enable_left_handed_mode));
     }
 
     public void onBackClick(View v) {
@@ -178,17 +171,21 @@ public class SettingsActivity extends AppCompatActivity {
         Locale.setDefault(myLocale);
         android.content.res.Configuration config = new android.content.res.Configuration();
         config.locale = myLocale;
-        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        getBaseContext().getResources().updateConfiguration(config, null);
+        getResources().updateConfiguration(config, null);
         updateTexts();
     }
 
     private void updateTexts() {
         ((TextView) findViewById(R.id.settingsText)).setText(R.string.settings);
         ((TextView) findViewById(R.id.reset_stat_button)).setText(R.string.reset);
+        ((TextView) findViewById(R.id.bestScoreReset_text)).setText(R.string.best_score);
+        ((TextView) findViewById(R.id.sureToReset_text)).setText(R.string.sure_to_reset);
         ((Button) findViewById(R.id.language_button)).setText(R.string.menu_language);
         ((Button) findViewById(R.id.back)).setText(R.string.back);
+        ((Button) findViewById(R.id.yesReset_button)).setText(R.string.yes);
+        ((Button) findViewById(R.id.noReset_button)).setText(R.string.no);
         updateUI();
-        updateHandModeText(Config.loadHandMode(this));
         updateVibrationText(Config.loadVibration(this));
     }
 
@@ -301,12 +298,14 @@ public class SettingsActivity extends AppCompatActivity {
             signInButton.setText(getString(R.string.connected));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 signInButton.setBackground(getDrawable(R.drawable.google_button_signed));
-            }
+            } else
+                signInButton.setBackground(ContextCompat.getDrawable(this, R.drawable.google_button_signed));
         } else {
             signInButton.setText(getString(R.string.connect));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 signInButton.setBackground(getDrawable(R.drawable.google_button));
-            }
+            } else
+                signInButton.setBackground(ContextCompat.getDrawable(this, R.drawable.google_button));
         }
     }
 

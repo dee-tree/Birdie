@@ -66,7 +66,8 @@ public class Column {
         alive = true;
 
         dx = this.speed = speed;
-        acceleration = Config.COLUMN_ACCELERATION;
+        acceleration = 0.0000000042 * game.width;
+//        acceleration = Config.COLUMN_ACCELERATION;
 
         generateAltitude();
     }

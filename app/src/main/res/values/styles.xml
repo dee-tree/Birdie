@@ -6,18 +6,21 @@
         <item name="android:windowFullscreen">true</item>
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="toolbarNavigationButtonStyle">@null</item>
+        <item name="android:immersive">true</item>
+        <item name="android:isSticky">true</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="Translucent" parent="Theme.AppCompat">
-        <item name="windowNoTitle">true</item>
-        <item name="android:screenOrientation">portrait</item>
-        <item name="android:windowFullscreen">true</item>
-        <!---<item name="android:windowBackground">#D5000000</item> !-->
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-    </style>
+    <!--    <style name="Translucent" parent="Theme.AppCompat">-->
+    <!--        <item name="windowNoTitle">true</item>-->
+    <!--        <item name="android:screenOrientation">portrait</item>-->
+    <!--        <item name="android:windowFullscreen">true</item>-->
+    <!--        &lt;!&ndash;-<item name="android:windowBackground">#D5000000</item> !&ndash;&gt;-->
+    <!--        <item name="android:windowBackground">@android:color/transparent</item>-->
+    <!--        <item name="android:colorBackgroundCacheHint">@null</item>-->
+    <!--        <item name="android:windowIsTranslucent">true</item>-->
+    <!--    </style>-->
 
 </resources>

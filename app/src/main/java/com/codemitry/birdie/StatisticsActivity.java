@@ -17,24 +17,11 @@ public class StatisticsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         setContentView(R.layout.activity_statistics);
 
         back = findViewById(R.id.stat_back);
         params = (LayoutParams) back.getLayoutParams();
-        int mode = Config.loadHandMode(this);
-        if (mode == Config.LEFT_HANDED_MODE) {
-            params.leftMargin = 35;
-            params.startToStart = LayoutParams.PARENT_ID;
-            params.rightMargin = LayoutParams.UNSET;
-            params.endToEnd = LayoutParams.UNSET;
-            back.setLayoutParams(params);
-        } else {
-            params.leftMargin = LayoutParams.UNSET;
-            params.rightMargin = 35;
-            params.endToEnd = LayoutParams.PARENT_ID;
-            params.startToStart = LayoutParams.UNSET;
-            back.setLayoutParams(params);
-        }
 
         record = findViewById(R.id.stat_record);
         record.append(" " + Config.loadBestScore(this));
@@ -51,6 +38,20 @@ public class StatisticsActivity extends AppCompatActivity {
         totalScore = findViewById(R.id.stat_total_score);
         totalScore.append(" " + Config.loadTotalScore(this));
 
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
     }
 
     public void onBackClick(View v) {

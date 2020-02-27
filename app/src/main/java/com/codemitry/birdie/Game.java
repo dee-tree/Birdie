@@ -5,21 +5,24 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -39,6 +42,7 @@ public class Game extends AppCompatActivity {
     private ArrayList<Column> columns;
     private int columnsCount;
 
+    private ImageButton pauseButton;
     private TextView loseText;
     private TextView gameText;
     private TextView scoreText;
@@ -59,11 +63,18 @@ public class Game extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        height = displayMetrics.heightPixels;
-        width = displayMetrics.widthPixels;
+        Point point = new Point();
+        getWindowManager().getDefaultDisplay().getRealSize(point);
+
+        width = point.x;
+        height = point.y;
+
+//        DisplayMetrics displayMetrics = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+//        height = displayMetrics.heightPixels;
+//        width = displayMetrics.widthPixels;
 
         setContentView(R.layout.activity_game);
 
@@ -78,7 +89,7 @@ public class Game extends AppCompatActivity {
         columns = new ArrayList<>();
         columnsCount = (int) (width / (Config.COLUMN_WIDTH * width) / 2) + 2;
         for (int i = 0; i < columnsCount; i++) {
-            columns.add(new Column(this, width, height, bird.getX(), Config.COLUMN_SPEED));
+            columns.add(new Column(this, width, height, bird.getX(), 0.000138 * width));
             columns.get(i).setX(width * 5 / 6 + i * Config.COLUMN_DIST * columns.get(i).getWidth());
         }
 
@@ -87,6 +98,7 @@ public class Game extends AppCompatActivity {
 
 //        scoreSound = MediaPlayer.create(this, R.raw.scoresound);
 
+        pauseButton = findViewById(R.id.pauseButton);
         loseText = findViewById(R.id.loseText);
         gameText = findViewById(R.id.gameText);
         scoreText = findViewById(R.id.score);
@@ -108,15 +120,28 @@ public class Game extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
+    }
+
     public synchronized void draw(Canvas canvas) {
         if (canvas != null) {
             canvas.drawBitmap(background, 0, 0, null);
-            ground.draw(canvas);
 
             for (int i = columnsCount - 1; i >= 0; i--) {
                 columns.get(i).draw(canvas);
             }
-
+            ground.draw(canvas);
             bird.draw(canvas);
         }
     }
@@ -236,6 +261,7 @@ public class Game extends AppCompatActivity {
             @Override
             public void run() {
 
+                pauseButton.setVisibility(View.GONE);
                 ((TextView) loseLayout.getViewById(R.id.yourScore)).append("  " + score);
                 ((TextView) loseLayout.getViewById(R.id.bestScore)).append("  " + bestScore);
 
@@ -277,18 +303,32 @@ public class Game extends AppCompatActivity {
             }
         });
 
+        // Disabled secret mode:
+        Config.saveSecretModeEnabled(this, false);
+
     }
 
     void playScoreSound() {
         media.play(earnScore, 1, 1, 1, 0, 1);
     }
 
+    public void onPauseClick(View v) {
+        if (runned) {
+            pause();
+        } else
+            Toast.makeText(this, "Just relax", Toast.LENGTH_SHORT).show();
+    }
 
     public void pause() {
         if (!losed) {
             runned = false;
             paused = true;
             surface.setRunned(false);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                pauseButton.setImageDrawable(getDrawable(R.drawable.paused));
+            } else
+                pauseButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.paused));
             pauseLayoutShow();
         }
     }
@@ -382,6 +422,10 @@ public class Game extends AppCompatActivity {
     void start() {
         if (!runned) {
             runned = true;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                pauseButton.setImageDrawable(getDrawable(R.drawable.pause));
+            } else
+                pauseButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.pause));
             if (surface.runned())
                 surface.setRunned(false);
 

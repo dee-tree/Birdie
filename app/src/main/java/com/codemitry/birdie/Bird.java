@@ -23,6 +23,8 @@ class Bird {
     private double acceleration;
     private double speed = 0;
     private double dy;
+    private int angle;
+    private boolean secret;
 
     Bird(Game game, int ground) {
         this.game = game;
@@ -40,6 +42,9 @@ class Bird {
 //        acceleration = 0.0045;    SAVE
         acceleration = 0.00000234375 * game.height;
 //        up_coeff = Math.round(Config.screen_height * Config.BIRD_UP);
+        angle = 0;
+
+        secret = Config.isSecretModeEnabled(game);
 
         mask = new Rect();
 
@@ -61,18 +66,44 @@ class Bird {
         return collised;
     }
 
+    void rotate(int angle) {
+
+        rotate.reset();
+        rotate.setRotate(angle, width / 2f, height / 2f);
+        rotate.postTranslate(x, y);
+        position.set(rotate);
+    }
+
     void update(int dt) {
         speed += dt * acceleration;
         dy = Math.round(dt * speed);
         y += dy;
-        rotate.setTranslate(x, y);
-        position.set(rotate);
+
+        // Плящущая птица
+        if (secret) {
+            rotate.setTranslate(x, y);
+            position.set(rotate);
+            if (wingsDown > 0 && angle < 15)
+                rotate(angle -= 2);
+            else if (angle > -15)
+                rotate(++angle);
+        } else {
+// Обычный поворот птицы при полете
+            rotate.setTranslate(x, y);
+            position.set(rotate);
+            if (wingsDown > 0 && angle > -15)
+                angle -= 4;
+            else if (angle < 15)
+                angle += 1;
+            rotate(angle);
+
+        }
+
 
         if (y < 0) {
             y = 0;
         } else if (y + height / 2 >= ground) {
             y = ground - height / 2;
-
 
             rotate.reset();
             rotate.setRotate(30, width / 2f, height / 2f);
@@ -85,7 +116,7 @@ class Bird {
         }
 
         mask.left = x + width / 7;
-        mask.top = y + height / 6;
+        mask.top = y + height / 5;
         mask.right = x + width - width / 8;
         mask.bottom = y + height - height / 4;
 

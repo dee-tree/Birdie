@@ -84,21 +84,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/language_button" />
 
                 <Button
-                    android:id="@+id/hand_mode_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@drawable/menu_buttons_color"
-                    android:onClick="onChangeHandModeClick"
-                    android:text="@string/enable_left_handed_mode"
-                    android:textColor="@drawable/menu_text_color"
-                    android:textSize="22sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/language_button" />
-
-                <Button
                     android:id="@+id/reset_stat_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

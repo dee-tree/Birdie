@@ -39,8 +39,9 @@ public class Ground {
         yGrass = yGround - grass.getHeight();
 
         x = 0;
-        dx = speed = Config.COLUMN_SPEED;
-        acceleration = Config.COLUMN_ACCELERATION;
+        dx = speed = 0.000138 * width;
+//        acceleration = Config.COLUMN_ACCELERATION;
+        acceleration = 0.0000000042 * game.width;
     }
 
     void draw(Canvas canvas) {

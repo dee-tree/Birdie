@@ -52,6 +52,7 @@ final class Config {
             VIBRATION_PREF = "Vibration",
             TOTAL_SCORE_PREF = "Total score",
             IS_FIRST_OPEN = "FIRST_OPEN",
+            SECRET_MODE = "Secret dance mode",
             MONEY_PREF = "Money";
 
 
@@ -76,18 +77,6 @@ final class Config {
         SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(MONEY_PREF, score);
-        editor.apply();
-    }
-
-    static int loadHandMode(Context context) {
-        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
-        return prefs.getInt(HAND_MODE_PREF, RIGHT_HANDED_MODE);
-    }
-
-    static void saveHandMode(Context context, int mode) {
-        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(HAND_MODE_PREF, mode);
         editor.apply();
     }
 
@@ -160,6 +149,18 @@ final class Config {
         SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(IS_FIRST_OPEN, score);
+        editor.apply();
+    }
+
+    static boolean isSecretModeEnabled(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        return prefs.getBoolean(SECRET_MODE, false);
+    }
+
+    static void saveSecretModeEnabled(Context context, boolean mode) {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(SECRET_MODE, mode);
         editor.apply();
     }
 
