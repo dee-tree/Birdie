@@ -11,11 +11,13 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -37,8 +39,9 @@ public class SettingsActivity extends AppCompatActivity {
     Button back;
     Button signInButton;
     LayoutParams params;
+    ConstraintLayout resetStatLayout, settingsLayout;
+    LinearLayout buttonsLayout;
     GoogleSignInClient googleSignInClient;
-    GamesClient gamesClient;
 
     private static final int RC_SIGN_IN = 4005;
 
@@ -57,6 +60,9 @@ public class SettingsActivity extends AppCompatActivity {
         back = findViewById(R.id.back);
         params = (LayoutParams) back.getLayoutParams();
 
+        resetStatLayout = findViewById(R.id.resetStatLayout);
+        settingsLayout = findViewById(R.id.settingsLayout);
+        buttonsLayout = findViewById(R.id.settingsButtonLayout);
 
         updateVibrationText(Config.loadVibration(this));
         updateHandModeText(Config.loadHandMode(this));
@@ -110,7 +116,17 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void onBackClick(View v) {
-        onBackPressed();
+        super.onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (resetStatLayout.getVisibility() == View.VISIBLE)
+            hideResetStat();
+        else {
+            super.onBackPressed();
+//            finish();
+        }
     }
 
     public void onChangeVibrationClick(View v) {
@@ -132,8 +148,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void onResetScoreClick(View v) {
-        Intent resetScore = new Intent(this, ResetScoreActivity.class);
-        startActivity(resetScore);
+        showResetStat();
     }
 
     public void onChangeLanguageClick(View v) {
@@ -182,12 +197,6 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(Config.LANG_PREF, lang);
         editor.apply();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
     }
 
     public void onSignInClick(View v) {
@@ -305,5 +314,37 @@ public class SettingsActivity extends AppCompatActivity {
         GamesClient gamesClient = Games.getGamesClient(this, GoogleSignIn.getLastSignedInAccount(this));
         gamesClient.setViewForPopups(findViewById(android.R.id.content));
         gamesClient.setGravityForPopups(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
+    }
+
+    void showResetStat() {
+        for (int i = 0; i < settingsLayout.getChildCount(); i++)
+            settingsLayout.getChildAt(i).setEnabled(false);
+        for (int i = 0; i < buttonsLayout.getChildCount(); i++)
+            buttonsLayout.getChildAt(i).setEnabled(false);
+        resetStatLayout.setVisibility(View.VISIBLE);
+        ((TextView) findViewById(R.id.bestScoreReset_text)).setText((getString(R.string.best_score) + "  " + Config.loadBestScore(this)));
+    }
+
+    void hideResetStat() {
+        resetStatLayout.setVisibility(View.GONE);
+        for (int i = 0; i < settingsLayout.getChildCount(); i++)
+            settingsLayout.getChildAt(i).setEnabled(true);
+        for (int i = 0; i < buttonsLayout.getChildCount(); i++)
+            buttonsLayout.getChildAt(i).setEnabled(true);
+    }
+
+    public void onYesClick(View v) {
+        Config.saveBestScore(this, 0);
+        Config.saveDeath(this, 0);
+        Config.saveGroundDeath(this, 0);
+        Config.saveColumnDeath(this, 0);
+        Config.saveMoney(this, 0);
+        Config.saveTotalScore(this, 0);
+
+        hideResetStat();
+    }
+
+    public void onNoClick(View v) {
+        hideResetStat();
     }
 }

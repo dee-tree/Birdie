@@ -84,10 +84,10 @@ class Bird {
             return;
         }
 
-        mask.left = x + 25;
-        mask.top = y + 35;
-        mask.right = x + width - 12;
-        mask.bottom = y + height - 30;
+        mask.left = x + width / 7;
+        mask.top = y + height / 6;
+        mask.right = x + width - width / 8;
+        mask.bottom = y + height - height / 4;
 
     }
 
@@ -96,6 +96,7 @@ class Bird {
             canvas.drawBitmap(sprites[1], position, null);
         else
             canvas.drawBitmap(sprites[0], position, null);
+//        canvas.drawRect(mask, new Paint());
     }
 
     void resetWings() {

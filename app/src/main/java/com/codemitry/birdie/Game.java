@@ -100,6 +100,8 @@ public class Game extends AppCompatActivity {
         lastAccount = GoogleSignIn.getLastSignedInAccount(this);
 
         if (MainActivity.isSignedIn(this)) {
+            achievementsClient = Games.getAchievementsClient(this, lastAccount);
+
             final GamesClient gamesClient = Games.getGamesClient(this, lastAccount);
             gamesClient.setViewForPopups(findViewById(android.R.id.content));
             gamesClient.setGravityForPopups(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
@@ -139,7 +141,6 @@ public class Game extends AppCompatActivity {
             }
 
         }
-        // TODO: Настроить проверку коллизий
         for (int i = columns.size() - 1; i >= 0; i--) {
             columns.get(i).update(dt);
             if (isCollised(columns.get(i))) {
@@ -152,7 +153,6 @@ public class Game extends AppCompatActivity {
                 columns.remove(i);
 
             }
-//            System.out.println("i: " + i + "  dx: " + columns.get(i).dx + "  speed: " + columns.get(i).speed);
         }
 
     }
@@ -247,6 +247,7 @@ public class Game extends AppCompatActivity {
                     if (MainActivity.isSignedIn(Game.this)) {
                         Games.getEventsClient(Game.this, lastAccount).increment(getString(R.string.event_new_top_score), bestScore);
                         Games.getLeaderboardsClient(Game.this, lastAccount).submitScore(getString(R.string.leaderboard_birdie_rating_by_score), bestScore);
+                        achievementsClient = Games.getAchievementsClient(Game.this, lastAccount);
                     }
                 }
 
@@ -259,6 +260,7 @@ public class Game extends AppCompatActivity {
                 loseLayout.setVisibility(View.VISIBLE);
 
                 if (MainActivity.isSignedIn(Game.this)) {
+                    System.out.println(achievementsClient);
                     achievementsClient.increment(getString(R.string.achievement_try_again_and_again), 1);
 
                     if (score >= 1)

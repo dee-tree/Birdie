@@ -1,84 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CC000000"
-    tools:context="com.codemitry.birdie.ResetScoreActivity">
+    android:background="#CC000000">
 
-    <TextView
-        android:id="@+id/bestScoreReset_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/best_score"
-        android:textAlignment="center"
-        android:textColor="@color/menu_button_not_pressed"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.37" />
+    <!--    <TextView-->
+    <!--        android:id="@+id/bestScoreReset_text"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="@string/best_score"-->
+    <!--        android:textAlignment="center"-->
+    <!--        android:textColor="@color/menu_button_not_pressed"-->
+    <!--        android:textSize="36sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.5"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.37" />-->
 
-    <TextView
-        android:id="@+id/sureToReset_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/sure_to_reset"
-        android:textAlignment="center"
-        android:textColor="@color/menu_button_not_pressed"
-        android:textSize="32sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bestScoreReset_text"
-        app:layout_constraintVertical_bias="0.02" />
+    <!--    <TextView-->
+    <!--        android:id="@+id/sureToReset_text"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:gravity="center"-->
+    <!--        android:text="@string/sure_to_reset"-->
+    <!--        android:textAlignment="center"-->
+    <!--        android:textColor="@color/menu_button_not_pressed"-->
+    <!--        android:textSize="32sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.0"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/bestScoreReset_text"-->
+    <!--        app:layout_constraintVertical_bias="0.02" />-->
 
-    <View
-        android:id="@+id/reset_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/menu_button_not_pressed"
-        app:layout_constraintBottom_toTopOf="@+id/sureToReset_text"
-        app:layout_constraintTop_toBottomOf="@+id/bestScoreReset_text"
-        tools:layout_editor_absoluteX="1dp" />
+    <!--    <View-->
+    <!--        android:id="@+id/reset_divider"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="1dp"-->
+    <!--        android:background="@color/menu_button_not_pressed"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/sureToReset_text"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/bestScoreReset_text"-->
+    <!--        tools:layout_editor_absoluteX="1dp" />-->
 
-    <Button
-        android:id="@+id/yesReset_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/buttons_lose_dialog"
-        android:onClick="onYesClick"
-        android:text="@string/yes"
-        android:textColor="@drawable/menu_text_color"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/noReset_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sureToReset_text"
-        app:layout_constraintVertical_bias="0.25"
-        tools:text="@string/yes" />
+    <!--    <Button-->
+    <!--        android:id="@+id/yesReset_button"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="5dp"-->
+    <!--        android:layout_marginEnd="10dp"-->
+    <!--        android:background="@drawable/buttons_lose_dialog"-->
+    <!--        android:onClick="onYesClick"-->
+    <!--        android:text="@string/yes"-->
+    <!--        android:textColor="@drawable/menu_text_color"-->
+    <!--        android:textSize="36sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/noReset_button"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/sureToReset_text"-->
+    <!--        app:layout_constraintVertical_bias="0.25"-->
+    <!--        tools:text="@string/yes" />-->
 
-    <Button
-        android:id="@+id/noReset_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="5dp"
-        android:background="@drawable/buttons_lose_dialog"
-        android:onClick="onNoClick"
-        android:text="@string/no"
-        android:textColor="@drawable/menu_text_color"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/yesReset_button"
-        app:layout_constraintTop_toBottomOf="@+id/sureToReset_text"
-        app:layout_constraintVertical_bias="0.25" />
+    <!--    <Button-->
+    <!--        android:id="@+id/noReset_button"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="10dp"-->
+    <!--        android:layout_marginEnd="5dp"-->
+    <!--        android:background="@drawable/buttons_lose_dialog"-->
+    <!--        android:onClick="onNoClick"-->
+    <!--        android:text="@string/no"-->
+    <!--        android:textColor="@drawable/menu_text_color"-->
+    <!--        android:textSize="36sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/yesReset_button"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/sureToReset_text"-->
+    <!--        app:layout_constraintVertical_bias="0.25" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>
