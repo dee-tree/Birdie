@@ -47,7 +47,14 @@ public class GameThread extends Thread {
                     game.draw(canvas);
                     game.update(delta);
                     // ---
-
+                    System.out.println("dt: " + delta);
+                    if (delta < 1000 / 50) {
+                        try {
+                            Thread.sleep(1000 / 50 - delta);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             } finally {
                 if (canvas != null) {

@@ -60,7 +60,8 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     }
 
     public void setRunned(boolean run) {
-        gameThread.setRunned(run);
+        if (gameThread != null)
+            gameThread.setRunned(run);
     }
 
     boolean runned() {

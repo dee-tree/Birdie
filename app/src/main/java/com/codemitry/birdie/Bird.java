@@ -88,6 +88,7 @@ class Bird {
             else if (angle > -15)
                 rotate(++angle);
         } else {
+
 // Обычный поворот птицы при полете
             rotate.setTranslate(x, y);
             position.set(rotate);
