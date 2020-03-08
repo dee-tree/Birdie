@@ -31,11 +31,12 @@ public class GameThread extends Thread {
         Log.d("GameThread", "GameThread started");
         Canvas canvas;
 
-        int delta;
-        long ctime, time = System.currentTimeMillis(), counter = 0;
+        double delta;
+        double ctime, time = System.nanoTime() / 1_000_000f;
+        long counter = 0;
 
         while (runned) {
-            ctime = System.currentTimeMillis();
+            ctime = System.nanoTime() / 1_000_000f;
             canvas = null;
 
             delta = (int) (ctime - time);
@@ -47,14 +48,14 @@ public class GameThread extends Thread {
                     game.draw(canvas);
                     game.update(delta);
                     // ---
-                    System.out.println("dt: " + delta);
-                    if (delta < 1000 / 50) {
-                        try {
-                            Thread.sleep(1000 / 50 - delta);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
+//                    System.out.println("dt: " + delta);
+//                    if (delta < 1000f / 50) {
+//                        try {
+//                            Thread.sleep((long) (1000f / 50 - delta));
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
                 }
             } finally {
                 if (canvas != null) {

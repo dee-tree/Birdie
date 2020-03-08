@@ -3,6 +3,7 @@ package com.codemitry.birdie;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 public class Ground {
     private Bitmap ground, groundDefault;
@@ -10,6 +11,8 @@ public class Ground {
     private int width, height, x, yGround, yGrass;
     private Game game;
     private double speed, dx, acceleration;
+
+    private Paint bitmapPaint;
 
     Ground(Game game, int width, int height) {
         this.width = width;
@@ -37,6 +40,7 @@ public class Ground {
         grass = Bitmap.createBitmap(grass);
 
         yGrass = yGround - grass.getHeight();
+        bitmapPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
 
         x = 0;
         dx = speed = 0.000138 * width;
@@ -45,15 +49,15 @@ public class Ground {
     }
 
     void draw(Canvas canvas) {
-        canvas.drawBitmap(ground, x, yGround, null);
-        canvas.drawBitmap(grass, x, yGrass, null);
+        canvas.drawBitmap(ground, x, yGround, bitmapPaint);
+        canvas.drawBitmap(grass, x, yGrass, bitmapPaint);
     }
 
-    void update(int dt) {
+    void update(double dt) {
         if (x <= -width)
             x = 0;
         speed += acceleration * dt;
-        dx = Math.ceil(speed * dt);
+        dx = Math.round(speed * dt);
         x -= dx;
 //        System.out.println("Ground dx: " + dx);
     }

@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Rect;
 
 public class Column {
@@ -26,6 +27,8 @@ public class Column {
     private boolean alive;
     private int columnHeightDefault;
     double speed, dx, acceleration;
+
+    private Paint bitmapPaint;
 
     Column(Game game, int scWidth, int scHeight, int birdX, double speed) {
         this.game = game;
@@ -64,6 +67,8 @@ public class Column {
 
         isScored = false;
         alive = true;
+
+        bitmapPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
 
         dx = this.speed = speed;
         acceleration = 0.0000000042 * game.width;
@@ -117,10 +122,10 @@ public class Column {
 
     void draw(Canvas canvas) {
         if (alive) {
-            canvas.drawBitmap(columnTop, columnX, 0, null);
-            canvas.drawBitmap(pikaTop, pikaX, pikaTopY, null);
-            canvas.drawBitmap(pikaDown, pikaX, pikaDownY, null);
-            canvas.drawBitmap(columnDown, columnX, columnDownY, null);
+            canvas.drawBitmap(columnTop, columnX, 0, bitmapPaint);
+            canvas.drawBitmap(pikaTop, pikaX, pikaTopY, bitmapPaint);
+            canvas.drawBitmap(pikaDown, pikaX, pikaDownY, bitmapPaint);
+            canvas.drawBitmap(columnDown, columnX, columnDownY, bitmapPaint);
         }
 
     }
@@ -134,7 +139,7 @@ public class Column {
         this.matrix = null;
     }
 
-    void update(int dt) {
+    void update(double dt) {
         if (alive) {
 
             if (isOut()) {
@@ -143,7 +148,7 @@ public class Column {
             }
 
             speed += acceleration * dt;
-            dx = Math.ceil(speed * dt);
+            dx = Math.round(speed * dt);
             setX((int) (getX() - dx));
 
             if (!isScored && (birdX + birdWidth / 2 >= columnX + columnWidth)) {

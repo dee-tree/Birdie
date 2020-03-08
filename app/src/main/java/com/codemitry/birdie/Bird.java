@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Rect;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ class Bird {
     private double dy;
     private int angle;
     private boolean secret;
+    private Paint bitmapPaint;
 
     Bird(Game game, int ground) {
         this.game = game;
@@ -52,6 +54,7 @@ class Bird {
 
         position = new Matrix();
         position.postTranslate(x, y);
+        bitmapPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
     }
 
 
@@ -74,7 +77,7 @@ class Bird {
         position.set(rotate);
     }
 
-    void update(int dt) {
+    void update(double dt) {
         speed += dt * acceleration;
         dy = Math.round(dt * speed);
         y += dy;
@@ -125,9 +128,9 @@ class Bird {
 
     void draw(Canvas canvas) {
         if (wingsDown-- > 0)
-            canvas.drawBitmap(sprites[1], position, null);
+            canvas.drawBitmap(sprites[1], position, bitmapPaint);
         else
-            canvas.drawBitmap(sprites[0], position, null);
+            canvas.drawBitmap(sprites[0], position, bitmapPaint);
 //        canvas.drawRect(mask, new Paint());
     }
 

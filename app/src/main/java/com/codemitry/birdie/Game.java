@@ -105,6 +105,8 @@ public class Game extends AppCompatActivity {
         pauseLayout = findViewById(R.id.pauseLayout);
         loseLayout = findViewById(R.id.loseLayout);
 
+        // для отрисовки всех битмапов
+
         bestScore = Config.loadBestScore(this);
 
         resetScore();
@@ -146,15 +148,16 @@ public class Game extends AppCompatActivity {
         }
     }
 
-    public void update(int dt) {
+
+    public void update(double dt) {
         if (runned) {
+            updateColumns(dt);
             bird.update(dt);
             ground.update(dt);
-            updateColumns(dt);
         }
     }
 
-    public void updateColumns(int dt) {
+    public void updateColumns(double dt) {
         for (int i = columns.size() - 1; i >= 0; i--) {
             if (columns.get(i).isOut()) {
                 columns.get(i).setAlive(false);
@@ -278,7 +281,7 @@ public class Game extends AppCompatActivity {
                 }
 
                 try {
-                    Thread.sleep(300);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -305,6 +308,8 @@ public class Game extends AppCompatActivity {
 
         // Disabled secret mode:
         Config.saveSecretModeEnabled(this, false);
+        media.release();
+        media = null;
 
     }
 
@@ -442,10 +447,12 @@ public class Game extends AppCompatActivity {
     }
 
     public void onYesClick(View v) {
+        surface.surfaceDestroyed(surface.getHolder());
         recreate();
     }
 
     public void onNoClick(View v) {
+        surface.surfaceDestroyed(surface.getHolder());
         finish();
     }
 

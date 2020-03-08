@@ -68,12 +68,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_main);
+
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         Config.screen_width = displayMetrics.widthPixels;
         Config.screen_height = displayMetrics.heightPixels;
-        setContentView(R.layout.activity_main);
 
         start = findViewById(R.id.start);
         settings = findViewById(R.id.settings);
