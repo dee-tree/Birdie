@@ -11,6 +11,6 @@
     <color name="text_color_pressed">#A3A2A2</color>
     <color name="menu_button_not_pressed">#8695E2</color>
     <color name="score">#FFF176</color>
-    <color name="green">#09B813</color>
+    <color name="green">#4CAF50</color>
     <color name="green_google">#E6318334</color>
 </resources>

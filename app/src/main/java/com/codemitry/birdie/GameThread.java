@@ -32,11 +32,11 @@ public class GameThread extends Thread {
         Canvas canvas;
 
         double delta;
-        double ctime, time = System.nanoTime() / 1_000_000f;
+        double ctime, time = System.nanoTime();
         long counter = 0;
 
         while (runned) {
-            ctime = System.nanoTime() / 1_000_000f;
+            ctime = System.nanoTime();
             canvas = null;
 
             delta = (int) (ctime - time);

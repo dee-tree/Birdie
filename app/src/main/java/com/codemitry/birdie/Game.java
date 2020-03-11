@@ -63,7 +63,7 @@ public class Game extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getRealSize(point);
@@ -89,7 +89,7 @@ public class Game extends AppCompatActivity {
         columns = new ArrayList<>();
         columnsCount = (int) (width / (Config.COLUMN_WIDTH * width) / 2) + 2;
         for (int i = 0; i < columnsCount; i++) {
-            columns.add(new Column(this, width, height, bird.getX(), 0.000138 * width));
+            columns.add(new Column(this, width, height, bird.getX(), 0.0000000002 * width));
             columns.get(i).setX(width * 5 / 6 + i * Config.COLUMN_DIST * columns.get(i).getWidth());
         }
 
@@ -127,11 +127,8 @@ public class Game extends AppCompatActivity {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
             getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
@@ -268,6 +265,8 @@ public class Game extends AppCompatActivity {
                 ((TextView) loseLayout.getViewById(R.id.yourScore)).append("  " + score);
                 ((TextView) loseLayout.getViewById(R.id.bestScore)).append("  " + bestScore);
 
+                Games.getLeaderboardsClient(Game.this, lastAccount).submitScore(getString(R.string.leaderboard_birdie_rating_by_score), bestScore);
+
                 if (score > bestScore) {
                     Config.saveBestScore(Game.this, score);
                     loseText.setText(getResources().getString(R.string.best_lose));
@@ -275,7 +274,6 @@ public class Game extends AppCompatActivity {
 
                     if (MainActivity.isSignedIn(Game.this)) {
                         Games.getEventsClient(Game.this, lastAccount).increment(getString(R.string.event_new_top_score), bestScore);
-                        Games.getLeaderboardsClient(Game.this, lastAccount).submitScore(getString(R.string.leaderboard_birdie_rating_by_score), bestScore);
                         achievementsClient = Games.getAchievementsClient(Game.this, lastAccount);
                     }
                 }

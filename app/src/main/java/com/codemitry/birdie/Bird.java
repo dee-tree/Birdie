@@ -24,7 +24,7 @@ class Bird {
     private double acceleration;
     private double speed = 0;
     private double dy;
-    private int angle;
+    private double angle;
     private boolean secret;
     private Paint bitmapPaint;
 
@@ -42,7 +42,7 @@ class Bird {
         y = (int) (Config.screen_height * Config.SPAWN_Y) - height;
         dy = speed;
 //        acceleration = 0.0045;    SAVE
-        acceleration = 0.00000234375 * game.height;
+        acceleration = 0.00000000000000000234375 * game.height;
 //        up_coeff = Math.round(Config.screen_height * Config.BIRD_UP);
         angle = 0;
 
@@ -86,10 +86,10 @@ class Bird {
         if (secret) {
             rotate.setTranslate(x, y);
             position.set(rotate);
-            if (wingsDown > 0 && angle < 15)
-                rotate(angle -= 2);
-            else if (angle > -15)
-                rotate(++angle);
+            if (wingsDown > 0)
+                rotate((int) (angle -= 6));
+            else
+                rotate((int) (angle++));
         } else {
 
 // Обычный поворот птицы при полете
@@ -98,8 +98,8 @@ class Bird {
             if (wingsDown > 0 && angle > -15)
                 angle -= 4;
             else if (angle < 15)
-                angle += 1;
-            rotate(angle);
+                angle += 0.5;
+            rotate((int) angle);
 
         }
 
@@ -140,7 +140,7 @@ class Bird {
 
     void up() {
 //        speed = - 1.25;    SAVE
-        speed = -0.000651 * game.height;
+        speed = -0.000000000651 * game.height;
     }
 
     int getX() {

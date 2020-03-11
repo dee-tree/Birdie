@@ -71,7 +71,7 @@ public class Column {
         bitmapPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
 
         dx = this.speed = speed;
-        acceleration = 0.0000000042 * game.width;
+        acceleration = 0.000000000000000000007 * game.width;
 //        acceleration = Config.COLUMN_ACCELERATION;
 
         generateAltitude();
@@ -137,15 +137,18 @@ public class Column {
         this.pikaDown = null;
         this.pikaTop = null;
         this.matrix = null;
+        this.bitmapPaint = null;
+        this.defaultColumn = null;
+        this.game = null;
+        this.resource = null;
     }
 
     void update(double dt) {
+        if (isOut()) {
+            dispose();
+            return;
+        }
         if (alive) {
-
-            if (isOut()) {
-                dispose();
-                return;
-            }
 
             speed += acceleration * dt;
             dx = Math.round(speed * dt);

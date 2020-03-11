@@ -43,9 +43,9 @@ public class Ground {
         bitmapPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
 
         x = 0;
-        dx = speed = 0.000138 * width;
+        dx = speed = 0.0000000002 * width;
 //        acceleration = Config.COLUMN_ACCELERATION;
-        acceleration = 0.0000000042 * game.width;
+        acceleration = 0.000000000000000000007 * game.width;
     }
 
     void draw(Canvas canvas) {
