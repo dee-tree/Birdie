@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams;
 
+import java.util.Locale;
+
 public class StatisticsActivity extends AppCompatActivity {
 
     LayoutParams params;
@@ -18,6 +20,7 @@ public class StatisticsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        changeLang(MainActivity.loadLanguage(this));
         setContentView(R.layout.activity_statistics);
 
         back = findViewById(R.id.stat_back);
@@ -38,6 +41,18 @@ public class StatisticsActivity extends AppCompatActivity {
         totalScore = findViewById(R.id.stat_total_score);
         totalScore.append(" " + Config.loadTotalScore(this));
 
+    }
+
+    public void changeLang(String lang) {
+        if (lang.equalsIgnoreCase("")) return;
+        Locale myLocale = new Locale(lang);
+        MainActivity.saveLanguage(this, lang);
+        Locale.setDefault(myLocale);
+
+        android.content.res.Configuration config = new android.content.res.Configuration();
+        config.locale = myLocale;
+        getBaseContext().getResources().updateConfiguration(config, null);
+        getResources().updateConfiguration(config, null);
     }
 
     @Override

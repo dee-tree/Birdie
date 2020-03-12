@@ -52,6 +52,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        changeLang(MainActivity.loadLanguage(this));
         setContentView(R.layout.activity_settings);
 
         TextView optionsText = findViewById(R.id.settingsText);
@@ -142,34 +143,30 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void onChangeLanguageClick(View v) {
         // en -> ru -> en
-        String lang = getLocale();
+        String lang = MainActivity.loadLanguage(this);
         switch (lang) {
             case "en":
                 changeLang("ru");
+                updateTexts();
                 break;
             case "ru":
                 changeLang("en");
+                updateTexts();
                 break;
         }
 
     }
 
-    public String getLocale() {
-        SharedPreferences prefs = getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
-        return prefs.getString(Config.LANG_PREF, "en");
-    }
-
     public void changeLang(String lang) {
         if (lang.equalsIgnoreCase("")) return;
         myLocale = new Locale(lang);
-        saveLocale(lang);
-        Config.language = lang;
+        MainActivity.saveLanguage(this, lang);
         Locale.setDefault(myLocale);
+
         android.content.res.Configuration config = new android.content.res.Configuration();
         config.locale = myLocale;
         getBaseContext().getResources().updateConfiguration(config, null);
         getResources().updateConfiguration(config, null);
-        updateTexts();
     }
 
     private void updateTexts() {
@@ -185,12 +182,6 @@ public class SettingsActivity extends AppCompatActivity {
         updateVibrationText(Config.loadVibration(this));
     }
 
-    public void saveLocale(String lang) {
-        SharedPreferences prefs = getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(Config.LANG_PREF, lang);
-        editor.apply();
-    }
 
     public void onSignInClick(View v) {
         if (isSignedIn()) {
@@ -238,40 +229,6 @@ public class SettingsActivity extends AppCompatActivity {
             handleSignInResult(task);
         }
     }
-
-//    private void signInSilently() {
-//        GoogleSignInOptions signInOptions = GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN;
-//        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-//        if (GoogleSignIn.hasPermissions(account, signInOptions.getScopeArray())) {
-//            // Already signed in.
-//            // The signed in account is stored in the 'account' variable.
-//            GoogleSignInAccount signedInAccount = account;
-//        } else {
-//            // Haven't been signed-in before. Try the silent sign-in first.
-//            final GoogleSignInClient signInClient = GoogleSignIn.getClient(this, signInOptions);
-//            signInClient
-//                    .silentSignIn()
-//                    .addOnCompleteListener(
-//                            this,
-//                            new OnCompleteListener<GoogleSignInAccount>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
-//                                    if (task.isSuccessful()) {
-//
-//                                        Log.d("Sign-in", "Successfull sign-in");
-//                                        // The signed in account is stored in the task's result.
-//                                        GoogleSignInAccount signedInAccount = task.getResult();
-//                                    } else {
-//                                        Log.d("Sign-in", "Error sign-in");
-//                                        // Player will need to sign-in explicitly using via UI.
-//                                        // See [sign-in best practices](http://developers.google.com/games/services/checklist) for guidance on how and when to implement Interactive Sign-in,
-//                                        // and [Performing Interactive Sign-in](http://developers.google.com/games/services/android/signin#performing_interactive_sign-in) for details on how to implement
-//                                        // Interactive Sign-in.
-//                                    }
-//                                }
-//                            });
-//        }
-//    }
 
     private void signOut() {
         final GoogleSignInClient signInClient = GoogleSignIn.getClient(this,

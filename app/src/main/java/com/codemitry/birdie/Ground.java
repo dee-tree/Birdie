@@ -5,11 +5,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-public class Ground {
+class Ground {
     private Bitmap ground, groundDefault;
     private Bitmap grass, grassDefault;
     private int width, height, x, yGround, yGrass;
-    private Game game;
     private double speed, dx, acceleration;
 
     private Paint bitmapPaint;
@@ -17,7 +16,6 @@ public class Ground {
     Ground(Game game, int width, int height) {
         this.width = width;
         this.height = height;
-        this.game = game;
 
         groundDefault = BitmapFactory.decodeResource(game.getResources(), R.drawable.ground1);
         groundDefault = Bitmap.createScaledBitmap(groundDefault, width, (int) (Config.GROUND_HEIGHT * height), true);

@@ -31,6 +31,7 @@ import com.google.android.gms.games.Games;
 import com.google.android.gms.games.GamesClient;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class Game extends AppCompatActivity {
@@ -41,6 +42,7 @@ public class Game extends AppCompatActivity {
     private Ground ground;
     private ArrayList<Column> columns;
     private int columnsCount;
+    private Locale myLocale;
 
     private ImageButton pauseButton;
     private TextView loseText;
@@ -75,7 +77,7 @@ public class Game extends AppCompatActivity {
 //        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 //        height = displayMetrics.heightPixels;
 //        width = displayMetrics.widthPixels;
-
+        changeLang(MainActivity.loadLanguage(this));
         setContentView(R.layout.activity_game);
 
         surface = findViewById(R.id.surface);
@@ -89,7 +91,7 @@ public class Game extends AppCompatActivity {
         columns = new ArrayList<>();
         columnsCount = (int) (width / (Config.COLUMN_WIDTH * width) / 2) + 2;
         for (int i = 0; i < columnsCount; i++) {
-            columns.add(new Column(this, width, height, bird.getX(), 0.0000000002 * width));
+            columns.add(new Column(this, width, height, bird.getX(), bird.getWidth(), 0.0000000002 * width));
             columns.get(i).setX(width * 5 / 6 + i * Config.COLUMN_DIST * columns.get(i).getWidth());
         }
 
@@ -159,7 +161,7 @@ public class Game extends AppCompatActivity {
             if (columns.get(i).isOut()) {
                 columns.get(i).setAlive(false);
 
-                columns.add(new Column(this, width, height, bird.getX(), columns.get(columns.size() - 2).getSpeed()));
+                columns.add(new Column(this, width, height, bird.getX(), bird.getWidth(), columns.get(columns.size() - 2).getSpeed()));
                 columns.get(columns.size() - 1).setX(columns.get(columns.size() - 2).getX() + Config.COLUMN_DIST * columns.get(i).getWidth() + (int) (Math.random() * 0.2 * Config.COLUMN_DIST * columns.get(columns.size() - 1).getWidth()));
 
                 //columns.remove(i);
@@ -265,7 +267,8 @@ public class Game extends AppCompatActivity {
                 ((TextView) loseLayout.getViewById(R.id.yourScore)).append("  " + score);
                 ((TextView) loseLayout.getViewById(R.id.bestScore)).append("  " + bestScore);
 
-                Games.getLeaderboardsClient(Game.this, lastAccount).submitScore(getString(R.string.leaderboard_birdie_rating_by_score), bestScore);
+                if (MainActivity.isSignedIn(Game.this))
+                    Games.getLeaderboardsClient(Game.this, lastAccount).submitScore(getString(R.string.leaderboard_birdie_rating_by_score), bestScore);
 
                 if (score > bestScore) {
                     Config.saveBestScore(Game.this, score);
@@ -310,6 +313,18 @@ public class Game extends AppCompatActivity {
         media = null;
 
     }
+
+    public void changeLang(String lang) {
+        if (lang.equalsIgnoreCase("")) return;
+        myLocale = new Locale(lang);
+        MainActivity.saveLanguage(this, lang);
+        Locale.setDefault(myLocale);
+        android.content.res.Configuration config = new android.content.res.Configuration();
+        config.locale = myLocale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+    }
+
 
     void playScoreSound() {
         media.play(earnScore, 1, 1, 1, 0, 1);

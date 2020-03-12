@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     TextView head;
     MediaPlayer logoSound;
     GoogleSignInClient googleSignInClient;
+    GoogleSignInAccount account;
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -79,20 +80,22 @@ public class MainActivity extends AppCompatActivity {
         statistics = findViewById(R.id.statistics);
         exit = findViewById(R.id.exit);
 
-        loadLocale();
+        changeLang(loadLanguage(this));
+        updateTexts();
         anim = AnimationUtils.loadAnimation(this, R.anim.headanim);
         head = findViewById(R.id.head);
         head.startAnimation(anim);
         logoSound = MediaPlayer.create(this, R.raw.logosound);
 
         if (isSignedIn(this))
-            showSignIn(this);
+            showSignIn();
 
         GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN)
                 .requestEmail()
                 .requestProfile()
                 .build();
         googleSignInClient = GoogleSignIn.getClient(this, options);
+        account = GoogleSignIn.getLastSignedInAccount(this);
 
 
         // Is app opened first time then invite to sign in to google
@@ -107,7 +110,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadLocale();
+        changeLang(loadLanguage(this));
+        updateTexts();
     }
 
     public void onStatisticsClick(View v) {
@@ -124,26 +128,24 @@ public class MainActivity extends AppCompatActivity {
     public void changeLang(String lang) {
         if (lang.equalsIgnoreCase("")) return;
         myLocale = new Locale(lang);
-        saveLocale(lang);
-        Config.language = lang;
+        saveLanguage(this, lang);
         Locale.setDefault(myLocale);
         android.content.res.Configuration config = new android.content.res.Configuration();
         config.locale = myLocale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-        updateTexts();
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
     }
 
-    public void saveLocale(String lang) {
-        SharedPreferences prefs = getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+    public static void saveLanguage(Context context, String lang) {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(Config.LANG_PREF, lang);
         editor.apply();
     }
 
-    public void loadLocale() {
-        SharedPreferences prefs = getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
-        String language = prefs.getString(Config.LANG_PREF, "en");
-        changeLang(language);
+    public static String loadLanguage(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        return prefs.getString(Config.LANG_PREF, "en");
     }
 
 
@@ -162,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onStartClick(View v) {
-        Config.language = myLocale.getLanguage();
         Intent gameWindow = new Intent(this, Game.class);
         startActivity(gameWindow);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -183,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showAchievements() {
         if (isSignedIn(this)) {
-            Games.getAchievementsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+            Games.getAchievementsClient(this, account)
                     .getAchievementsIntent()
                     .addOnSuccessListener(new OnSuccessListener<Intent>() {
                         @Override
@@ -198,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showLeaderboard() {
         if (isSignedIn(this)) {
-            Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+            Games.getLeaderboardsClient(this, account)
                     .getLeaderboardIntent(getString(R.string.leaderboard_birdie_rating_by_score))
                     .addOnSuccessListener(new OnSuccessListener<Intent>() {
                         @Override
@@ -311,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void showSignIn(Context context) {
+    private void showSignIn() {
         GamesClient gamesClient = Games.getGamesClient(this, GoogleSignIn.getLastSignedInAccount(this));
         gamesClient.setViewForPopups(findViewById(android.R.id.content));
         gamesClient.setGravityForPopups(Gravity.TOP | Gravity.CENTER_HORIZONTAL);

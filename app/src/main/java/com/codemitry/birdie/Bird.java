@@ -20,7 +20,6 @@ class Bird {
     private int ground;
     private Matrix rotate, position;
     private int wingsDown;
-    private int up_coeff;
     private double acceleration;
     private double speed = 0;
     private double dy;
@@ -32,8 +31,10 @@ class Bird {
         this.game = game;
         this.ground = ground;
         sprites = new Bitmap[id.length];
-        width = (int) (Config.BIRD_WIDTH * Config.screen_width);
-        height = (int) (Config.BIRD_HEIGHT * Config.screen_height);
+        width = (int) (0.185f * game.width);
+        height = (int) (0.6 * width);
+
+//        height = (int) (Config.BIRD_HEIGHT * Config.screen_height);
         for (int i = 0; i < id.length; i++) {
             sprites[i] = BitmapFactory.decodeResource(game.getResources(), id[i]);
             sprites[i] = Bitmap.createScaledBitmap(sprites[i], width, height, true);
@@ -141,6 +142,10 @@ class Bird {
     void up() {
 //        speed = - 1.25;    SAVE
         speed = -0.000000000651 * game.height;
+    }
+
+    int getWidth() {
+        return width;
     }
 
     int getX() {

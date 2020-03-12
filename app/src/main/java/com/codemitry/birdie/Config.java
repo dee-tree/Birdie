@@ -12,7 +12,7 @@ final class Config {
     static final float SPAWN_X = 0.5f;
     static final float SPAWN_Y = 0.5f;
     static final float BIRD_WIDTH = 0.185f;
-    static final float BIRD_HEIGHT = 0.06f;
+//    static final float BIRD_HEIGHT = 0.06f;
     static final float COLUMN_WIDTH = 0.138f;
     static final float COLUMN_HOLE = 0.198f;
     static final float COLUMN_SPEED = 0.15f;
@@ -29,8 +29,6 @@ final class Config {
     static final int
 
             SCORE_INCREMENT = 1,
-            RIGHT_HANDED_MODE = 0,
-            LEFT_HANDED_MODE = 1,
             COLUMN_DIST = 2,  // Distance in column_width between two the nearest columns
 
     CONTINUE_PLAY = 1,     // Code of command to resume the game
@@ -40,12 +38,9 @@ final class Config {
             FIRST_OPEN = 0,
             NOT_FIRST_OPEN = 1,
 
-    VIBRATION_ON = 1,
+            VIBRATION_ON = 1,
             VIBRATION_OFF = 0;
-    static String language = "en";
-    static final String BEST_SCORE_PREF = "Best score",
-            LANG_PREF = "Language",
-            HAND_MODE_PREF = "Hand-Mode",
+    private static final String
             DEATHS_PREF = "Deaths",
             COLUMN_DEATHS_PREF = "Column Deaths",
             GROUND_DEATHS_PREF = "Ground Deaths",
@@ -53,7 +48,12 @@ final class Config {
             TOTAL_SCORE_PREF = "Total score",
             IS_FIRST_OPEN = "FIRST_OPEN",
             SECRET_MODE = "Secret dance mode",
+            BEST_SCORE_PREF = "Best score",
             MONEY_PREF = "Money";
+
+    static final String
+            LANG_PREF = "Language";
+
 
 
     static int loadBestScore(Context context) {

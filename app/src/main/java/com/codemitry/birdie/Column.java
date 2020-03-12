@@ -20,7 +20,7 @@ public class Column {
     private int columnX, columnTopHeight, columnDownY, columnDownHeight, columnWidth;
     private int pikaX, pikaTopY, pikaDownY, pikaHeight, pikaWidth;
     private int hole;
-    private int birdX, birdWidth = (int) (Config.BIRD_WIDTH * Config.screen_width);
+    private int birdX, birdWidth; //= (int) (Config.BIRD_WIDTH * Config.screen_width);
     private int bottom;
     private int[] resource = {R.drawable.column1, R.drawable.pika1};
     private boolean isScored;
@@ -30,9 +30,10 @@ public class Column {
 
     private Paint bitmapPaint;
 
-    Column(Game game, int scWidth, int scHeight, int birdX, double speed) {
+    Column(Game game, int scWidth, int scHeight, int birdX, int birdWidth, double speed) {
         this.game = game;
         this.birdX = birdX;
+        this.birdWidth = birdWidth;
         this.screenWidth = scWidth;
         this.screenHeight = scHeight;
 
