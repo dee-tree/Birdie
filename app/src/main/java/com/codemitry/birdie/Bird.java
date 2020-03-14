@@ -39,8 +39,8 @@ class Bird {
             sprites[i] = BitmapFactory.decodeResource(game.getResources(), id[i]);
             sprites[i] = Bitmap.createScaledBitmap(sprites[i], width, height, true);
         }
-        x = (int) (Config.screen_width * Config.SPAWN_X) - width;
-        y = (int) (Config.screen_height * Config.SPAWN_Y) - height;
+        x = game.width / 2 - width;
+        y = game.height / 2 - height;
         dy = speed;
 //        acceleration = 0.0045;    SAVE
         acceleration = 0.00000000000000000234375 * game.height;

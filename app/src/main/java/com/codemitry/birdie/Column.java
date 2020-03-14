@@ -7,7 +7,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-public class Column {
+class Column {
 
     private Game game;
     private Bitmap columnTop, columnDown;
@@ -22,7 +22,6 @@ public class Column {
     private int hole;
     private int birdX, birdWidth; //= (int) (Config.BIRD_WIDTH * Config.screen_width);
     private int bottom;
-    private int[] resource = {R.drawable.column1, R.drawable.pika1};
     private boolean isScored;
     private boolean alive;
     private int columnHeightDefault;
@@ -30,12 +29,12 @@ public class Column {
 
     private Paint bitmapPaint;
 
-    Column(Game game, int scWidth, int scHeight, int birdX, int birdWidth, double speed) {
+    Column(Game game, int birdX, int birdWidth, double speed, int pikaID, int colID) {
         this.game = game;
         this.birdX = birdX;
         this.birdWidth = birdWidth;
-        this.screenWidth = scWidth;
-        this.screenHeight = scHeight;
+        this.screenWidth = game.width;
+        this.screenHeight = game.height;
 
         bottom = (int) (screenHeight - screenHeight * (Config.GROUND_HEIGHT));
 
@@ -53,11 +52,11 @@ public class Column {
 //            pikaDownY = bottom - columnDownHeight - pikaHeight;
         pikaDownY = pikaTopY + pikaHeight + hole;
 
-        defaultColumn = BitmapFactory.decodeResource(game.getResources(), resource[0]);
+        defaultColumn = BitmapFactory.decodeResource(game.getResources(), colID);
         defaultColumn = Bitmap.createScaledBitmap(defaultColumn, columnWidth, columnTopHeight, false);
 
         columnTop = Bitmap.createScaledBitmap(defaultColumn, columnWidth, columnTopHeight, false);
-        pikaTop = BitmapFactory.decodeResource(game.getResources(), resource[1]);
+        pikaTop = BitmapFactory.decodeResource(game.getResources(), pikaID);
 
         pikaTop = Bitmap.createScaledBitmap(pikaTop, pikaWidth, pikaHeight, true);
 
@@ -141,7 +140,6 @@ public class Column {
         this.bitmapPaint = null;
         this.defaultColumn = null;
         this.game = null;
-        this.resource = null;
     }
 
     void update(double dt) {

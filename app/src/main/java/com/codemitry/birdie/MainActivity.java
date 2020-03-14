@@ -4,23 +4,29 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Point;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -33,6 +39,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
+
+
 // <color name="menu_button_not_pressed">#009688</color>
 // Ctrl + Alt + L
 // app name's color: #81C784
@@ -45,12 +55,15 @@ public class MainActivity extends AppCompatActivity {
 
     Locale myLocale;
     //String lang = "en";
-    private Button start, settings, statistics, exit;
+    private Button start, statistics;
+    private ImageButton settings, exit;
     Animation anim;
     TextView head;
     MediaPlayer logoSound;
     GoogleSignInClient googleSignInClient;
     GoogleSignInAccount account;
+    BackgroundSurface backgroundSurface;
+    int width, height;
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -63,22 +76,34 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Point point = new Point();
+        getWindowManager().getDefaultDisplay().getRealSize(point);
+
+        width = point.x;
+        height = point.y;
+
         setContentView(R.layout.activity_main);
-
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        Config.screen_width = displayMetrics.widthPixels;
-        Config.screen_height = displayMetrics.heightPixels;
 
         start = findViewById(R.id.start);
         settings = findViewById(R.id.settings);
         statistics = findViewById(R.id.statistics);
         exit = findViewById(R.id.exit);
+
+        settings.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN)
+                    if (event.getX() > v.getWidth() - v.getWidth() / 5)
+                        onSettingsClick(v);
+                return true;
+            }
+        });
 
         changeLang(loadLanguage(this));
         updateTexts();
@@ -86,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         head = findViewById(R.id.head);
         head.startAnimation(anim);
         logoSound = MediaPlayer.create(this, R.raw.logosound);
+        backgroundSurface = findViewById(R.id.menu_background);
 
         if (isSignedIn(this))
             showSignIn();
@@ -104,6 +130,14 @@ public class MainActivity extends AppCompatActivity {
             signIn(RC_SIGN_IN);
 
         }
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+//        backgroundSurface.surfaceDestroyed(backgroundSurface.getHolder());
+        backgroundSurface.setRunned(false);
 
     }
 
@@ -112,6 +146,13 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         changeLang(loadLanguage(this));
         updateTexts();
+        if (backgroundSurface != null && backgroundSurface.thread != null) {
+            backgroundSurface.setRunned(false);
+        }
+        backgroundSurface = new BackgroundSurface(this, null);
+
+//        if (backgroundSurface != null  && !backgroundSurface.runned())
+//            backgroundSurface.recreateAndStartThread();
     }
 
     public void onStatisticsClick(View v) {
@@ -120,8 +161,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSettingsClick(View v) {
-        Intent optionsIntent = new Intent(this, SettingsActivity.class);
-        startActivity(optionsIntent);
+        final Intent optionsIntent = new Intent(this, SettingsActivity.class);
+        ImageButton settings = findViewById(R.id.settings);
+        final AnimatedVectorDrawable vectorDrawableSettings = (AnimatedVectorDrawable) settings.getDrawable();
+        vectorDrawableSettings.start();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                startActivity(optionsIntent);
+                overridePendingTransition(R.anim.left_in, R.anim.without_changes);
+            }
+        }, 500);
+//        Intent optionsIntent = new Intent(this, SettingsActivity.class);
+//        startActivity(optionsIntent);
     }
 
 
@@ -151,9 +204,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateTexts() {
         start.setText(R.string.menu_start);
-        settings.setText(R.string.settings);
         statistics.setText(R.string.statistics);
-        exit.setText(R.string.menu_exit);
+//        exit.setText(R.string.menu_exit);
     }
 
 

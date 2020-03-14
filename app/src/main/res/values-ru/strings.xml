@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Birdie</string>
     <string name="menu_start">Начать</string>
+    <string name="shop">Магазин</string>
     <string name="menu_language">Сменить язык</string>
     <string name="menu_exit">Выход</string>
     <string name="press_to_start">Нажми, чтобы начать</string>

@@ -6,11 +6,6 @@ import android.content.SharedPreferences;
 
 final class Config {
 
-    static int screen_width = 1080,  // Default values
-            screen_height = 1920;
-
-    static final float SPAWN_X = 0.5f;
-    static final float SPAWN_Y = 0.5f;
     static final float BIRD_WIDTH = 0.185f;
 //    static final float BIRD_HEIGHT = 0.06f;
     static final float COLUMN_WIDTH = 0.138f;

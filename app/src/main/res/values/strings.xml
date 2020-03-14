@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Birdie</string>
     <string name="menu_start">Start</string>
+    <string name="shop">Shop</string>
     <string name="menu_language">Change language</string>
     <string name="menu_exit">Exit</string>
     <string name="press_to_start">Press to start</string>

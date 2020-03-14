@@ -9,7 +9,7 @@ android {
     buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.codemitry.birdie"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 18
         versionName "1.0.3"

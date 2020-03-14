@@ -17,6 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
         <TextView
             android:id="@+id/settingsText"
             android:layout_width="wrap_content"
@@ -54,15 +55,9 @@
 
                 <Button
                     android:id="@+id/language_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@drawable/menu_buttons_color"
+                    style="@style/ButtonStyle"
                     android:onClick="onChangeLanguageClick"
                     android:text="@string/menu_language"
-                    android:textColor="@drawable/menu_text_color"
-                    android:textSize="22sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -70,30 +65,18 @@
 
                 <Button
                     android:id="@+id/vibration_switch_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@drawable/menu_buttons_color"
+                    style="@style/ButtonStyle"
                     android:onClick="onChangeVibrationClick"
                     android:text="@string/enable_vibration"
-                    android:textColor="@drawable/menu_text_color"
-                    android:textSize="22sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/language_button" />
 
                 <Button
                     android:id="@+id/reset_stat_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@drawable/menu_buttons_color"
+                    style="@style/ButtonStyle"
                     android:onClick="onResetScoreClick"
                     android:text="@string/reset"
-                    android:textColor="@drawable/menu_text_color"
-                    android:textSize="22sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -105,26 +88,24 @@
 
         <Button
             android:id="@+id/back"
+            style="@style/ButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="35dp"
             android:layout_marginBottom="40dp"
-            android:background="@drawable/menu_buttons_color"
             android:onClick="onBackClick"
             android:text="@string/back"
-            android:textColor="@drawable/menu_text_color"
-            android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
             android:id="@+id/sign_in"
+            style="@style/ButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="35dp"
             android:layout_marginBottom="30dp"
-            android:background="@drawable/google_button"
             android:contentDescription="@string/google_play_sign"
             android:drawableStart="@drawable/ic_play_games_badge_gray"
             android:drawablePadding="10dp"
@@ -135,9 +116,6 @@
             android:scrollHorizontally="false"
             android:text="@string/connect"
             android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textColor="@drawable/menu_text_color"
-            android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/back"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"

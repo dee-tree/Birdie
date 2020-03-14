@@ -50,7 +50,7 @@ public class Game extends AppCompatActivity {
     private TextView scoreText;
     private ConstraintLayout loseLayout, pauseLayout;
 
-    private Bitmap background;
+    private Background background;
 
     private GoogleSignInAccount lastAccount;
     private AchievementsClient achievementsClient;
@@ -73,32 +73,26 @@ public class Game extends AppCompatActivity {
         width = point.x;
         height = point.y;
 
-//        DisplayMetrics displayMetrics = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-//        height = displayMetrics.heightPixels;
-//        width = displayMetrics.widthPixels;
         changeLang(MainActivity.loadLanguage(this));
         setContentView(R.layout.activity_game);
 
         surface = findViewById(R.id.surface);
 
-        ground = new Ground(this, width, height);
+        ground = new Ground(this, width * 3, (int) (0.17 * height), R.drawable.ground2);
         bird = new Bird(this, ground.getY());
 
-        background = BitmapFactory.decodeResource(getResources(), R.drawable.background);
-        background = Bitmap.createScaledBitmap(background, width, height, false);
+        background = new Background(this, width * 3, height, R.drawable.background2);
 
         columns = new ArrayList<>();
         columnsCount = (int) (width / (Config.COLUMN_WIDTH * width) / 2) + 2;
         for (int i = 0; i < columnsCount; i++) {
-            columns.add(new Column(this, width, height, bird.getX(), bird.getWidth(), 0.0000000002 * width));
+            columns.add(new Column(this, bird.getX(), bird.getWidth(), 0.0000000002 * width, R.drawable.pika1, R.drawable.column1));
             columns.get(i).setX(width * 5 / 6 + i * Config.COLUMN_DIST * columns.get(i).getWidth());
         }
 
         media = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
         earnScore = media.load(this, R.raw.scoresound, 1);
 
-//        scoreSound = MediaPlayer.create(this, R.raw.scoresound);
 
         pauseButton = findViewById(R.id.pauseButton);
         loseText = findViewById(R.id.loseText);
@@ -106,8 +100,6 @@ public class Game extends AppCompatActivity {
         scoreText = findViewById(R.id.score);
         pauseLayout = findViewById(R.id.pauseLayout);
         loseLayout = findViewById(R.id.loseLayout);
-
-        // для отрисовки всех битмапов
 
         bestScore = Config.loadBestScore(this);
 
@@ -137,7 +129,7 @@ public class Game extends AppCompatActivity {
 
     public synchronized void draw(Canvas canvas) {
         if (canvas != null) {
-            canvas.drawBitmap(background, 0, 0, null);
+            background.draw(canvas);
 
             for (int i = columnsCount - 1; i >= 0; i--) {
                 columns.get(i).draw(canvas);
@@ -152,6 +144,7 @@ public class Game extends AppCompatActivity {
         if (runned) {
             updateColumns(dt);
             bird.update(dt);
+            background.update(dt);
             ground.update(dt);
         }
     }
@@ -161,7 +154,7 @@ public class Game extends AppCompatActivity {
             if (columns.get(i).isOut()) {
                 columns.get(i).setAlive(false);
 
-                columns.add(new Column(this, width, height, bird.getX(), bird.getWidth(), columns.get(columns.size() - 2).getSpeed()));
+                columns.add(new Column(this, bird.getX(), bird.getWidth(), columns.get(columns.size() - 2).getSpeed(), R.drawable.pika1, R.drawable.column1));
                 columns.get(columns.size() - 1).setX(columns.get(columns.size() - 2).getX() + Config.COLUMN_DIST * columns.get(i).getWidth() + (int) (Math.random() * 0.2 * Config.COLUMN_DIST * columns.get(columns.size() - 1).getWidth()));
 
                 //columns.remove(i);

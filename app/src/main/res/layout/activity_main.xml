@@ -5,15 +5,19 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient"
     tools:context="com.codemitry.birdie.MainActivity">
+
+    <com.codemitry.birdie.BackgroundSurface
+        android:id="@+id/menu_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <ImageButton
         android:id="@+id/leaderBoard_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/leaderboard_background"
         android:onClick="onLeaderBoardClick"
         android:scaleType="center"
@@ -22,119 +26,97 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/head"
+
+    <ImageButton
+        android:id="@+id/achievements_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="147dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/achiements_background"
+        android:onClick="onAchievementsClick"
+        android:scaleType="center"
+        android:scaleX="0.7"
+        android:scaleY="0.7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/leaderBoard_button" />
+
+    <ImageButton
+        android:id="@+id/settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:background="@null"
+        android:transitionName="settings_trans"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_settings" />
+
+    <TextView
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="83dp"
-        android:layout_marginEnd="147dp"
-        android:fontFamily="@font/aclonica"
-        android:shadowColor="@android:color/holo_red_dark"
-        android:shadowDx="2"
+        android:fontFamily="@font/coaster_black"
+        android:gravity="center"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="4"
         android:shadowDy="2"
-        android:shadowRadius="4"
+        android:shadowRadius="5"
         android:text="@string/app_name"
         android:textAlignment="center"
-        android:textAllCaps="true"
-        android:textColor="#F44336"
-        android:textSize="46sp"
-        android:textStyle="bold"
+        android:textAllCaps="false"
+        android:textColor="@color/orange"
+        android:textSize="56sp"
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/start"
+    <LinearLayout
+        android:id="@+id/menuButtonsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/menu_buttons_color"
-        android:onClick="onStartClick"
-        android:shadowColor="@android:color/holo_orange_dark"
-        android:shadowDx="2"
-        android:shadowDy="2"
-        android:shadowRadius="3"
-        android:text="@string/menu_start"
-        android:textColor="@drawable/menu_text_color"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@+id/settings"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/logo"
+        app:layout_constraintTop_toBottomOf="@id/menuPicture"
+        app:layout_constraintVertical_bias="0.85">
 
-    <Button
-        android:id="@+id/settings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/menu_buttons_color"
-        android:onClick="onSettingsClick"
-        android:shadowColor="@android:color/holo_orange_dark"
-        android:shadowDx="2"
-        android:shadowDy="2"
-        android:shadowRadius="3"
-        android:text="@string/settings"
-        android:textColor="@drawable/menu_text_color"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@+id/statistics"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/start"
+            style="@style/ButtonStyle"
+            android:onClick="onStartClick"
+            android:text="@string/menu_start" />
 
-    <Button
-        android:id="@+id/statistics"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/menu_buttons_color"
-        android:onClick="onStatisticsClick"
-        android:shadowColor="@android:color/holo_orange_dark"
-        android:shadowDx="2"
-        android:shadowDy="2"
-        android:shadowRadius="3"
-        android:text="@string/statistics"
-        android:textColor="@drawable/menu_text_color"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@+id/exit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/shop"
+            style="@style/ButtonStyle"
+            android:text="@string/shop" />
 
-    <Button
-        android:id="@+id/exit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/menu_buttons_color"
-        android:onClick="onExitClick"
-        android:shadowColor="@android:color/holo_orange_dark"
-        android:shadowDx="2"
-        android:shadowDy="2"
-        android:shadowRadius="3"
-        android:text="@string/menu_exit"
-        android:textColor="@drawable/menu_text_color"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@+id/logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/statistics"
+            style="@style/ButtonStyle"
+            android:onClick="onStatisticsClick"
+            android:text="@string/statistics" />
+
+        <!--        <Button-->
+        <!--            android:id="@+id/exit"-->
+        <!--            style="@style/ButtonStyle"-->
+        <!--            android:onClick="onExitClick"-->
+        <!--            android:text="@string/menu_exit" />-->
+
+    </LinearLayout>
+
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/menuPicture"
         android:layout_width="140dp"
         android:layout_height="85dp"
         android:contentDescription="@string/app_name"
         android:src="@drawable/app_img"
-        app:layout_constraintBottom_toTopOf="@+id/start"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/menuButtonsLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/head"
@@ -150,7 +132,7 @@
         android:alpha="100"
         android:gravity="center_horizontal"
         android:text="@string/company"
-        android:textColor="@color/menu_button_not_pressed"
+        android:textColor="@color/red_dark"
         android:textSize="30sp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -168,17 +150,16 @@
         app:srcCompat="@drawable/logo" />
 
     <ImageButton
-        android:id="@+id/achievements_button"
+        android:id="@+id/exit"
+        android:onClick="onExitClick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/achiements_background"
-        android:onClick="onAchievementsClick"
-        android:scaleType="center"
-        android:scaleX="0.7"
-        android:scaleY="0.7"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:srcCompat="@drawable/exit" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
