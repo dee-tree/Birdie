@@ -19,6 +19,7 @@ final class Config {
     static final float GRASS_HEIGHT = 0.055f;
     static final float BIRD_UP = 0.001f;
     static final float GROUND_Y = 0.83f;
+    static final int TEXTURES = 2;
 
 
     static final int
@@ -44,6 +45,8 @@ final class Config {
             IS_FIRST_OPEN = "FIRST_OPEN",
             SECRET_MODE = "Secret dance mode",
             BEST_SCORE_PREF = "Best score",
+            SELECTED_TEXTURE_PREF = "Selected texture",
+            BOUGHT_TEXTURES = "Bought textures",
             MONEY_PREF = "Money";
 
     static final String
@@ -68,10 +71,10 @@ final class Config {
         return prefs.getInt(MONEY_PREF, 0);
     }
 
-    static void saveMoney(Context context, int score) {
+    static void saveMoney(Context context, int money) {
         SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(MONEY_PREF, score);
+        editor.putInt(MONEY_PREF, money);
         editor.apply();
     }
 
@@ -156,6 +159,50 @@ final class Config {
         SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean(SECRET_MODE, mode);
+        editor.apply();
+    }
+
+    static int loadSelectedTexture(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        return prefs.getInt(SELECTED_TEXTURE_PREF, 0);
+    }
+
+    static void saveSelectedTexture(Context context, int texture) {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(SELECTED_TEXTURE_PREF, texture);
+        editor.apply();
+    }
+
+
+    static boolean[] loadBoughtTextures(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        int i_bought = prefs.getInt(BOUGHT_TEXTURES, 1);
+
+        // Работает с числом, в двоичном представлении биты которого с малых к старшим: 1 - куплено, 0 - не куплено
+        // Узнать состояние первого фона: a & 1,  второго фона: a & 2, третьего: a & 4     (2^k)
+
+        boolean[] a = new boolean[TEXTURES];
+        for (int i = 0; i < TEXTURES; i++) {
+            a[i] = (i_bought & 1) == 1;
+            i_bought >>= 1;
+        }
+        return a;
+    }
+
+
+    static void saveBoughtTexture(Context context, int number, boolean state) {
+        SharedPreferences prefs = context.getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        int i_bought = prefs.getInt(BOUGHT_TEXTURES, 1);
+
+        if (state) {
+            i_bought |= (1 << number);
+        } else {
+            i_bought &= ~(1 << number);
+        }
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(BOUGHT_TEXTURES, i_bought);
         editor.apply();
     }
 

@@ -5,13 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.PixelFormat;
-import android.graphics.Point;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.SurfaceView;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 
 public class BackgroundSurface extends SurfaceView implements SurfaceHolder.Callback {
     MyThread thread;
@@ -92,7 +89,7 @@ public class BackgroundSurface extends SurfaceView implements SurfaceHolder.Call
         int x = 0, direction = -1;
         double speed = 0.00000000005;
         int dx;
-        Rect rect;
+        //        Rect rect;
         private boolean runned;
 
         MyThread(SurfaceHolder holder) {
@@ -102,7 +99,6 @@ public class BackgroundSurface extends SurfaceView implements SurfaceHolder.Call
             background = Bitmap.createScaledBitmap(background, screenWidth * 3, screenHeight, true);
 
             speed *= screenWidth;
-            rect = new Rect();
         }
 
 
@@ -113,7 +109,6 @@ public class BackgroundSurface extends SurfaceView implements SurfaceHolder.Call
             dx = (int) Math.round(speed * dt);
 
             x += direction * dx;
-            rect.set(x, 0, x + screenWidth, screenHeight);
         }
 
         @Override
@@ -126,14 +121,14 @@ public class BackgroundSurface extends SurfaceView implements SurfaceHolder.Call
                 canvas = null;
                 delta = (int) (ctime - time);
                 try {
-                    canvas = holder.lockCanvas();
+                    if (holder != null)
+                        canvas = holder.lockCanvas();
 
                     synchronized (holder) {
-                        if (canvas != null)
+                        if (canvas != null) {
                             canvas.drawBitmap(background, x, 0, null);
-
-                        move(delta);
-
+                            move(delta);
+                        }
                     }
                 } finally {
                     if (canvas != null)

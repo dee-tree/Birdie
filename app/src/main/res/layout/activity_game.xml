@@ -25,6 +25,7 @@
         android:onClick="onPauseClick"
         android:scaleX="0.3"
         android:scaleY="0.3"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/pause" />
@@ -33,14 +34,10 @@
         android:id="@+id/gameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:shadowColor="@android:color/holo_orange_dark"
-        android:shadowDx="1"
-        android:shadowDy="1"
-        android:shadowRadius="3"
+        style="@style/TextStyle"
+
         android:text="@string/press_to_start"
-        android:textColor="@color/text_color"
-        android:textSize="32sp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,15 +48,19 @@
         android:id="@+id/score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:shadowColor="#FF9800"
+        android:shadowColor="@android:color/black"
         android:shadowDx="1"
         android:shadowDy="1"
         android:shadowRadius="3"
         android:text="0"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:fontFamily="@font/typography"
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="44sp"
         android:textStyle="bold"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -81,20 +82,27 @@
 
         <TextView
             android:id="@+id/pause"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:shadowColor="@android:color/holo_orange_dark"
+
+            android:shadowColor="@android:color/black"
             android:shadowDx="3"
             android:shadowDy="3"
             android:shadowRadius="5"
+
+            android:fontFamily="@font/typography"
+            android:letterSpacing="0.15"
             android:text="@string/pause"
             android:textAlignment="center"
-            android:textColor="@color/text_color"
-            android:textSize="36sp"
+            android:textColor="@color/orange"
+            android:textSize="52sp"
+
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.3"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.26" />
@@ -111,11 +119,14 @@
             android:gravity="center"
             android:onClick="onExitClick"
             android:text="@string/to_menu"
+            android:textSize="30sp"
+            android:textAlignment="center"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cont"
             app:layout_constraintTop_toBottomOf="@+id/pause"
-            app:layout_constraintVertical_bias="0.501" />
+            app:layout_constraintVertical_bias="0.5" />
 
 
         <Button
@@ -130,13 +141,14 @@
             android:gravity="center"
             android:onClick="onContinueClick"
             android:text="@string/continue_game"
+            android:textSize="30sp"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/exit"
             app:layout_constraintHorizontal_bias="0.219"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pause"
-            app:layout_constraintVertical_bias="0.501" />
+            app:layout_constraintVertical_bias="0.5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -154,55 +166,82 @@
 
         <TextView
             android:id="@+id/yourScore"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:gravity="center"
+
+            android:shadowColor="@android:color/black"
+            android:shadowDx="3"
+            android:shadowDy="3"
+            android:shadowRadius="5"
+
+            android:fontFamily="@font/typography"
+            android:letterSpacing="0.1"
             android:text="@string/your_score"
             android:textAlignment="center"
             android:textColor="@color/score"
             android:textSize="34sp"
-            app:layout_constraintTop_toBottomOf="@+id/bestScore"
-            tools:layout_editor_absoluteX="122dp" />
+
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintTop_toBottomOf="@+id/bestScore" />
 
         <TextView
             android:id="@+id/bestScore"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
             android:gravity="center"
+
+            android:shadowColor="@android:color/black"
+            android:shadowDx="3"
+            android:shadowDy="3"
+            android:shadowRadius="5"
+
+            android:fontFamily="@font/typography"
+            android:letterSpacing="0.1"
             android:text="@string/best_score"
             android:textAlignment="center"
             android:textColor="@color/score"
             android:textSize="26sp"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="122dp" />
 
-        <Button
-            android:id="@+id/loseNo"
-            style="@style/ButtonStyle"
-            android:layout_width="120dp"
-            android:layout_height="55dp"
-            android:gravity="center"
-            android:onClick="onNoClick"
-            android:text="@string/no"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/loseYes"
-            app:layout_constraintTop_toBottomOf="@+id/loseText" />
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <TextView
             android:id="@+id/loseText"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
+
+            android:shadowColor="@android:color/black"
+            android:shadowDx="3"
+            android:shadowDy="3"
+            android:shadowRadius="5"
+
+            android:fontFamily="@font/typography"
+            android:letterSpacing="0.1"
             android:text="@string/lose"
             android:textAlignment="center"
-            android:textColor="@color/text_color"
+            android:textColor="@color/orange"
             android:textSize="36sp"
+
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="122dp" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/loseYes"
@@ -213,9 +252,25 @@
             android:onClick="onYesClick"
             android:text="@string/yes"
             android:textAlignment="center"
+            android:textSize="34sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/loseNo"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loseText" />
+
+        <Button
+            android:id="@+id/loseNo"
+            style="@style/ButtonStyle"
+            android:layout_width="120dp"
+            android:layout_height="55dp"
+            android:gravity="center"
+            android:onClick="onNoClick"
+            android:text="@string/no"
+            android:textSize="34sp"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/loseYes"
             app:layout_constraintTop_toBottomOf="@+id/loseText" />
 
         <View
@@ -223,7 +278,7 @@
             android:layout_width="377dp"
             android:layout_height="1dp"
             android:layout_marginTop="30dp"
-            android:background="@color/menu_button_not_pressed"
+            android:background="@color/red_dark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/yourScore" />

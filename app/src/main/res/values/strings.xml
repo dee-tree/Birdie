@@ -32,5 +32,13 @@
     <string name="connected">Connected</string>
     <string name="connect">Connect</string>
     <string name="google_play_sign">Google Play Sign-In</string>
+    <string name="buy">Buy</string>
+    <string name="select">Apply</string>
+    <string name="selected">Selected</string>
+    <string name="first_texture">Dungeon</string>
+    <string name="second_texture">Field</string>
+    <string name="sure_to_buy">Are you sure to buy this texture?</string>
+    <string name="will_cost">It will cost for you </string>
+    <string name="no_money">You have just no </string>
 
 </resources>

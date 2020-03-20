@@ -4,18 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -27,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -54,8 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN_SHOW_LEADERBOARD = 4015;
 
     Locale myLocale;
-    //String lang = "en";
-    private Button start, statistics;
+    private Button start, statistics, shop;
     private ImageButton settings, exit;
     Animation anim;
     TextView head;
@@ -86,11 +82,11 @@ public class MainActivity extends AppCompatActivity {
 
         width = point.x;
         height = point.y;
-
         setContentView(R.layout.activity_main);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
         start = findViewById(R.id.start);
+        shop = findViewById(R.id.shop);
         settings = findViewById(R.id.settings);
         statistics = findViewById(R.id.statistics);
         exit = findViewById(R.id.exit);
@@ -98,9 +94,22 @@ public class MainActivity extends AppCompatActivity {
         settings.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN)
+                if (event.getAction() == MotionEvent.ACTION_UP)
                     if (event.getX() > v.getWidth() - v.getWidth() / 5)
                         onSettingsClick(v);
+                return true;
+            }
+        });
+
+        exit.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    final AnimatedVectorDrawable vectorDrawableSettings = (AnimatedVectorDrawable) exit.getDrawable();
+                    vectorDrawableSettings.start();
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP)
+                    onExitClick(v);
                 return true;
             }
         });
@@ -136,9 +145,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-//        backgroundSurface.surfaceDestroyed(backgroundSurface.getHolder());
         backgroundSurface.setRunned(false);
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (backgroundSurface != null && backgroundSurface.thread != null) {
+            backgroundSurface.setRunned(false);
+        }
+        backgroundSurface = new BackgroundSurface(this, null);
     }
 
     @Override
@@ -146,10 +164,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         changeLang(loadLanguage(this));
         updateTexts();
-        if (backgroundSurface != null && backgroundSurface.thread != null) {
-            backgroundSurface.setRunned(false);
-        }
-        backgroundSurface = new BackgroundSurface(this, null);
+
 
 //        if (backgroundSurface != null  && !backgroundSurface.runned())
 //            backgroundSurface.recreateAndStartThread();
@@ -205,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateTexts() {
         start.setText(R.string.menu_start);
         statistics.setText(R.string.statistics);
+        shop.setText(R.string.shop);
 //        exit.setText(R.string.menu_exit);
     }
 
@@ -219,6 +235,11 @@ public class MainActivity extends AppCompatActivity {
         Intent gameWindow = new Intent(this, Game.class);
         startActivity(gameWindow);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    public void onShopClick(View v) {
+        Intent shopIntent = new Intent(this, ShopActivity.class);
+        startActivity(shopIntent);
     }
 
     public void onLogoClick(View v) {
@@ -281,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            account = completedTask.getResult(ApiException.class);
             //showSignIn();
             // signed
         } catch (ApiException e) {

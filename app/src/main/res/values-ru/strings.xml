@@ -32,4 +32,12 @@
     <string name="connected">Подключено</string>
     <string name="connect">Подключиться</string>
     <string name="google_play_sign">Войти в Google Play Games</string>
+    <string name="buy">Купить</string>
+    <string name="select">Применить</string>
+    <string name="selected">Выбрано</string>
+    <string name="first_texture">Темница</string>
+    <string name="second_texture">Поле</string>
+    <string name="sure_to_buy">Вы точно хотите купить эту текстуру?</string>
+    <string name="will_cost">Она будет стоить вам </string>
+    <string name="no_money">Вам не хватает </string>
 </resources>

@@ -7,20 +7,34 @@
     android:background="@drawable/background_gradient"
     tools:context=".StatisticsActivity">
 
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="center"
+        app:srcCompat="@drawable/app_background" />
+
     <TextView
         android:id="@+id/statisticsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:shadowColor="@android:color/holo_orange_dark"
-        android:shadowDx="3"
-        android:shadowDy="3"
+        android:fontFamily="@font/typography"
+        android:gravity="center"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="4"
+        android:shadowDy="2"
         android:shadowRadius="5"
         android:text="@string/statistics"
         android:textAlignment="center"
-        android:textColor="@color/text_color"
-        android:textSize="36sp"
+        android:textAllCaps="false"
+        android:textColor="@color/orange"
+        android:textSize="56sp"
+
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,18 +60,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/best_score"
-                android:textColor="@color/text_color"
-                android:textSize="26sp"
-                tools:layout_editor_absoluteX="38dp"
-                tools:layout_editor_absoluteY="121dp" />
+                android:textColor="@color/orange"
+                android:textSize="30sp"
+                android:fontFamily="@font/typography"
+                android:letterSpacing="0.05"
+                android:shadowRadius="1"
+                android:shadowColor="@android:color/black"
+                android:shadowDx="1" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="5dp"
-                android:background="@color/menu_button_not_pressed"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="610dp" />
+                android:background="@color/red_dark" />
 
             <TextView
                 android:id="@+id/stat_deaths"
@@ -65,10 +80,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/deaths"
-                android:textColor="@color/text_color"
-                android:textSize="26sp"
-                tools:layout_editor_absoluteX="38dp"
-                tools:layout_editor_absoluteY="121dp" />
+                android:textColor="@color/orange"
+                android:textSize="30sp"
+                android:fontFamily="@font/typography"
+                android:letterSpacing="0.05"
+                android:shadowRadius="1"
+                android:shadowColor="@android:color/black"
+                android:shadowDx="1" />
 
             <TextView
                 android:id="@+id/stat_ground_deaths"
@@ -77,10 +95,13 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="30dp"
                 android:text="@string/ground_deaths"
-                android:textColor="@color/text_color"
-                android:textSize="26sp"
-                tools:layout_editor_absoluteX="38dp"
-                tools:layout_editor_absoluteY="121dp" />
+                android:textColor="@color/orange"
+                android:textSize="30sp"
+                android:fontFamily="@font/typography"
+                android:letterSpacing="0.05"
+                android:shadowRadius="1"
+                android:shadowColor="@android:color/black"
+                android:shadowDx="1" />
 
             <TextView
                 android:id="@+id/stat_column_deaths"
@@ -89,14 +110,19 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="30dp"
                 android:text="@string/column_deaths"
-                android:textColor="@color/text_color"
-                android:textSize="26sp" />
+                android:textColor="@color/orange"
+                android:textSize="30sp"
+                android:fontFamily="@font/typography"
+                android:letterSpacing="0.05"
+                android:shadowRadius="1"
+                android:shadowColor="@android:color/black"
+                android:shadowDx="1" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="5dp"
-                android:background="@color/menu_button_not_pressed" />
+                android:background="@color/red_dark" />
 
             <TextView
                 android:id="@+id/stat_total_score"
@@ -104,14 +130,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/total_score"
-                android:textColor="@color/text_color"
-                android:textSize="26sp" />
+                android:textColor="@color/orange"
+                android:textSize="30sp"
+                android:fontFamily="@font/typography"
+                android:letterSpacing="0.05"
+                android:shadowRadius="1"
+                android:shadowColor="@android:color/black"
+                android:shadowDx="1" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="5dp"
-                android:background="@color/menu_button_not_pressed" />
+                android:background="@color/red_dark" />
 
             <!--            <View-->
             <!--                android:layout_width="match_parent"-->

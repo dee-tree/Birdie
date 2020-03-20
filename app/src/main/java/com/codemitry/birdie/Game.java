@@ -2,8 +2,6 @@ package com.codemitry.birdie;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.media.AudioManager;
@@ -44,6 +42,9 @@ public class Game extends AppCompatActivity {
     private int columnsCount;
     private Locale myLocale;
 
+    private int[][] textures;
+    private int texture;
+
     private ImageButton pauseButton;
     private TextView loseText;
     private TextView gameText;
@@ -55,7 +56,7 @@ public class Game extends AppCompatActivity {
     private GoogleSignInAccount lastAccount;
     private AchievementsClient achievementsClient;
 
-    private int score, bestScore;
+    private int score, bestScore, money;
     int width, height;
     private boolean runned = false;  // if game is running now
     //    private boolean started = false;  // if game started at least
@@ -76,17 +77,25 @@ public class Game extends AppCompatActivity {
         changeLang(MainActivity.loadLanguage(this));
         setContentView(R.layout.activity_game);
 
+        textures = new int[Config.TEXTURES][4];
+        // Background : Ground : Column : Pika
+        textures[0] = new int[]{R.drawable.background0, R.drawable.ground0, R.drawable.column0, R.drawable.pika0};
+        textures[1] = new int[]{R.drawable.background1, R.drawable.ground1, R.drawable.column1, R.drawable.pika1};
+        texture = Config.loadSelectedTexture(this);
+
+
         surface = findViewById(R.id.surface);
 
-        ground = new Ground(this, width * 3, (int) (0.17 * height), R.drawable.ground2);
+        background = new Background(this, width * 3, height, textures[texture][0]);
+        ground = new Ground(this, width * 3, (int) (0.17 * height), textures[texture][1]);
         bird = new Bird(this, ground.getY());
 
-        background = new Background(this, width * 3, height, R.drawable.background2);
+
 
         columns = new ArrayList<>();
         columnsCount = (int) (width / (Config.COLUMN_WIDTH * width) / 2) + 2;
         for (int i = 0; i < columnsCount; i++) {
-            columns.add(new Column(this, bird.getX(), bird.getWidth(), 0.0000000002 * width, R.drawable.pika1, R.drawable.column1));
+            columns.add(new Column(this, bird.getX(), bird.getWidth(), 0.0000000002 * width, textures[texture][3], textures[texture][2]));
             columns.get(i).setX(width * 5 / 6 + i * Config.COLUMN_DIST * columns.get(i).getWidth());
         }
 
@@ -154,7 +163,7 @@ public class Game extends AppCompatActivity {
             if (columns.get(i).isOut()) {
                 columns.get(i).setAlive(false);
 
-                columns.add(new Column(this, bird.getX(), bird.getWidth(), columns.get(columns.size() - 2).getSpeed(), R.drawable.pika1, R.drawable.column1));
+                columns.add(new Column(this, bird.getX(), bird.getWidth(), columns.get(columns.size() - 2).getSpeed(), textures[texture][3], textures[texture][2]));
                 columns.get(columns.size() - 1).setX(columns.get(columns.size() - 2).getX() + Config.COLUMN_DIST * columns.get(i).getWidth() + (int) (Math.random() * 0.2 * Config.COLUMN_DIST * columns.get(columns.size() - 1).getWidth()));
 
                 //columns.remove(i);
@@ -246,8 +255,11 @@ public class Game extends AppCompatActivity {
         this.paused = false;
         this.losed = true;
 
+
         Config.saveTotalScore(this, Config.loadTotalScore(this) + score);
         Config.saveDeath(this, (Config.loadDeaths(this) + 1));
+
+        Config.saveMoney(this, Config.loadMoney(this) + money);
 
         if (Config.loadVibration(this) == 1)
             vibrate();
@@ -474,7 +486,10 @@ public class Game extends AppCompatActivity {
                 scoreText.setText(String.valueOf(score));
             }
         });
+    }
 
+    void addMoney(int money) {
+        this.money += money;
     }
 
 }

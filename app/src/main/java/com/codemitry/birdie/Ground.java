@@ -14,7 +14,7 @@ class Ground {
         this.width = width;
         this.height = height;
 
-        Bitmap groundDefault = BitmapFactory.decodeResource(game.getResources(), R.drawable.ground2);
+        Bitmap groundDefault = BitmapFactory.decodeResource(game.getResources(), resID);
         groundDefault = Bitmap.createScaledBitmap(groundDefault, width, height, true);
 
         ground = Bitmap.createBitmap(width * 2, height, Bitmap.Config.ARGB_8888);

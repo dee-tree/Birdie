@@ -4,8 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient"
     tools:context="com.codemitry.birdie.SettingsActivity">
+
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="center"
+        app:srcCompat="@drawable/app_background" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,16 +29,23 @@
             android:id="@+id/settingsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:shadowColor="@android:color/holo_orange_dark"
-            android:shadowDx="3"
-            android:shadowDy="3"
+            android:fontFamily="@font/typography"
+            android:gravity="center"
+            android:shadowColor="@android:color/black"
+            android:shadowDx="4"
+            android:shadowDy="2"
             android:shadowRadius="5"
             android:text="@string/settings"
             android:textAlignment="center"
-            android:textColor="@color/text_color"
-            android:textSize="36sp"
+            android:textAllCaps="false"
+            android:textColor="@color/orange"
+            android:textSize="56sp"
+
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -130,7 +144,7 @@
         android:id="@+id/resetStatLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#C6050505"
+        android:background="#E8000000"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -142,71 +156,75 @@
             android:id="@+id/bestScoreReset_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
+            style="@style/TextStyle"
+
             android:text="@string/best_score"
-            android:textAlignment="center"
-            android:textColor="@color/menu_button_not_pressed"
             android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.37" />
+            app:layout_constraintVertical_bias="0.3" />
 
         <TextView
             android:id="@+id/sureToReset_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+
+            style="@style/TextStyle"
+
             android:text="@string/sure_to_reset"
-            android:textAlignment="center"
-            android:textColor="@color/menu_button_not_pressed"
             android:textSize="32sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bestScoreReset_text"
-            app:layout_constraintVertical_bias="0.02" />
+            app:layout_constraintTop_toBottomOf="@+id/bestScoreReset_text" />
 
         <View
             android:id="@+id/reset_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/menu_button_not_pressed"
+            android:background="@color/red_dark"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             app:layout_constraintBottom_toTopOf="@+id/sureToReset_text"
             app:layout_constraintTop_toBottomOf="@+id/bestScoreReset_text"
             tools:layout_editor_absoluteX="1dp" />
 
         <Button
             android:id="@+id/yesReset_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/ButtonStyle"
+            android:layout_width="120dp"
+            android:layout_height="55dp"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="10dp"
-            android:background="@drawable/buttons_lose_dialog"
             android:onClick="onYesClick"
             android:text="@string/yes"
-            android:textColor="@drawable/menu_text_color"
-            android:textSize="36sp"
+            android:textSize="34sp"
+
+
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/noReset_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sureToReset_text"
-            app:layout_constraintVertical_bias="0.25"
-            tools:text="@string/yes" />
+            app:layout_constraintVertical_bias="0.25" />
 
         <Button
             android:id="@+id/noReset_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/ButtonStyle"
+            android:layout_width="120dp"
+            android:layout_height="55dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="5dp"
-            android:background="@drawable/buttons_lose_dialog"
             android:onClick="onNoClick"
             android:text="@string/no"
-            android:textColor="@drawable/menu_text_color"
-            android:textSize="36sp"
+            android:textSize="34sp"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/yesReset_button"

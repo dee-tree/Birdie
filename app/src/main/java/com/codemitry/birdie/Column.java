@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.Rect;
 
 class Column {
@@ -20,14 +19,16 @@ class Column {
     private int columnX, columnTopHeight, columnDownY, columnDownHeight, columnWidth;
     private int pikaX, pikaTopY, pikaDownY, pikaHeight, pikaWidth;
     private int hole;
-    private int birdX, birdWidth; //= (int) (Config.BIRD_WIDTH * Config.screen_width);
+    private int birdX, birdWidth;
     private int bottom;
     private boolean isScored;
     private boolean alive;
     private int columnHeightDefault;
     double speed, dx, acceleration;
 
-    private Paint bitmapPaint;
+    private boolean hasCoin;
+    private Coin coin;
+
 
     Column(Game game, int birdX, int birdWidth, double speed, int pikaID, int colID) {
         this.game = game;
@@ -38,7 +39,6 @@ class Column {
 
         bottom = (int) (screenHeight - screenHeight * (Config.GROUND_HEIGHT));
 
-        //screenWidth = Config.screen_width;
         hole = (int) (Config.COLUMN_HOLE * screenHeight);
 
         pikaWidth = (int) (Config.PIKA_WIDTH * screenWidth);
@@ -49,7 +49,6 @@ class Column {
         columnDownY = bottom - columnDownHeight;
 
         pikaTopY = columnTopHeight;
-//            pikaDownY = bottom - columnDownHeight - pikaHeight;
         pikaDownY = pikaTopY + pikaHeight + hole;
 
         defaultColumn = BitmapFactory.decodeResource(game.getResources(), colID);
@@ -68,14 +67,18 @@ class Column {
         isScored = false;
         alive = true;
 
-        bitmapPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
-
         dx = this.speed = speed;
         acceleration = 0.000000000000000000007 * game.width;
 //        acceleration = Config.COLUMN_ACCELERATION;
 
+        hasCoin = Math.random() <= 0.4;
+        if (hasCoin) {
+            coin = new Coin(game, hole / 3);
+        }
+
         generateAltitude();
     }
+
 
     boolean isAlive() {
         return alive;
@@ -95,12 +98,12 @@ class Column {
         int currentRnd = (int) ((Math.random() * (1 + scatter)) - scatter / 2);
         if (columnTopHeight + currentRnd < pikaHeight || pikaDownY + 2 * pikaHeight + currentRnd > Config.GROUND_Y * screenHeight)
             newColumnTopHeight = columnTopHeight - currentRnd;
-        else //if()
+        else
             newColumnTopHeight = columnTopHeight + currentRnd;
 
         pikaTopY = columnTopHeight = newColumnTopHeight;
         columnDownHeight = bottom - columnTopHeight - hole - pikaHeight * 2;
-        pikaDownY = pikaTopY + pikaHeight + hole; //bottom - columnDownHeight - pikaHeight; was error
+        pikaDownY = pikaTopY + pikaHeight + hole;
         columnDownY = pikaDownY + pikaHeight;
 
         if (columnTopHeight < columnHeightDefault) {
@@ -108,7 +111,6 @@ class Column {
             columnTop = Bitmap.createBitmap(columnTop, 0, 0, columnWidth, columnTopHeight);
         } else if (columnTopHeight > columnHeightDefault) {
             columnTop = Bitmap.createBitmap(mergeColumns(columnTopHeight));
-            //columnTop = Bitmap.createScaledBitmap(columnTop, columnWidth, columnTopHeight, true);
         }
 
         if (columnDownHeight < columnHeightDefault) {
@@ -117,27 +119,32 @@ class Column {
         } else if (columnDownHeight > columnHeightDefault) {
             columnDown = Bitmap.createBitmap(mergeColumns(columnDownHeight));
         }
-//                    return null;
+
+        if (hasCoin)
+            coin.setY(pikaDownY - (hole + coin.getSize()) / 2);
     }
 
     void draw(Canvas canvas) {
         if (alive) {
-            canvas.drawBitmap(columnTop, columnX, 0, bitmapPaint);
-            canvas.drawBitmap(pikaTop, pikaX, pikaTopY, bitmapPaint);
-            canvas.drawBitmap(pikaDown, pikaX, pikaDownY, bitmapPaint);
-            canvas.drawBitmap(columnDown, columnX, columnDownY, bitmapPaint);
+            canvas.drawBitmap(columnTop, columnX, 0, null);
+            canvas.drawBitmap(pikaTop, pikaX, pikaTopY, null);
+            canvas.drawBitmap(pikaDown, pikaX, pikaDownY, null);
+            canvas.drawBitmap(columnDown, columnX, columnDownY, null);
+            if (hasCoin && !coin.isEarn())
+                coin.draw(canvas);
+//                canvas.drawBitmap(coin, coinX, coinY, null);
         }
 
     }
 
     private void dispose() {
         alive = false;
+        this.coin = null;
         this.columnTop = null;
         this.columnDown = null;
         this.pikaDown = null;
         this.pikaTop = null;
         this.matrix = null;
-        this.bitmapPaint = null;
         this.defaultColumn = null;
         this.game = null;
     }
@@ -153,10 +160,15 @@ class Column {
             dx = Math.round(speed * dt);
             setX((int) (getX() - dx));
 
+            if (hasCoin && !coin.isEarn())
+                if (birdX + birdWidth >= columnX + columnWidth / 2) {
+                    coin.earn();
+                    game.addMoney(1);
+                    game.playScoreSound();
+                }
+
             if (!isScored && (birdX + birdWidth / 2 >= columnX + columnWidth)) {
                 isScored = true;
-                game.playScoreSound();
-
                 game.addScore();
             }
 
@@ -171,6 +183,8 @@ class Column {
     void setX(int x) {
         pikaX = x;
         columnX = pikaX + (pikaWidth - columnWidth) / 2;
+        if (hasCoin && !coin.isEarn())
+            coin.setX(pikaX + (pikaWidth - coin.getSize()) / 2);
     }
 
     double getSpeed() {

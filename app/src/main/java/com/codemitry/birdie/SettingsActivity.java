@@ -1,8 +1,6 @@
 package com.codemitry.birdie;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -290,7 +288,7 @@ public class SettingsActivity extends AppCompatActivity {
         Config.saveDeath(this, 0);
         Config.saveGroundDeath(this, 0);
         Config.saveColumnDeath(this, 0);
-        Config.saveMoney(this, 0);
+//        Config.saveMoney(this, 0);
         Config.saveTotalScore(this, 0);
 
         hideResetStat();

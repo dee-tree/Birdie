@@ -92,6 +92,7 @@
         <Button
             android:id="@+id/shop"
             style="@style/ButtonStyle"
+            android:onClick="onShopClick"
             android:text="@string/shop" />
 
         <Button
